@@ -1,9 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>RewardTask Demo</title>
+
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -23,26 +24,37 @@
       padding: 8px 12px;
       border-radius: 6px;
       cursor: pointer;
+      margin-top: 5px;
+    }
+    .tag {
+      display: inline-block;
+      background: #334155;
+      padding: 3px 8px;
+      border-radius: 6px;
+      font-size: 12px;
+      margin-right: 5px;
     }
     input {
       width: 100%;
       padding: 10px;
-      margin-bottom: 10px;
       border-radius: 6px;
       border: none;
+      margin-bottom: 10px;
     }
   </style>
 </head>
+
 <body>
 
 <div id="login">
   <h2>Welcome to RewardTask</h2>
-  <p>Enter your name to start</p>
-  <input id="nameInput" placeholder="Your name" />
+  <p>Learn skills, earn rewards, and access remote work.</p>
+  <input id="nameInput" placeholder="Enter your name" />
   <button onclick="startApp()">Enter App</button>
 </div>
 
 <div id="app" style="display:none;">
+
   <h3 id="welcome"></h3>
 
   <div class="box">
@@ -50,19 +62,52 @@
     <strong>Coins:</strong> <span id="coins">0</span>
   </div>
 
+  <!-- TASKS -->
+  <h3>Learning Tasks</h3>
+
   <div class="box">
-    <p>📘 Daily Learning Task</p>
+    <p>📘 Learn HTML Basics</p>
     <button onclick="completeTask(10, 5)">Complete Task</button>
   </div>
 
   <div class="box">
-    <p>🛠 Skill Practice Task</p>
+    <p>🛠 Practice JavaScript</p>
     <button onclick="completeTask(20, 10)">Complete Task</button>
   </div>
 
   <div class="box">
-    <p>🎯 Weekly Challenge</p>
+    <p>🎯 Weekly Skill Challenge</p>
     <button onclick="completeTask(30, 15)">Complete Task</button>
+  </div>
+
+  <!-- REMOTE JOBS -->
+  <h3>Available Remote Jobs</h3>
+  <p style="font-size:14px;">Unlocked as you build skills</p>
+
+  <div class="box">
+    <p><strong>Junior Frontend Developer</strong></p>
+    <span class="tag">Remote</span>
+    <span class="tag">Beginner</span>
+    <span class="tag">Web</span>
+    <br/>
+    <button onclick="viewJob('Frontend Developer')">View Job</button>
+  </div>
+
+  <div class="box">
+    <p><strong>Virtual Assistant</strong></p>
+    <span class="tag">Remote</span>
+    <span class="tag">Entry Level</span>
+    <span class="tag">Admin</span>
+    <br/>
+    <button onclick="viewJob('Virtual Assistant')">View Job</button>
+  </div>
+
+  <div class="box">
+    <p><strong>Content Writer</strong></p>
+    <span class="tag">Remote</span>
+    <span class="tag">Creative</span>
+    <br/>
+    <button onclick="viewJob('Content Writer')">View Job</button>
   </div>
 
   <button onclick="resetDemo()">Reset Demo</button>
@@ -85,6 +130,13 @@
     coins += c;
     document.getElementById("xp").innerText = xp;
     document.getElementById("coins").innerText = coins;
+  }
+
+  function viewJob(job) {
+    alert(
+      job +
+      " (Demo)\n\nThis is a remote position.\nSkills required are shown here.\nApply feature will be enabled in full version."
+    );
   }
 
   function resetDemo() {
