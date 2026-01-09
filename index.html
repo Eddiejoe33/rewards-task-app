@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>RewardTask Demo</title>
+  <title>RewardTask – Learn, Earn, Work</title>
 
   <style>
     body {
@@ -11,6 +11,9 @@
       background: #0f172a;
       color: white;
       padding: 20px;
+    }
+    h2, h3 {
+      margin-top: 25px;
     }
     .box {
       background: #1e293b;
@@ -24,7 +27,11 @@
       padding: 8px 12px;
       border-radius: 6px;
       cursor: pointer;
-      margin-top: 5px;
+      margin-top: 8px;
+    }
+    button.locked {
+      background: #475569;
+      cursor: not-allowed;
     }
     .tag {
       display: inline-block;
@@ -41,16 +48,20 @@
       border: none;
       margin-bottom: 10px;
     }
+    .small {
+      font-size: 13px;
+      opacity: 0.85;
+    }
   </style>
 </head>
 
 <body>
 
 <div id="login">
-  <h2>Welcome to RewardTask</h2>
-  <p>Learn skills, earn rewards, and access remote work.</p>
+  <h2>RewardTask</h2>
+  <p class="small">Learn skills. Earn rewards. Access remote work.</p>
   <input id="nameInput" placeholder="Enter your name" />
-  <button onclick="startApp()">Enter App</button>
+  <button onclick="startApp()">Enter Demo</button>
 </div>
 
 <div id="app" style="display:none;">
@@ -60,29 +71,43 @@
   <div class="box">
     <strong>XP:</strong> <span id="xp">0</span> |
     <strong>Coins:</strong> <span id="coins">0</span>
+    <p class="small">Progress determines job access</p>
+  </div>
+
+  <!-- LEARNING PATH -->
+  <h3>Learning Paths</h3>
+
+  <div class="box">
+    <p><strong>3-Month Skill Path</strong></p>
+    <p class="small">Foundations → Practice → Job readiness</p>
+  </div>
+
+  <div class="box">
+    <p><strong>6-Month Career Path</strong></p>
+    <p class="small">Beginner → Intermediate → Professional level</p>
   </div>
 
   <!-- TASKS -->
-  <h3>Learning Tasks</h3>
+  <h3>Skill Tasks</h3>
 
   <div class="box">
-    <p>📘 Learn HTML Basics</p>
-    <button onclick="completeTask(10, 5)">Complete Task</button>
+    <p>📘 Learn Web Fundamentals</p>
+    <button onclick="completeTask(15, 5)">Complete Task</button>
   </div>
 
   <div class="box">
-    <p>🛠 Practice JavaScript</p>
+    <p>🛠 Build Practice Projects</p>
     <button onclick="completeTask(20, 10)">Complete Task</button>
   </div>
 
   <div class="box">
-    <p>🎯 Weekly Skill Challenge</p>
-    <button onclick="completeTask(30, 15)">Complete Task</button>
+    <p>🎯 Weekly Skill Assessment</p>
+    <button onclick="completeTask(20, 10)">Complete Task</button>
   </div>
 
   <!-- REMOTE JOBS -->
-  <h3>Available Remote Jobs</h3>
-  <p style="font-size:14px;">Unlocked as you build skills</p>
+  <h3>Remote Job Opportunities</h3>
+  <p class="small">Unlocked when skill readiness is achieved</p>
 
   <div class="box">
     <p><strong>Junior Frontend Developer</strong></p>
@@ -90,24 +115,15 @@
     <span class="tag">Beginner</span>
     <span class="tag">Web</span>
     <br/>
-    <button onclick="viewJob('Frontend Developer')">View Job</button>
+    <button id="job1" class="locked" onclick="viewJob()">🔒 Unlocks at 50 XP</button>
   </div>
 
   <div class="box">
     <p><strong>Virtual Assistant</strong></p>
     <span class="tag">Remote</span>
     <span class="tag">Entry Level</span>
-    <span class="tag">Admin</span>
     <br/>
-    <button onclick="viewJob('Virtual Assistant')">View Job</button>
-  </div>
-
-  <div class="box">
-    <p><strong>Content Writer</strong></p>
-    <span class="tag">Remote</span>
-    <span class="tag">Creative</span>
-    <br/>
-    <button onclick="viewJob('Content Writer')">View Job</button>
+    <button id="job2" class="locked" onclick="viewJob()">🔒 Unlocks at 50 XP</button>
   </div>
 
   <button onclick="resetDemo()">Reset Demo</button>
@@ -116,13 +132,14 @@
 <script>
   let xp = 0;
   let coins = 0;
+  const UNLOCK_XP = 50;
 
   function startApp() {
     const name = document.getElementById("nameInput").value;
     if (!name) return alert("Enter your name");
     document.getElementById("login").style.display = "none";
     document.getElementById("app").style.display = "block";
-    document.getElementById("welcome").innerText = "Hello, " + name;
+    document.getElementById("welcome").innerText = "Welcome, " + name;
   }
 
   function completeTask(x, c) {
@@ -130,12 +147,24 @@
     coins += c;
     document.getElementById("xp").innerText = xp;
     document.getElementById("coins").innerText = coins;
+    checkUnlock();
   }
 
-  function viewJob(job) {
+  function checkUnlock() {
+    if (xp >= UNLOCK_XP) {
+      ["job1", "job2"].forEach(id => {
+        const btn = document.getElementById(id);
+        btn.classList.remove("locked");
+        btn.innerText = "View Job";
+      });
+    }
+  }
+
+  function viewJob() {
     alert(
-      job +
-      " (Demo)\n\nThis is a remote position.\nSkills required are shown here.\nApply feature will be enabled in full version."
+      "Remote Job (Demo)\n\n" +
+      "This position becomes available after skill verification.\n" +
+      "Application and screening will be enabled in full version."
     );
   }
 
