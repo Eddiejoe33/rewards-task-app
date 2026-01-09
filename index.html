@@ -1,10 +1,96 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>Rewards Task App</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>RewardTask Demo</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #0f172a;
+      color: white;
+      padding: 20px;
+    }
+    .box {
+      background: #1e293b;
+      padding: 15px;
+      border-radius: 10px;
+      margin-bottom: 15px;
+    }
+    button {
+      background: #38bdf8;
+      border: none;
+      padding: 8px 12px;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+    input {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 10px;
+      border-radius: 6px;
+      border: none;
+    }
+  </style>
 </head>
 <body>
-  <h1>Rewards Task App</h1>
-  <p>App is live.</p>
+
+<div id="login">
+  <h2>Welcome to RewardTask</h2>
+  <p>Enter your name to start</p>
+  <input id="nameInput" placeholder="Your name" />
+  <button onclick="startApp()">Enter App</button>
+</div>
+
+<div id="app" style="display:none;">
+  <h3 id="welcome"></h3>
+
+  <div class="box">
+    <strong>XP:</strong> <span id="xp">0</span> |
+    <strong>Coins:</strong> <span id="coins">0</span>
+  </div>
+
+  <div class="box">
+    <p>📘 Daily Learning Task</p>
+    <button onclick="completeTask(10, 5)">Complete Task</button>
+  </div>
+
+  <div class="box">
+    <p>🛠 Skill Practice Task</p>
+    <button onclick="completeTask(20, 10)">Complete Task</button>
+  </div>
+
+  <div class="box">
+    <p>🎯 Weekly Challenge</p>
+    <button onclick="completeTask(30, 15)">Complete Task</button>
+  </div>
+
+  <button onclick="resetDemo()">Reset Demo</button>
+</div>
+
+<script>
+  let xp = 0;
+  let coins = 0;
+
+  function startApp() {
+    const name = document.getElementById("nameInput").value;
+    if (!name) return alert("Enter your name");
+    document.getElementById("login").style.display = "none";
+    document.getElementById("app").style.display = "block";
+    document.getElementById("welcome").innerText = "Hello, " + name;
+  }
+
+  function completeTask(x, c) {
+    xp += x;
+    coins += c;
+    document.getElementById("xp").innerText = xp;
+    document.getElementById("coins").innerText = coins;
+  }
+
+  function resetDemo() {
+    location.reload();
+  }
+</script>
+
 </body>
-  </html>
+</html>
