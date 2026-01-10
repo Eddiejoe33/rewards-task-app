@@ -30,10 +30,6 @@
       cursor: pointer;
       margin-top: 8px;
     }
-    button.locked {
-      background: #475569;
-      cursor: not-allowed;
-    }
     .tag {
       display: inline-block;
       background: #334155;
@@ -41,13 +37,6 @@
       border-radius: 6px;
       font-size: 12px;
       margin-right: 5px;
-    }
-    input {
-      width: 100%;
-      padding: 10px;
-      border-radius: 6px;
-      border: none;
-      margin-bottom: 10px;
     }
     .small {
       font-size: 13px;
@@ -90,7 +79,28 @@
 
 </div>
 
-<!-- DEMO MODAL (MUST BE INSIDE BODY) -->
+<!-- MEMBER DASHBOARD -->
+<div class="box"
+  onclick="showDemo('This dashboard shows member growth, consistency, and reward eligibility in the full ZapChurch app.')">
+
+  <h3>👤 Member Dashboard</h3>
+
+  <p class="small">
+    Welcome, Church Member
+  </p>
+
+  <div style="margin-top:10px;">
+    <span class="tag">Faith Points: 0</span>
+    <span class="tag">Commitment Credits: 0</span>
+  </div>
+
+  <p class="small" style="margin-top:10px;">
+    Faithfulness determines access to rewards and service opportunities.
+  </p>
+
+</div>
+
+<!-- DEMO MODAL -->
 <div id="demoModal" style="
   display:none;
   position:fixed;
