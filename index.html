@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>RewardTask – Learn, Earn, Work</title>
+  <title>ZapChurch – Engage, Grow, Serve</title>
 
   <style>
     body {
@@ -20,6 +20,7 @@
       padding: 15px;
       border-radius: 10px;
       margin-bottom: 15px;
+      cursor: pointer;
     }
     button {
       background: #38bdf8;
@@ -56,6 +57,7 @@
 </head>
 
 <body>
+
 <!-- LANDING INTRO -->
 <div id="intro" style="
   background:#020617;
@@ -64,165 +66,67 @@
   margin-bottom:20px;
 ">
 
-  <h2 style="margin-top:0;">RewardTask</h2>
-<p style="
-  font-size:13px;
-  letter-spacing:1px;
-  text-transform:uppercase;
-  opacity:0.65;
-  margin-top:-10px;
-">
-  App Product Preview
-</p>
+  <h2 style="margin-top:0;">ZapChurch</h2>
+
+  <p style="
+    font-size:13px;
+    letter-spacing:1px;
+    text-transform:uppercase;
+    opacity:0.65;
+    margin-top:-10px;
+  ">
+    Church App Product Preview
+  </p>
+
   <p style="opacity:0.9;">
-    RewardTask is a <strong>skill-to-work ecosystem</strong>.
-    Users learn through structured paths, complete skill-based tasks,
-    earn rewards, and unlock access to verified remote job opportunities.
+    ZapChurch is a <strong>church engagement and discipleship system</strong>.
+    Members grow through structured faith paths, complete commitment-based tasks,
+    receive real church-approved rewards, and unlock access to service and leadership opportunities.
   </p>
 
   <p style="opacity:0.85;">
-    Progress — not hype — determines opportunity.
+    Faithfulness — not attendance alone — unlocks recognition, rewards, and responsibility.
   </p>
 
-  <p style="font-size:14px; opacity:0.75;">
-    This interactive demo showcases the core flow:
-    <strong>Learning → Rewards → Remote Work Access</strong>.
-  </p>
-<!-- REVIEWER GUIDANCE -->
-<div style="
-  background:#020617;
-  padding:15px;
-  border-radius:10px;
-  margin-bottom:20px;
-  border-left:4px solid #38bdf8;
+</div>
+
+<!-- DEMO MODAL (MUST BE INSIDE BODY) -->
+<div id="demoModal" style="
+  display:none;
+  position:fixed;
+  top:0;
+  left:0;
+  width:100%;
+  height:100%;
+  background:rgba(0,0,0,0.6);
+  z-index:1000;
 ">
-
-  <p style="margin:0 0 8px 0; font-weight:bold;">
-    What to look for in this preview
-  </p>
-
-  <ul style="margin:0; padding-left:18px; opacity:0.85;">
-    <li>User flow and navigation</li>
-    <li>Learning → rewards → remote work logic</li>
-    <li>Progress-based access control</li>
-    <li>Overall clarity and potential</li>
-  </ul>
-
-</div>
-</div>
-<div id="login">
-  <h2>RewardTask</h2>
-  <p class="small">Learn skills. Earn rewards. Access remote work.</p>
-  <input id="nameInput" placeholder="Enter your name" />
-  <button onclick="startApp()">Enter Demo</button>
+  <div style="
+    background:#ffffff;
+    color:#020617;
+    max-width:420px;
+    margin:15% auto;
+    padding:20px;
+    border-radius:10px;
+    text-align:center;
+  ">
+    <h3>🔒 Demo Preview</h3>
+    <p id="demoText" style="font-size:14px;">
+      This feature is active in the full ZapChurch app.
+      Churches can customize tasks, rewards, and approvals.
+    </p>
+    <button onclick="closeDemo()">Close</button>
+  </div>
 </div>
 
-<div id="app" style="display:none;">
-
-  <h3 id="welcome"></h3>
-
-  <div class="box">
-    <strong>XP:</strong> <span id="xp">0</span> |
-    <strong>Coins:</strong> <span id="coins">0</span>
-    <p class="small">Progress determines job access</p>
-  </div>
-
-  <!-- LEARNING PATH -->
-  <h3>Learning Paths</h3>
-
-  <div class="box">
-    <p><strong>3-Month Skill Path</strong></p>
-    <p class="small">Foundations → Practice → Job readiness</p>
-  </div>
-
-  <div class="box">
-    <p><strong>6-Month Career Path</strong></p>
-    <p class="small">Beginner → Intermediate → Professional level</p>
-  </div>
-
-  <!-- TASKS -->
-  <h3>Skill Tasks</h3>
-
-  <div class="box">
-    <p>📘 Learn Web Fundamentals</p>
-    <button onclick="completeTask(15, 5)">Complete Task</button>
-  </div>
-
-  <div class="box">
-    <p>🛠 Build Practice Projects</p>
-    <button onclick="completeTask(20, 10)">Complete Task</button>
-  </div>
-
-  <div class="box">
-    <p>🎯 Weekly Skill Assessment</p>
-    <button onclick="completeTask(20, 10)">Complete Task</button>
-  </div>
-
-  <!-- REMOTE JOBS -->
-  <h3>Remote Job Opportunities</h3>
-  <p class="small">Unlocked when skill readiness is achieved</p>
-
-  <div class="box">
-    <p><strong>Junior Frontend Developer</strong></p>
-    <span class="tag">Remote</span>
-    <span class="tag">Beginner</span>
-    <span class="tag">Web</span>
-    <br/>
-    <button id="job1" class="locked" onclick="viewJob()">🔒 Unlocks at 50 XP</button>
-  </div>
-
-  <div class="box">
-    <p><strong>Virtual Assistant</strong></p>
-    <span class="tag">Remote</span>
-    <span class="tag">Entry Level</span>
-    <br/>
-    <button id="job2" class="locked" onclick="viewJob()">🔒 Unlocks at 50 XP</button>
-  </div>
-
-  <button onclick="resetDemo()">Reset Demo</button>
-</div>
-
+<!-- DEMO SCRIPT -->
 <script>
-  let xp = 0;
-  let coins = 0;
-  const UNLOCK_XP = 50;
-
-  function startApp() {
-    const name = document.getElementById("nameInput").value;
-    if (!name) return alert("Enter your name");
-    document.getElementById("login").style.display = "none";
-    document.getElementById("app").style.display = "block";
-    document.getElementById("welcome").innerText = "Welcome, " + name;
+  function showDemo(message) {
+    document.getElementById("demoText").innerText = message;
+    document.getElementById("demoModal").style.display = "block";
   }
-
-  function completeTask(x, c) {
-    xp += x;
-    coins += c;
-    document.getElementById("xp").innerText = xp;
-    document.getElementById("coins").innerText = coins;
-    checkUnlock();
-  }
-
-  function checkUnlock() {
-    if (xp >= UNLOCK_XP) {
-      ["job1", "job2"].forEach(id => {
-        const btn = document.getElementById(id);
-        btn.classList.remove("locked");
-        btn.innerText = "View Job";
-      });
-    }
-  }
-
-  function viewJob() {
-    alert(
-      "Remote Job (Demo)\n\n" +
-      "This position becomes available after skill verification.\n" +
-      "Application and screening will be enabled in full version."
-    );
-  }
-
-  function resetDemo() {
-    location.reload();
+  function closeDemo() {
+    document.getElementById("demoModal").style.display = "none";
   }
 </script>
 
