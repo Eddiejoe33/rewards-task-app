@@ -1,117 +1,197 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>ZapChurch – Engage, Grow, Serve</title>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>ZapChurch</title>
 
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      background: #0f172a;
-      color: white;
-      padding: 20px;
-    }
-    h2, h3 {
-      margin-top: 25px;
-    }
-    .box {
-      background: #1e293b;
-      padding: 15px;
-      border-radius: 10px;
-      margin-bottom: 15px;
-    }
-    button {
-      background: #38bdf8;
-      border: none;
-      padding: 8px 12px;
-      border-radius: 6px;
-      cursor: pointer;
-      margin-top: 8px;
-    }
-    button.completed {
-      background: #475569;
-      cursor: not-allowed;
-      opacity: 0.6;
-    }
-    .tag {
-      display: inline-block;
-      background: #334155;
-      padding: 3px 8px;
-      border-radius: 6px;
-      font-size: 12px;
-      margin-right: 5px;
-    }
-    .small {
-      font-size: 13px;
-      opacity: 0.85;
-    }
-  </style>
+<style>
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: #0f172a;
+  color: white;
+}
+
+/* TOP BAR */
+header {
+  position: sticky;
+  top: 0;
+  background: #020617;
+  padding: 12px;
+  text-align: center;
+  font-weight: bold;
+  z-index: 10;
+}
+
+/* TABS */
+nav {
+  display: flex;
+  background: #020617;
+}
+nav button {
+  flex: 1;
+  padding: 12px;
+  border: none;
+  background: none;
+  color: #94a3b8;
+  font-size: 14px;
+}
+nav button.active {
+  color: #38bdf8;
+  border-bottom: 2px solid #38bdf8;
+}
+
+/* SECTIONS */
+section {
+  display: none;
+  padding: 16px;
+}
+section.active {
+  display: block;
+}
+
+/* CARDS */
+.box {
+  background: #1e293b;
+  padding: 15px;
+  border-radius: 12px;
+  margin-bottom: 14px;
+}
+
+.small {
+  font-size: 13px;
+  opacity: 0.85;
+}
+
+.tag {
+  background: #334155;
+  padding: 5px 10px;
+  border-radius: 8px;
+  font-size: 13px;
+  margin-right: 6px;
+  display: inline-block;
+}
+
+button.task {
+  margin-top: 10px;
+  padding: 8px 12px;
+  border-radius: 8px;
+  border: none;
+  background: #38bdf8;
+  color: #020617;
+}
+button.task.completed {
+  background: #475569;
+  color: #cbd5f5;
+}
+</style>
 </head>
 
 <body>
 
-<!-- INTRO -->
-<div class="box">
-  <h2>ZapChurch</h2>
-  <p class="small">Church App Product Preview</p>
-  <p>
-    ZapChurch is a <strong>church engagement and discipleship system</strong>
-    that rewards faithfulness, consistency, and service.
-  </p>
-</div>
+<header>ZapChurch</header>
+
+<nav>
+  <button class="active" onclick="openTab('dashboard', this)">Dashboard</button>
+  <button onclick="openTab('tasks', this)">Tasks</button>
+  <button onclick="openTab('rewards', this)">Rewards</button>
+</nav>
 
 <!-- DASHBOARD -->
-<div class="box">
-  <h3>👤 Member Dashboard</h3>
-  <p class="small">Welcome, Church Member</p>
-
-  <div>
-    <span class="tag">Faith Points: <strong id="faithPoints">0</strong></span>
-    <span class="tag">Credits: <strong id="credits">0</strong></span>
+<section id="dashboard" class="active">
+  <div class="box">
+    <h3>👤 Member Dashboard</h3>
+    <p class="small">Welcome, Church Member</p>
+    <div>
+      <span class="tag">Faith Points: <b id="faithPoints">0</b></span>
+      <span class="tag">Credits: <b id="credits">0</b></span>
+    </div>
   </div>
-</div>
+
+  <div class="box">
+    <p class="small">
+      Faithfulness — not attendance alone — unlocks rewards and service.
+    </p>
+  </div>
+</section>
 
 <!-- TASKS -->
-<h3>📝 Weekly Faith Tasks</h3>
+<section id="tasks">
+  <h3>📝 Weekly Faith Tasks</h3>
 
-<div class="box">
-  🙏 Daily Prayer Log (+5)
-  <br>
-  <button class="task-btn" data-type="faith" data-points="5">Complete</button>
-</div>
+  <div class="box">
+    🙏 Daily Prayer Log (+5)
+    <br>
+    <button class="task" onclick="completeTask(this, 'faith', 5)">Complete</button>
+  </div>
 
-<div class="box">
-  ⛪ Service Attendance (+10)
-  <br>
-  <button class="task-btn" data-type="faith" data-points="10">Complete</button>
-</div>
+  <div class="box">
+    ⛪ Service Attendance (+10)
+    <br>
+    <button class="task" onclick="completeTask(this, 'faith', 10)">Complete</button>
+  </div>
 
-<div class="box">
-  📘 Bible Reading Plan (+8)
-  <br>
-  <button class="task-btn" data-type="faith" data-points="8">Complete</button>
-</div>
+  <div class="box">
+    📘 Bible Reading Plan (+8)
+    <br>
+    <button class="task" onclick="completeTask(this, 'faith', 8)">Complete</button>
+  </div>
 
-<div class="box">
-  🤝 Volunteer Service (+12 Credits)
-  <br>
-  <button class="task-btn" data-type="credit" data-points="12">Complete</button>
-</div>
+  <div class="box">
+    🤝 Volunteer Service (+12 Credits)
+    <br>
+    <button class="task" onclick="completeTask(this, 'credit', 12)">Complete</button>
+  </div>
+</section>
 
 <!-- REWARDS -->
-<h3>🎁 Rewards & Recognition</h3>
+<section id="rewards">
+  <h3>🎁 Rewards & Recognition</h3>
 
-<div class="box">
-  🎟 Event Access Pass
-  <p class="small">Unlocks automatically with points</p>
-</div>
+  <div class="box">
+    🎟 Event Access Pass
+    <p class="small">Unlocks with Faith Points</p>
+  </div>
 
-<div class="box">
-  🎓 Leadership Training Slot
-  <p class="small">Requires commitment credits</p>
-</div>
+  <div class="box">
+    🎓 Leadership Training Slot
+    <p class="small">Requires Commitment Credits</p>
+  </div>
 
-<script src="script.js"></script>
+  <div class="box">
+    📜 Certificate of Faithfulness
+    <p class="small">Consistency milestone</p>
+  </div>
+</section>
+
+<script>
+let faithPoints = 0;
+let credits = 0;
+
+function openTab(tabId, btn) {
+  document.querySelectorAll("section").forEach(s => s.classList.remove("active"));
+  document.getElementById(tabId).classList.add("active");
+
+  document.querySelectorAll("nav button").forEach(b => b.classList.remove("active"));
+  btn.classList.add("active");
+}
+
+function completeTask(button, type, value) {
+  if (button.classList.contains("completed")) return;
+
+  if (type === "faith") {
+    faithPoints += value;
+    document.getElementById("faithPoints").innerText = faithPoints;
+  } else {
+    credits += value;
+    document.getElementById("credits").innerText = credits;
+  }
+
+  button.innerText = "Completed";
+  button.classList.add("completed");
+}
+</script>
+
 </body>
-</html>
+  </html>
