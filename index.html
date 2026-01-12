@@ -13,12 +13,12 @@ body {
   color: white;
 }
 
-/* TOP BAR */
+/* HEADER */
 header {
   position: sticky;
   top: 0;
   background: #020617;
-  padding: 12px;
+  padding: 14px;
   text-align: center;
   font-weight: bold;
   z-index: 10;
@@ -28,6 +28,9 @@ header {
 nav {
   display: flex;
   background: #020617;
+  position: sticky;
+  top: 48px;
+  z-index: 9;
 }
 nav button {
   flex: 1;
@@ -42,10 +45,12 @@ nav button.active {
   border-bottom: 2px solid #38bdf8;
 }
 
-/* SECTIONS */
+/* SECTIONS (FORCED SCROLL) */
 section {
   display: none;
   padding: 16px;
+  height: calc(100vh - 96px);
+  overflow-y: auto;
 }
 section.active {
   display: block;
@@ -55,8 +60,8 @@ section.active {
 .box {
   background: #1e293b;
   padding: 15px;
-  border-radius: 12px;
-  margin-bottom: 14px;
+  border-radius: 14px;
+  margin-bottom: 16px;
 }
 
 .small {
@@ -66,20 +71,22 @@ section.active {
 
 .tag {
   background: #334155;
-  padding: 5px 10px;
-  border-radius: 8px;
+  padding: 6px 12px;
+  border-radius: 10px;
   font-size: 13px;
   margin-right: 6px;
   display: inline-block;
 }
 
+/* TASK BUTTON */
 button.task {
   margin-top: 10px;
-  padding: 8px 12px;
-  border-radius: 8px;
+  padding: 8px 14px;
+  border-radius: 10px;
   border: none;
   background: #38bdf8;
   color: #020617;
+  font-size: 13px;
 }
 button.task.completed {
   background: #475569;
@@ -100,6 +107,7 @@ button.task.completed {
 
 <!-- DASHBOARD -->
 <section id="dashboard" class="active">
+
   <div class="box">
     <h3>👤 Member Dashboard</h3>
     <p class="small">Welcome, Church Member</p>
@@ -110,14 +118,32 @@ button.task.completed {
   </div>
 
   <div class="box">
-    <p class="small">
-      Faithfulness — not attendance alone — unlocks rewards and service.
-    </p>
+    <h4>📊 Weekly Progress</h4>
+    <p class="small">You’ve completed <b id="tasksDone">0</b> out of 4 faith tasks this week.</p>
   </div>
+
+  <div class="box">
+    <h4>🔥 Faithfulness Streak</h4>
+    <p class="small">Current streak: <b>3 weeks</b></p>
+  </div>
+
+  <div class="box">
+    <h4>🎁 Next Reward</h4>
+    <p class="small">Event Access Pass unlocks at <b>30 Faith Points</b></p>
+  </div>
+
+  <div class="box">
+    <h4>📣 Church Updates</h4>
+    <p class="small">• Midweek service on Wednesday</p>
+    <p class="small">• Leadership training coming soon</p>
+    <p class="small">• Volunteer sign-up ongoing</p>
+  </div>
+
 </section>
 
 <!-- TASKS -->
 <section id="tasks">
+
   <h3>📝 Weekly Faith Tasks</h3>
 
   <div class="box">
@@ -143,31 +169,40 @@ button.task.completed {
     <br>
     <button class="task" onclick="completeTask(this, 'credit', 12)">Complete</button>
   </div>
+
 </section>
 
 <!-- REWARDS -->
 <section id="rewards">
+
   <h3>🎁 Rewards & Recognition</h3>
 
   <div class="box">
     🎟 Event Access Pass
-    <p class="small">Unlocks with Faith Points</p>
+    <p class="small">Requires 30 Faith Points</p>
   </div>
 
   <div class="box">
     🎓 Leadership Training Slot
-    <p class="small">Requires Commitment Credits</p>
+    <p class="small">Requires 20 Commitment Credits</p>
   </div>
 
   <div class="box">
     📜 Certificate of Faithfulness
-    <p class="small">Consistency milestone</p>
+    <p class="small">Awarded for consistent participation</p>
   </div>
+
+  <div class="box">
+    🏅 Service Recognition
+    <p class="small">Top volunteers of the month</p>
+  </div>
+
 </section>
 
 <script>
 let faithPoints = 0;
 let credits = 0;
+let tasksDone = 0;
 
 function openTab(tabId, btn) {
   document.querySelectorAll("section").forEach(s => s.classList.remove("active"));
@@ -187,6 +222,9 @@ function completeTask(button, type, value) {
     credits += value;
     document.getElementById("credits").innerText = credits;
   }
+
+  tasksDone++;
+  document.getElementById("tasksDone").innerText = tasksDone;
 
   button.innerText = "Completed";
   button.classList.add("completed");
