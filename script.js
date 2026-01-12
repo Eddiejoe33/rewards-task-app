@@ -1,4 +1,4 @@
-let faithPoints = localStorage.getItem("faithPoints")
+alert("JS connected");let faithPoints = localStorage.getItem("faithPoints")
   ? parseInt(localStorage.getItem("faithPoints"))
   : 0;
 
