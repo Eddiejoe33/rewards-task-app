@@ -23,41 +23,41 @@
 
   <div class="mb-6">
     <h1 class="text-2xl font-bold">Church Dashboard</h1>
-    <p class="text-gray-500 text-sm">Your church activities</p>
+    <p class="text-gray-500 text-sm">Welcome to your church platform</p>
   </div>
 
   <!-- Faith Points -->
-  <div class="bg-white rounded-2xl shadow p-5 mb-5">
+  <div class="bg-white rounded-2xl shadow p-5 mb-6">
     <p class="text-sm text-gray-500">Faith Points</p>
-    <h2 id="xp" class="text-3xl font-extrabold text-yellow-600 mt-1">320</h2>
+    <h2 class="text-3xl font-extrabold text-yellow-600 mt-1">320</h2>
   </div>
 
-  <!-- DASHBOARD MENU -->
+  <!-- DASHBOARD MENU (SCROLLABLE & CLICKABLE) -->
   <div class="space-y-4">
 
     <div onclick="showSection('tasks')" class="bg-white rounded-2xl shadow p-5 cursor-pointer hover:bg-yellow-50">
-      <h3 class="text-lg font-bold">Daily Devotion</h3>
+      <h3 class="text-lg font-bold">📖 Daily Devotion</h3>
       <p class="text-sm text-gray-500">Read today’s devotion</p>
     </div>
 
     <div onclick="showSection('tasks')" class="bg-white rounded-2xl shadow p-5 cursor-pointer hover:bg-yellow-50">
-      <h3 class="text-lg font-bold">Attendance</h3>
-      <p class="text-sm text-gray-500">Mark service attendance</p>
+      <h3 class="text-lg font-bold">📝 Attendance</h3>
+      <p class="text-sm text-gray-500">Mark church attendance</p>
     </div>
 
     <div onclick="showSection('giving')" class="bg-white rounded-2xl shadow p-5 cursor-pointer hover:bg-yellow-50">
-      <h3 class="text-lg font-bold">Give / Donate</h3>
-      <p class="text-sm text-gray-500">Support the church</p>
+      <h3 class="text-lg font-bold">💛 Give / Donate</h3>
+      <p class="text-sm text-gray-500">Tithes, offerings & donations</p>
     </div>
 
     <div onclick="showSection('rewards')" class="bg-white rounded-2xl shadow p-5 cursor-pointer hover:bg-yellow-50">
-      <h3 class="text-lg font-bold">Faith Rewards</h3>
-      <p class="text-sm text-gray-500">Redeem faith points</p>
+      <h3 class="text-lg font-bold">🎁 Faith Rewards</h3>
+      <p class="text-sm text-gray-500">Member appreciation rewards</p>
     </div>
 
     <div onclick="showSection('profile')" class="bg-white rounded-2xl shadow p-5 cursor-pointer hover:bg-yellow-50">
-      <h3 class="text-lg font-bold">My Account</h3>
-      <p class="text-sm text-gray-500">View profile</p>
+      <h3 class="text-lg font-bold">👤 My Account</h3>
+      <p class="text-sm text-gray-500">Profile & membership info</p>
     </div>
 
   </div>
@@ -65,16 +65,19 @@
 
 <!-- TASKS -->
 <section id="tasksSection" class="hidden">
-  <h2 class="text-xl font-bold mb-3">Church Tasks</h2>
-  <p class="text-gray-500">Daily devotion, attendance & activities.</p>
+  <h2 class="text-xl font-bold mb-3">Church Activities</h2>
+  <p class="text-gray-500">
+    Daily devotions, attendance tracking, and church programs will appear here.
+  </p>
 </section>
 
 <!-- REWARDS -->
 <section id="rewardsSection" class="hidden">
-  <h2 class="text-xl font-bold mb-3">Faith Rewards</h2>
+  <h2 class="text-xl font-bold mb-4">Faith Rewards</h2>
+
   <div class="bg-white rounded-xl shadow p-4 flex justify-between items-center">
     <div>
-      <p class="font-medium">Gift Item</p>
+      <p class="font-medium">Church Gift Item</p>
       <p class="text-sm text-gray-500">200 Faith Points</p>
     </div>
     <button class="bg-yellow-600 text-white px-4 py-2 rounded-lg">
@@ -83,20 +86,26 @@
   </div>
 </section>
 
-<!-- GIVING -->
+<!-- GIVING (PAYSTACK PLACEHOLDER) -->
 <section id="givingSection" class="hidden">
   <h2 class="text-xl font-bold mb-4">Give to the Church</h2>
 
   <div class="bg-white rounded-xl shadow p-4 space-y-4">
-    <input type="number" placeholder="Enter amount (₦)"
-      class="w-full border rounded-lg p-3"/>
+    <input
+      type="number"
+      placeholder="Enter amount (₦)"
+      class="w-full border rounded-lg p-3"
+    />
 
-    <button class="w-full bg-yellow-600 text-white py-3 rounded-lg font-medium">
+    <button
+      class="w-full bg-yellow-600 text-white py-3 rounded-lg font-medium"
+      onclick="alert('Paystack payment integration goes here')"
+    >
       Give Now
     </button>
 
     <p class="text-xs text-gray-500 text-center">
-      Secure church donation
+      Secure online giving • Paystack-ready
     </p>
   </div>
 </section>
@@ -104,7 +113,9 @@
 <!-- PROFILE -->
 <section id="profileSection" class="hidden">
   <h2 class="text-xl font-bold mb-2">My Profile</h2>
-  <p class="text-gray-500">Member account details.</p>
+  <p class="text-gray-500">
+    Member information, giving history, and church records.
+  </p>
 </section>
 
 </main>
@@ -112,10 +123,18 @@
 <!-- BOTTOM NAV -->
 <nav class="fixed bottom-0 left-0 right-0 bg-white border-t flex justify-around py-3 text-sm">
 
-  <button id="navHome" onclick="showSection('home')" class="text-yellow-600 font-medium">Home</button>
-  <button id="navTasks" onclick="showSection('tasks')" class="text-gray-500">Tasks</button>
-  <button id="navRewards" onclick="showSection('rewards')" class="text-gray-500">Rewards</button>
-  <button id="navProfile" onclick="showSection('profile')" class="text-gray-500">Profile</button>
+  <button id="navHome" onclick="showSection('home')" class="text-yellow-600 font-medium">
+    Home
+  </button>
+  <button id="navTasks" onclick="showSection('tasks')" class="text-gray-500">
+    Tasks
+  </button>
+  <button id="navRewards" onclick="showSection('rewards')" class="text-gray-500">
+    Rewards
+  </button>
+  <button id="navProfile" onclick="showSection('profile')" class="text-gray-500">
+    Profile
+  </button>
 
 </nav>
 
@@ -124,8 +143,8 @@
 function showSection(name) {
   const sections = ["home","tasks","rewards","profile","giving"];
   sections.forEach(s => {
-    const el = document.getElementById(s + "Section");
-    if (el) el.classList.add("hidden");
+    const sec = document.getElementById(s + "Section");
+    if (sec) sec.classList.add("hidden");
   });
 
   document.getElementById(name + "Section").classList.remove("hidden");
@@ -133,10 +152,8 @@ function showSection(name) {
   const navs = ["Home","Tasks","Rewards","Profile"];
   navs.forEach(n => {
     const btn = document.getElementById("nav" + n);
-    if (btn) {
-      btn.classList.remove("text-yellow-600","font-medium");
-      btn.classList.add("text-gray-500");
-    }
+    btn.classList.remove("text-yellow-600","font-medium");
+    btn.classList.add("text-gray-500");
   });
 
   const active = document.getElementById(
