@@ -1,235 +1,101 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>ZapChurch</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>FULL MVP APP</title>
 
-<style>
-body {
-  margin: 0;
-  font-family: Arial, sans-serif;
-  background: #0f172a;
-  color: white;
-}
+  <!-- Tailwind CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
 
-/* HEADER */
-header {
-  position: sticky;
-  top: 0;
-  background: #020617;
-  padding: 14px;
-  text-align: center;
-  font-weight: bold;
-  z-index: 10;
-}
+  <!-- Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
 
-/* TABS */
-nav {
-  display: flex;
-  background: #020617;
-  position: sticky;
-  top: 48px;
-  z-index: 9;
-}
-nav button {
-  flex: 1;
-  padding: 12px;
-  border: none;
-  background: none;
-  color: #94a3b8;
-  font-size: 14px;
-}
-nav button.active {
-  color: #38bdf8;
-  border-bottom: 2px solid #38bdf8;
-}
-
-/* SECTIONS (FORCED SCROLL) */
-section {
-  display: none;
-  padding: 16px;
-  height: calc(100vh - 96px);
-  overflow-y: auto;
-}
-section.active {
-  display: block;
-}
-
-/* CARDS */
-.box {
-  background: #1e293b;
-  padding: 15px;
-  border-radius: 14px;
-  margin-bottom: 16px;
-}
-
-.small {
-  font-size: 13px;
-  opacity: 0.85;
-}
-
-.tag {
-  background: #334155;
-  padding: 6px 12px;
-  border-radius: 10px;
-  font-size: 13px;
-  margin-right: 6px;
-  display: inline-block;
-}
-
-/* TASK BUTTON */
-button.task {
-  margin-top: 10px;
-  padding: 8px 14px;
-  border-radius: 10px;
-  border: none;
-  background: #38bdf8;
-  color: #020617;
-  font-size: 13px;
-}
-button.task.completed {
-  background: #475569;
-  color: #cbd5f5;
-}
-</style>
 </head>
+<body class="bg-gray-100 text-gray-800">
 
-<body>
+  <!-- Header -->
+  <header class="bg-blue-600 text-white p-4 text-center text-lg font-semibold">
+    FULL MVP APP
+  </header>
 
-<header>ZapChurch</header>
+  <!-- Main Content -->
+  <main class="p-4 pb-24">
 
-<nav>
-  <button class="active" onclick="openTab('dashboard', this)">Dashboard</button>
-  <button onclick="openTab('tasks', this)">Tasks</button>
-  <button onclick="openTab('rewards', this)">Rewards</button>
-</nav>
-
-<!-- DASHBOARD -->
-<section id="dashboard" class="active">
-
-  <div class="box">
-    <h3>👤 Member Dashboard</h3>
-    <p class="small">Welcome, Church Member</p>
-    <div>
-      <span class="tag">Faith Points: <b id="faithPoints">0</b></span>
-      <span class="tag">Credits: <b id="credits">0</b></span>
+    <!-- Points Card -->
+    <div class="bg-white rounded-xl shadow p-4 mb-4">
+      <div class="flex items-center justify-between">
+        <div>
+          <p class="text-sm text-gray-500">Your Points</p>
+          <h2 class="text-2xl font-bold text-blue-600">250 XP</h2>
+        </div>
+        <i class="fas fa-star text-blue-500 text-2xl"></i>
+      </div>
     </div>
-  </div>
 
-  <div class="box">
-    <h4>📊 Weekly Progress</h4>
-    <p class="small">You’ve completed <b id="tasksDone">0</b> out of 4 faith tasks this week.</p>
-  </div>
+    <!-- Tasks -->
+    <h3 class="text-lg font-semibold mb-2">Available Tasks</h3>
 
-  <div class="box">
-    <h4>🔥 Faithfulness Streak</h4>
-    <p class="small">Current streak: <b>3 weeks</b></p>
-  </div>
+    <div class="bg-white rounded-xl shadow p-4 mb-3">
+      <div class="flex items-center justify-between">
+        <div>
+          <p class="font-medium">Complete Daily Task</p>
+          <p class="text-sm text-gray-500">Earn +20 XP</p>
+        </div>
+        <button class="bg-blue-600 text-white px-4 py-2 rounded-lg">
+          Start
+        </button>
+      </div>
+    </div>
 
-  <div class="box">
-    <h4>🎁 Next Reward</h4>
-    <p class="small">Event Access Pass unlocks at <b>30 Faith Points</b></p>
-  </div>
+    <div class="bg-white rounded-xl shadow p-4 mb-4">
+      <div class="flex items-center justify-between">
+        <div>
+          <p class="font-medium">Invite a Friend</p>
+          <p class="text-sm text-gray-500">Earn +50 XP</p>
+        </div>
+        <button class="bg-blue-600 text-white px-4 py-2 rounded-lg">
+          Start
+        </button>
+      </div>
+    </div>
 
-  <div class="box">
-    <h4>📣 Church Updates</h4>
-    <p class="small">• Midweek service on Wednesday</p>
-    <p class="small">• Leadership training coming soon</p>
-    <p class="small">• Volunteer sign-up ongoing</p>
-  </div>
+    <!-- Rewards -->
+    <h3 class="text-lg font-semibold mb-2">Rewards</h3>
 
-</section>
+    <div class="bg-white rounded-xl shadow p-4">
+      <div class="flex items-center justify-between">
+        <div>
+          <p class="font-medium">Gift Voucher</p>
+          <p class="text-sm text-gray-500">Cost: 200 XP</p>
+        </div>
+        <button class="border border-blue-600 text-blue-600 px-4 py-2 rounded-lg">
+          Redeem
+        </button>
+      </div>
+    </div>
 
-<!-- TASKS -->
-<section id="tasks">
+  </main>
 
-  <h3>📝 Weekly Faith Tasks</h3>
-
-  <div class="box">
-    🙏 Daily Prayer Log (+5)
-    <br>
-    <button class="task" onclick="completeTask(this, 'faith', 5)">Complete</button>
-  </div>
-
-  <div class="box">
-    ⛪ Service Attendance (+10)
-    <br>
-    <button class="task" onclick="completeTask(this, 'faith', 10)">Complete</button>
-  </div>
-
-  <div class="box">
-    📘 Bible Reading Plan (+8)
-    <br>
-    <button class="task" onclick="completeTask(this, 'faith', 8)">Complete</button>
-  </div>
-
-  <div class="box">
-    🤝 Volunteer Service (+12 Credits)
-    <br>
-    <button class="task" onclick="completeTask(this, 'credit', 12)">Complete</button>
-  </div>
-
-</section>
-
-<!-- REWARDS -->
-<section id="rewards">
-
-  <h3>🎁 Rewards & Recognition</h3>
-
-  <div class="box">
-    🎟 Event Access Pass
-    <p class="small">Requires 30 Faith Points</p>
-  </div>
-
-  <div class="box">
-    🎓 Leadership Training Slot
-    <p class="small">Requires 20 Commitment Credits</p>
-  </div>
-
-  <div class="box">
-    📜 Certificate of Faithfulness
-    <p class="small">Awarded for consistent participation</p>
-  </div>
-
-  <div class="box">
-    🏅 Service Recognition
-    <p class="small">Top volunteers of the month</p>
-  </div>
-
-</section>
-
-<script>
-let faithPoints = 0;
-let credits = 0;
-let tasksDone = 0;
-
-function openTab(tabId, btn) {
-  document.querySelectorAll("section").forEach(s => s.classList.remove("active"));
-  document.getElementById(tabId).classList.add("active");
-
-  document.querySelectorAll("nav button").forEach(b => b.classList.remove("active"));
-  btn.classList.add("active");
-}
-
-function completeTask(button, type, value) {
-  if (button.classList.contains("completed")) return;
-
-  if (type === "faith") {
-    faithPoints += value;
-    document.getElementById("faithPoints").innerText = faithPoints;
-  } else {
-    credits += value;
-    document.getElementById("credits").innerText = credits;
-  }
-
-  tasksDone++;
-  document.getElementById("tasksDone").innerText = tasksDone;
-
-  button.innerText = "Completed";
-  button.classList.add("completed");
-}
-</script>
+  <!-- Bottom Navigation -->
+  <nav class="fixed bottom-0 left-0 right-0 bg-white border-t flex justify-around py-3 text-gray-500">
+    <div class="text-center text-blue-600">
+      <i class="fas fa-home text-lg"></i>
+      <p class="text-xs">Home</p>
+    </div>
+    <div class="text-center">
+      <i class="fas fa-list-check text-lg"></i>
+      <p class="text-xs">Tasks</p>
+    </div>
+    <div class="text-center">
+      <i class="fas fa-gift text-lg"></i>
+      <p class="text-xs">Rewards</p>
+    </div>
+    <div class="text-center">
+      <i class="fas fa-user text-lg"></i>
+      <p class="text-xs">Profile</p>
+    </div>
+  </nav>
 
 </body>
-  </html>
+          </html>
