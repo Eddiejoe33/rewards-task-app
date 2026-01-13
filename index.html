@@ -103,36 +103,12 @@
 
 </main>
 
-<nav class="fixed bottom-0 left-0 right-0 bg-white border-t flex justify-around py-3 text-sm">
-  
-  <button id="navHome"
-    onclick="showSection('home')"
-    class="flex flex-col items-center text-blue-600 font-medium">
-    <i class="fas fa-home text-lg"></i>
-    <span>Home</span>
-  </button>
-
-  <button id="navTasks"
-    onclick="showSection('tasks')"
-    class="flex flex-col items-center text-gray-500">
-    <i class="fas fa-tasks text-lg"></i>
-    <span>Tasks</span>
-  </button>
-
-  <button id="navRewards"
-    onclick="showSection('rewards')"
-    class="flex flex-col items-center text-gray-500">
-    <i class="fas fa-gift text-lg"></i>
-    <span>Rewards</span>
-  </button>
-
-  <button id="navProfile"
-    onclick="showSection('profile')"
-    class="flex flex-col items-center text-gray-500">
-    <i class="fas fa-user text-lg"></i>
-    <span>Profile</span>
-  </button>
-
+<!-- BOTTOM NAV -->
+<nav class="fixed bottom-0 left-0 right-0 bg-white border-t flex justify-around py-3">
+  <button id="navHome" class="text-blue-600 font-medium" onclick="showSection('home')">Home</button>
+  <button id="navTasks" class="text-gray-500" onclick="showSection('tasks')">Tasks</button>
+  <button id="navRewards" class="text-gray-500" onclick="showSection('rewards')">Rewards</button>
+  <button id="navProfile" class="text-gray-500" onclick="showSection('profile')">Profile</button>
 </nav>
 
 <script>
@@ -162,30 +138,22 @@ document.getElementById("redeemBtn").onclick = () => {
   }
 };
 
-<script>
 function showSection(name) {
-  // Sections
-  const sections = ["home","tasks","rewards","profile"];
-  sections.forEach(s => {
-    document.getElementById(s + "Section").classList.add("hidden");
-  });
+  ["home","tasks","rewards","profile"].forEach(s =>
+    document.getElementById(s + "Section").classList.add("hidden")
+  );
+
   document.getElementById(name + "Section").classList.remove("hidden");
 
-  // Bottom nav
-  const navs = ["Home","Tasks","Rewards","Profile"];
-  navs.forEach(n => {
-    const el = document.getElementById("nav" + n);
-    el.classList.remove("text-blue-600","font-medium");
-    el.classList.add("text-gray-500");
+  ["navHome","navTasks","navRewards","navProfile"].forEach(id => {
+    document.getElementById(id).classList.remove("text-blue-600","font-medium");
+    document.getElementById(id).classList.add("text-gray-500");
   });
 
-  const active = document.getElementById(
-    "nav" + name.charAt(0).toUpperCase() + name.slice(1)
-  );
-  active.classList.remove("text-gray-500");
-  active.classList.add("text-blue-600","font-medium");
+  document.getElementById("nav" + name.charAt(0).toUpperCase() + name.slice(1))
+    .classList.add("text-blue-600","font-medium");
 }
 </script>
 
 </body>
-                                                           </html>
+      </html>
