@@ -6,7 +6,6 @@
   <title>FULL MVP APP</title>
 
   <script src="https://cdn.tailwindcss.com"></script>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
 </head>
 
 <body class="bg-gray-100 text-gray-800">
@@ -19,60 +18,46 @@
 
 <!-- HOME -->
 <section id="homeSection">
-
-  <!-- Dashboard Header -->
   <div class="mb-6">
     <h1 class="text-2xl font-bold">Dashboard</h1>
     <p class="text-gray-500 text-sm">Your activity overview</p>
   </div>
 
-  <!-- Points -->
   <div class="bg-white rounded-2xl shadow p-5 mb-5">
     <p class="text-sm text-gray-500">Total Points</p>
     <h2 id="xp" class="text-3xl font-extrabold text-blue-600 mt-1">320 XP</h2>
   </div>
 
-  <!-- Dashboard Cards -->
   <div class="space-y-4">
-
-    <!-- Daily Task -->
     <div class="bg-white rounded-2xl shadow p-5 flex justify-between items-center">
       <div>
         <h3 class="text-lg font-bold">Daily Task</h3>
         <p class="text-sm text-gray-500">Earn 20 XP today</p>
       </div>
-      <button id="dailyTask"
-        class="bg-blue-600 text-white px-5 py-2 rounded-xl text-sm">
+      <button id="dailyTask" class="bg-blue-600 text-white px-5 py-2 rounded-xl text-sm">
         Start
       </button>
     </div>
 
-    <!-- Invite -->
     <div class="bg-white rounded-2xl shadow p-5 flex justify-between items-center">
       <div>
         <h3 class="text-lg font-bold">Invite Friends</h3>
         <p class="text-sm text-gray-500">Get 50 XP per invite</p>
       </div>
-      <button id="inviteTask"
-        class="bg-blue-600 text-white px-5 py-2 rounded-xl text-sm">
+      <button id="inviteTask" class="bg-blue-600 text-white px-5 py-2 rounded-xl text-sm">
         Invite
       </button>
     </div>
 
-    <!-- Rewards (CLICKABLE CARD) -->
-    <div onclick="showSection('rewards')"
-      class="bg-white rounded-2xl shadow p-5 cursor-pointer hover:bg-gray-50 active:scale-95">
+    <div onclick="showSection('rewards')" class="bg-white rounded-2xl shadow p-5 cursor-pointer">
       <h3 class="text-lg font-bold">Rewards</h3>
       <p class="text-sm text-gray-500">Redeem your XP for gifts</p>
     </div>
 
-    <!-- Activity (CLICKABLE CARD) -->
-    <div onclick="showSection('tasks')"
-      class="bg-white rounded-2xl shadow p-5 cursor-pointer hover:bg-gray-50 active:scale-95">
+    <div onclick="showSection('tasks')" class="bg-white rounded-2xl shadow p-5 cursor-pointer">
       <h3 class="text-lg font-bold">Activity</h3>
       <p class="text-sm text-gray-500">Track completed tasks</p>
     </div>
-
   </div>
 </section>
 
@@ -89,8 +74,7 @@
       <p class="font-medium">Gift Voucher</p>
       <p class="text-sm text-gray-500">200 XP</p>
     </div>
-    <button id="redeemBtn"
-      class="bg-blue-600 text-white px-4 py-2 rounded-lg">
+    <button id="redeemBtn" class="bg-blue-600 text-white px-4 py-2 rounded-lg">
       Redeem
     </button>
   </div>
@@ -105,10 +89,10 @@
 
 <!-- BOTTOM NAV -->
 <nav class="fixed bottom-0 left-0 right-0 bg-white border-t flex justify-around py-3">
-  <button id="navHome" class="text-blue-600 font-medium" onclick="showSection('home')">Home</button>
-  <button id="navTasks" class="text-gray-500" onclick="showSection('tasks')">Tasks</button>
-  <button id="navRewards" class="text-gray-500" onclick="showSection('rewards')">Rewards</button>
-  <button id="navProfile" class="text-gray-500" onclick="showSection('profile')">Profile</button>
+  <button id="navHome" onclick="showSection('home')" class="text-blue-600 font-medium">Home</button>
+  <button id="navTasks" onclick="showSection('tasks')" class="text-gray-500">Tasks</button>
+  <button id="navRewards" onclick="showSection('rewards')" class="text-gray-500">Rewards</button>
+  <button id="navProfile" onclick="showSection('profile')" class="text-gray-500">Profile</button>
 </nav>
 
 <script>
@@ -139,56 +123,27 @@ document.getElementById("redeemBtn").onclick = () => {
 };
 
 function showSection(name) {
-  ["home","tasks","rewards","profile"].forEach(s =>
-    document.getElementById(s + "Section").classList.add("hidden")
-  );
-
+  const sections = ["home","tasks","rewards","profile"];
+  sections.forEach(s => {
+    document.getElementById(s + "Section").classList.add("hidden");
+  });
   document.getElementById(name + "Section").classList.remove("hidden");
 
-  ["navHome","navTasks","navRewards","navProfile"].forEach(id => {
-    document.getElementById(id).classList.remove("text-blue-600","font-medium");
-    document.getElementById(id).classList.add("text-gray-500");
-  });
-
-  document.getElementById("nav" + name.charAt(0).toUpperCase() + name.slice(1))
-    .classList.add("text-blue-600","font-medium");
-}
-</script>
-<script>
-function showSection(name) {
-  // hide all sections
-  const sections = ["home", "tasks", "rewards", "profile"];
-  sections.forEach(s => {
-    const sec = document.getElementById(s + "Section");
-    if (sec) sec.classList.add("hidden");
-  });
-
-  // show active section
-  const activeSection = document.getElementById(name + "Section");
-  if (activeSection) activeSection.classList.remove("hidden");
-
-  // reset nav colors
-  const navs = ["Home", "Tasks", "Rewards", "Profile"];
+  const navs = ["Home","Tasks","Rewards","Profile"];
   navs.forEach(n => {
     const btn = document.getElementById("nav" + n);
-    if (btn) {
-      btn.classList.remove("text-blue-600", "font-medium");
-      btn.classList.add("text-gray-500");
-    }
+    btn.classList.remove("text-blue-600","font-medium");
+    btn.classList.add("text-gray-500");
   });
 
-  // set active nav blue
-  const activeBtn = document.getElementById(
+  const active = document.getElementById(
     "nav" + name.charAt(0).toUpperCase() + name.slice(1)
   );
-  if (activeBtn) {
-    activeBtn.classList.remove("text-gray-500");
-    activeBtn.classList.add("text-blue-600", "font-medium");
-  }
+  active.classList.add("text-blue-600","font-medium");
 }
 
-// make Home blue on load
 window.onload = () => showSection("home");
 </script>
+
 </body>
-      </html>
+        </html>
