@@ -1,53 +1,67 @@
-// Load saved values or start from 0
-let faithPoints = localStorage.getItem("faithPoints")
-  ? parseInt(localStorage.getItem("faithPoints"))
-  : 0;
+<script>
+/* =====================
+   XP STATE (LOCALSTORAGE)
+===================== */
+let xp = localStorage.getItem("xp")
+  ? parseInt(localStorage.getItem("xp"))
+  : 320;
 
-let credits = localStorage.getItem("credits")
-  ? parseInt(localStorage.getItem("credits"))
-  : 0;
-
-// Get display elements
-const faithEl = document.getElementById("faithPoints");
-const creditEl = document.getElementById("credits");
-
-// Update UI and save
-function updateUI() {
-  faithEl.textContent = faithPoints;
-  creditEl.textContent = credits;
-
-  localStorage.setItem("faithPoints", faithPoints);
-  localStorage.setItem("credits", credits);
+/* =====================
+   UPDATE XP UI
+===================== */
+function updateXP() {
+  document.getElementById("xp").innerText = xp + " XP";
+  localStorage.setItem("xp", xp);
 }
 
-// Handle task buttons
-document.querySelectorAll(".task-btn").forEach((btn, index) => {
+/* =====================
+   TASK BUTTONS
+===================== */
+document.getElementById("dailyTask").onclick = () => {
+  xp += 20;
+  alert("Daily task completed! +20 XP");
+  updateXP();
+};
 
-  // If already completed before
-  if (localStorage.getItem("task_" + index) === "done") {
-    btn.textContent = "Completed";
-    btn.classList.add("completed");
-    btn.disabled = true;
+document.getElementById("inviteTask").onclick = () => {
+  xp += 50;
+  alert("Friend invited! +50 XP");
+  updateXP();
+};
+
+document.getElementById("redeemBtn").onclick = () => {
+  if (xp >= 200) {
+    xp -= 200;
+    alert("Reward redeemed!");
+    updateXP();
+  } else {
+    alert("Not enough XP");
   }
+};
 
-  btn.addEventListener("click", () => {
-    const points = parseInt(btn.dataset.points);
-    const type = btn.dataset.type;
-
-    if (type === "faith") {
-      faithPoints += points;
-    } else {
-      credits += points;
-    }
-
-    btn.textContent = "Completed";
-    btn.classList.add("completed");
-    btn.disabled = true;
-
-    localStorage.setItem("task_" + index, "done");
-    updateUI();
+/* =====================
+   SECTION NAVIGATION
+===================== */
+function showSection(name) {
+  ["home","tasks","rewards","profile"].forEach(section => {
+    document.getElementById(section + "Section").classList.add("hidden");
   });
-});
 
-// Initial display
-updateUI();
+  document.getElementById(name + "Section").classList.remove("hidden");
+
+  ["navHome","navTasks","navRewards","navProfile"].forEach(nav => {
+    document.getElementById(nav).classList.remove("text-blue-600","font-medium");
+    document.getElementById(nav).classList.add("text-gray-500");
+  });
+
+  const activeNav = "nav" + name.charAt(0).toUpperCase() + name.slice(1);
+  document.getElementById(activeNav).classList.remove("text-gray-500");
+  document.getElementById(activeNav).classList.add("text-blue-600","font-medium");
+}
+
+/* =====================
+   INIT APP
+===================== */
+updateXP();
+showSection("home");
+</script>
