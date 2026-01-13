@@ -1,67 +1,64 @@
 <script>
-/* =====================
-   XP STATE (LOCALSTORAGE)
-===================== */
-let xp = localStorage.getItem("xp")
-  ? parseInt(localStorage.getItem("xp"))
-  : 320;
+/* ===== XP LOGIC ===== */
+let xp = 320;
 
-/* =====================
-   UPDATE XP UI
-===================== */
 function updateXP() {
-  document.getElementById("xp").innerText = xp + " XP";
-  localStorage.setItem("xp", xp);
+  const xpEl = document.getElementById("xp");
+  if (xpEl) xpEl.innerText = xp + " XP";
 }
 
-/* =====================
-   TASK BUTTONS
-===================== */
-document.getElementById("dailyTask").onclick = () => {
+document.getElementById("dailyTask")?.addEventListener("click", () => {
   xp += 20;
-  alert("Daily task completed! +20 XP");
   updateXP();
-};
+});
 
-document.getElementById("inviteTask").onclick = () => {
+document.getElementById("inviteTask")?.addEventListener("click", () => {
   xp += 50;
-  alert("Friend invited! +50 XP");
   updateXP();
-};
+});
 
-document.getElementById("redeemBtn").onclick = () => {
+document.getElementById("redeemBtn")?.addEventListener("click", () => {
   if (xp >= 200) {
     xp -= 200;
-    alert("Reward redeemed!");
     updateXP();
+    alert("Reward redeemed!");
   } else {
     alert("Not enough XP");
   }
-};
+});
 
-/* =====================
-   SECTION NAVIGATION
-===================== */
+/* ===== SCREEN SWITCHING + BOTTOM NAV ===== */
 function showSection(name) {
-  ["home","tasks","rewards","profile"].forEach(section => {
-    document.getElementById(section + "Section").classList.add("hidden");
+  // hide all sections
+  ["home","tasks","rewards","profile"].forEach(s => {
+    const section = document.getElementById(s + "Section");
+    if (section) section.classList.add("hidden");
   });
 
-  document.getElementById(name + "Section").classList.remove("hidden");
+  // show selected section
+  document.getElementById(name + "Section")?.classList.remove("hidden");
 
-  ["navHome","navTasks","navRewards","navProfile"].forEach(nav => {
-    document.getElementById(nav).classList.remove("text-blue-600","font-medium");
-    document.getElementById(nav).classList.add("text-gray-500");
+  // reset nav colors
+  ["Home","Tasks","Rewards","Profile"].forEach(n => {
+    const nav = document.getElementById("nav" + n);
+    if (!nav) return;
+    nav.classList.remove("text-blue-600","font-medium");
+    nav.classList.add("text-gray-500");
   });
 
-  const activeNav = "nav" + name.charAt(0).toUpperCase() + name.slice(1);
-  document.getElementById(activeNav).classList.remove("text-gray-500");
-  document.getElementById(activeNav).classList.add("text-blue-600","font-medium");
+  // activate selected nav
+  const activeNav =
+    document.getElementById("nav" + name.charAt(0).toUpperCase() + name.slice(1));
+
+  if (activeNav) {
+    activeNav.classList.remove("text-gray-500");
+    activeNav.classList.add("text-blue-600","font-medium");
+  }
 }
 
-/* =====================
-   INIT APP
-===================== */
-updateXP();
-showSection("home");
+/* ===== DEFAULT LOAD ===== */
+document.addEventListener("DOMContentLoaded", () => {
+  updateXP();
+  showSection("home");
+});
 </script>
