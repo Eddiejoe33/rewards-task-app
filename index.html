@@ -5,130 +5,111 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>FULL MVP APP</title>
 
-  <!-- Tailwind CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
-
-  <!-- Icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
 </head>
 
 <body class="bg-gray-100 text-gray-800">
 
-  <!-- Header -->
-  <header class="bg-blue-600 text-white p-4 text-center text-lg font-semibold">
-    FULL MVP APP
-  </header>
+<header class="bg-blue-600 text-white p-4 text-center text-lg font-semibold">
+  FULL MVP APP
+</header>
 
-  <!-- Main Content -->
-  <main class="p-4 pb-24">
+<main class="p-4 pb-24">
 
-    <!-- Points Card -->
+  <!-- HOME -->
+  <section id="homeSection">
     <div class="bg-white rounded-xl shadow p-4 mb-4">
-      <div class="flex items-center justify-between">
-        <div>
-          <p class="text-sm text-gray-500">Your Points</p>
-          <h2 id="pointsDisplay" class="text-2xl font-bold text-blue-600">
-            250 XP
-          </h2>
-        </div>
-        <i class="fas fa-star text-blue-500 text-2xl"></i>
+      <p class="text-sm text-gray-500">Your Points</p>
+      <h2 id="xp" class="text-2xl font-bold text-blue-600">320 XP</h2>
+    </div>
+
+    <div class="bg-white rounded-xl shadow p-4 mb-3 flex justify-between">
+      <div>
+        <p class="font-medium">Daily Task</p>
+        <p class="text-sm text-gray-500">+20 XP</p>
       </div>
+      <button id="dailyTask" class="bg-blue-600 text-white px-4 py-2 rounded-lg">Start</button>
     </div>
 
-    <!-- Tasks -->
-    <h3 class="text-lg font-semibold mb-2">Available Tasks</h3>
-
-    <div class="bg-white rounded-xl shadow p-4 mb-3">
-      <div class="flex items-center justify-between">
-        <div>
-          <p class="font-medium">Complete Daily Task</p>
-          <p class="text-sm text-gray-500">Earn +20 XP</p>
-        </div>
-        <button id="dailyTaskBtn"
-          class="bg-blue-600 text-white px-4 py-2 rounded-lg active:scale-95">
-          Start
-        </button>
+    <div class="bg-white rounded-xl shadow p-4 flex justify-between">
+      <div>
+        <p class="font-medium">Invite Friend</p>
+        <p class="text-sm text-gray-500">+50 XP</p>
       </div>
+      <button id="inviteTask" class="bg-blue-600 text-white px-4 py-2 rounded-lg">Start</button>
     </div>
+  </section>
 
-    <div class="bg-white rounded-xl shadow p-4 mb-4">
-      <div class="flex items-center justify-between">
-        <div>
-          <p class="font-medium">Invite a Friend</p>
-          <p class="text-sm text-gray-500">Earn +50 XP</p>
-        </div>
-        <button id="inviteTaskBtn"
-          class="bg-blue-600 text-white px-4 py-2 rounded-lg active:scale-95">
-          Start
-        </button>
+  <!-- TASKS -->
+  <section id="tasksSection" class="hidden">
+    <h3 class="font-semibold mb-2">Tasks</h3>
+    <p>More tasks coming soon.</p>
+  </section>
+
+  <!-- REWARDS -->
+  <section id="rewardsSection" class="hidden">
+    <div class="bg-white rounded-xl shadow p-4 flex justify-between">
+      <div>
+        <p class="font-medium">Gift Voucher</p>
+        <p class="text-sm text-gray-500">200 XP</p>
       </div>
+      <button id="redeemBtn" class="border border-blue-600 text-blue-600 px-4 py-2 rounded-lg">
+        Redeem
+      </button>
     </div>
+  </section>
 
-    <!-- Rewards -->
-    <h3 class="text-lg font-semibold mb-2">Rewards</h3>
+  <!-- PROFILE -->
+  <section id="profileSection" class="hidden">
+    <p>User profile info</p>
+  </section>
 
-    <div class="bg-white rounded-xl shadow p-4">
-      <div class="flex items-center justify-between">
-        <div>
-          <p class="font-medium">Gift Voucher</p>
-          <p class="text-sm text-gray-500">Cost: 200 XP</p>
-        </div>
-        <button id="redeemBtn"
-          class="border border-blue-600 text-blue-600 px-4 py-2 rounded-lg active:scale-95">
-          Redeem
-        </button>
-      </div>
-    </div>
+</main>
 
-  </main>
+<nav class="fixed bottom-0 left-0 right-0 bg-white border-t flex justify-around py-3">
+  <button onclick="showSection('home')">Home</button>
+  <button onclick="showSection('tasks')">Tasks</button>
+  <button onclick="showSection('rewards')">Rewards</button>
+  <button onclick="showSection('profile')">Profile</button>
+</nav>
 
-  <!-- Bottom Navigation -->
-  <nav class="fixed bottom-0 left-0 right-0 bg-white border-t flex justify-around py-3 text-gray-500">
-    <div class="text-center text-blue-600">
-      <i class="fas fa-home text-lg"></i>
-      <p class="text-xs">Home</p>
-    </div>
-    <div class="text-center">
-      <i class="fas fa-list-check text-lg"></i>
-      <p class="text-xs">Tasks</p>
-    </div>
-    <div class="text-center">
-      <i class="fas fa-gift text-lg"></i>
-      <p class="text-xs">Rewards</p>
-    </div>
-    <div class="text-center">
-      <i class="fas fa-user text-lg"></i>
-      <p class="text-xs">Profile</p>
-    </div>
-  </nav>
+<script>
+let xp = 320;
 
-  <!-- JavaScript -->
-  <script>
-    let points = 250;
-    const pointsDisplay = document.getElementById("pointsDisplay");
+function updateXP() {
+  document.getElementById("xp").innerText = xp + " XP";
+}
 
-    document.getElementById("dailyTaskBtn").onclick = () => {
-      points += 20;
-      pointsDisplay.textContent = points + " XP";
-      alert("Daily task completed! +20 XP");
-    };
+document.getElementById("dailyTask").onclick = () => {
+  xp += 20;
+  updateXP();
+  alert("+20 XP");
+};
 
-    document.getElementById("inviteTaskBtn").onclick = () => {
-      points += 50;
-      pointsDisplay.textContent = points + " XP";
-      alert("Friend invited! +50 XP");
-    };
+document.getElementById("inviteTask").onclick = () => {
+  xp += 50;
+  updateXP();
+  alert("+50 XP");
+};
 
-    document.getElementById("redeemBtn").onclick = () => {
-      if (points >= 200) {
-        points -= 200;
-        pointsDisplay.textContent = points + " XP";
-        alert("Reward redeemed successfully 🎉");
-      } else {
-        alert("Not enough XP to redeem");
-      }
-    };
-  </script>
+document.getElementById("redeemBtn").onclick = () => {
+  if (xp >= 200) {
+    xp -= 200;
+    updateXP();
+    alert("Redeemed!");
+  } else {
+    alert("Not enough XP");
+  }
+};
+
+function showSection(name) {
+  ["home","tasks","rewards","profile"].forEach(s =>
+    document.getElementById(s + "Section").classList.add("hidden")
+  );
+  document.getElementById(name + "Section").classList.remove("hidden");
+}
+</script>
 
 </body>
-      </html>
+    </html>
