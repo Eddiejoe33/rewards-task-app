@@ -10,8 +10,8 @@
 
   <!-- Icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
-
 </head>
+
 <body class="bg-gray-100 text-gray-800">
 
   <!-- Header -->
@@ -27,7 +27,9 @@
       <div class="flex items-center justify-between">
         <div>
           <p class="text-sm text-gray-500">Your Points</p>
-          <h2 class="text-2xl font-bold text-blue-600">250 XP</h2>
+          <h2 id="pointsDisplay" class="text-2xl font-bold text-blue-600">
+            250 XP
+          </h2>
         </div>
         <i class="fas fa-star text-blue-500 text-2xl"></i>
       </div>
@@ -42,7 +44,8 @@
           <p class="font-medium">Complete Daily Task</p>
           <p class="text-sm text-gray-500">Earn +20 XP</p>
         </div>
-        <button class="bg-blue-600 text-white px-4 py-2 rounded-lg">
+        <button id="dailyTaskBtn"
+          class="bg-blue-600 text-white px-4 py-2 rounded-lg active:scale-95">
           Start
         </button>
       </div>
@@ -54,7 +57,8 @@
           <p class="font-medium">Invite a Friend</p>
           <p class="text-sm text-gray-500">Earn +50 XP</p>
         </div>
-        <button class="bg-blue-600 text-white px-4 py-2 rounded-lg">
+        <button id="inviteTaskBtn"
+          class="bg-blue-600 text-white px-4 py-2 rounded-lg active:scale-95">
           Start
         </button>
       </div>
@@ -69,7 +73,8 @@
           <p class="font-medium">Gift Voucher</p>
           <p class="text-sm text-gray-500">Cost: 200 XP</p>
         </div>
-        <button class="border border-blue-600 text-blue-600 px-4 py-2 rounded-lg">
+        <button id="redeemBtn"
+          class="border border-blue-600 text-blue-600 px-4 py-2 rounded-lg active:scale-95">
           Redeem
         </button>
       </div>
@@ -97,5 +102,33 @@
     </div>
   </nav>
 
+  <!-- JavaScript -->
+  <script>
+    let points = 250;
+    const pointsDisplay = document.getElementById("pointsDisplay");
+
+    document.getElementById("dailyTaskBtn").onclick = () => {
+      points += 20;
+      pointsDisplay.textContent = points + " XP";
+      alert("Daily task completed! +20 XP");
+    };
+
+    document.getElementById("inviteTaskBtn").onclick = () => {
+      points += 50;
+      pointsDisplay.textContent = points + " XP";
+      alert("Friend invited! +50 XP");
+    };
+
+    document.getElementById("redeemBtn").onclick = () => {
+      if (points >= 200) {
+        points -= 200;
+        pointsDisplay.textContent = points + " XP";
+        alert("Reward redeemed successfully 🎉");
+      } else {
+        alert("Not enough XP to redeem");
+      }
+    };
+  </script>
+
 </body>
-          </html>
+      </html>
