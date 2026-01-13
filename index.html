@@ -162,20 +162,28 @@ document.getElementById("redeemBtn").onclick = () => {
   }
 };
 
+<script>
 function showSection(name) {
-  ["home","tasks","rewards","profile"].forEach(s =>
-    document.getElementById(s + "Section").classList.add("hidden")
-  );
-
+  // Sections
+  const sections = ["home","tasks","rewards","profile"];
+  sections.forEach(s => {
+    document.getElementById(s + "Section").classList.add("hidden");
+  });
   document.getElementById(name + "Section").classList.remove("hidden");
 
-  ["navHome","navTasks","navRewards","navProfile"].forEach(id => {
-    document.getElementById(id).classList.remove("text-blue-600","font-medium");
-    document.getElementById(id).classList.add("text-gray-500");
+  // Bottom nav
+  const navs = ["Home","Tasks","Rewards","Profile"];
+  navs.forEach(n => {
+    const el = document.getElementById("nav" + n);
+    el.classList.remove("text-blue-600","font-medium");
+    el.classList.add("text-gray-500");
   });
 
-  document.getElementById("nav" + name.charAt(0).toUpperCase() + name.slice(1))
-    .classList.add("text-blue-600","font-medium");
+  const active = document.getElementById(
+    "nav" + name.charAt(0).toUpperCase() + name.slice(1)
+  );
+  active.classList.remove("text-gray-500");
+  active.classList.add("text-blue-600","font-medium");
 }
 </script>
 
