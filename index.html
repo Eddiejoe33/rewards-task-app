@@ -3,147 +3,152 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>FULL MVP APP</title>
+  <title>Church App</title>
 
   <script src="https://cdn.tailwindcss.com"></script>
 </head>
 
 <body class="bg-gray-100 text-gray-800">
 
-<header class="bg-blue-600 text-white p-4 text-center text-lg font-semibold">
-  FULL MVP APP
+<!-- HEADER -->
+<header class="bg-yellow-600 text-white p-4 text-center text-lg font-semibold">
+  Church App
 </header>
 
-<main class="p-4 pb-24">
+<!-- MAIN -->
+<main class="p-4 pb-28 overflow-y-auto">
 
 <!-- HOME -->
 <section id="homeSection">
+
   <div class="mb-6">
-    <h1 class="text-2xl font-bold">Dashboard</h1>
-    <p class="text-gray-500 text-sm">Your activity overview</p>
+    <h1 class="text-2xl font-bold">Church Dashboard</h1>
+    <p class="text-gray-500 text-sm">Your church activities</p>
   </div>
 
+  <!-- Faith Points -->
   <div class="bg-white rounded-2xl shadow p-5 mb-5">
-    <p class="text-sm text-gray-500">Total Points</p>
-    <h2 id="xp" class="text-3xl font-extrabold text-blue-600 mt-1">320 XP</h2>
+    <p class="text-sm text-gray-500">Faith Points</p>
+    <h2 id="xp" class="text-3xl font-extrabold text-yellow-600 mt-1">320</h2>
   </div>
 
+  <!-- DASHBOARD MENU -->
   <div class="space-y-4">
-    <div class="bg-white rounded-2xl shadow p-5 flex justify-between items-center">
-      <div>
-        <h3 class="text-lg font-bold">Daily Task</h3>
-        <p class="text-sm text-gray-500">Earn 20 XP today</p>
-      </div>
-      <button id="dailyTask" class="bg-blue-600 text-white px-5 py-2 rounded-xl text-sm">
-        Start
-      </button>
+
+    <div onclick="showSection('tasks')" class="bg-white rounded-2xl shadow p-5 cursor-pointer hover:bg-yellow-50">
+      <h3 class="text-lg font-bold">Daily Devotion</h3>
+      <p class="text-sm text-gray-500">Read today’s devotion</p>
     </div>
 
-    <div class="bg-white rounded-2xl shadow p-5 flex justify-between items-center">
-      <div>
-        <h3 class="text-lg font-bold">Invite Friends</h3>
-        <p class="text-sm text-gray-500">Get 50 XP per invite</p>
-      </div>
-      <button id="inviteTask" class="bg-blue-600 text-white px-5 py-2 rounded-xl text-sm">
-        Invite
-      </button>
+    <div onclick="showSection('tasks')" class="bg-white rounded-2xl shadow p-5 cursor-pointer hover:bg-yellow-50">
+      <h3 class="text-lg font-bold">Attendance</h3>
+      <p class="text-sm text-gray-500">Mark service attendance</p>
     </div>
 
-    <div onclick="showSection('rewards')" class="bg-white rounded-2xl shadow p-5 cursor-pointer">
-      <h3 class="text-lg font-bold">Rewards</h3>
-      <p class="text-sm text-gray-500">Redeem your XP for gifts</p>
+    <div onclick="showSection('giving')" class="bg-white rounded-2xl shadow p-5 cursor-pointer hover:bg-yellow-50">
+      <h3 class="text-lg font-bold">Give / Donate</h3>
+      <p class="text-sm text-gray-500">Support the church</p>
     </div>
 
-    <div onclick="showSection('tasks')" class="bg-white rounded-2xl shadow p-5 cursor-pointer">
-      <h3 class="text-lg font-bold">Activity</h3>
-      <p class="text-sm text-gray-500">Track completed tasks</p>
+    <div onclick="showSection('rewards')" class="bg-white rounded-2xl shadow p-5 cursor-pointer hover:bg-yellow-50">
+      <h3 class="text-lg font-bold">Faith Rewards</h3>
+      <p class="text-sm text-gray-500">Redeem faith points</p>
     </div>
+
+    <div onclick="showSection('profile')" class="bg-white rounded-2xl shadow p-5 cursor-pointer hover:bg-yellow-50">
+      <h3 class="text-lg font-bold">My Account</h3>
+      <p class="text-sm text-gray-500">View profile</p>
+    </div>
+
   </div>
 </section>
 
 <!-- TASKS -->
 <section id="tasksSection" class="hidden">
-  <h3 class="font-semibold mb-2">Tasks</h3>
-  <p>More tasks coming soon.</p>
+  <h2 class="text-xl font-bold mb-3">Church Tasks</h2>
+  <p class="text-gray-500">Daily devotion, attendance & activities.</p>
 </section>
 
 <!-- REWARDS -->
 <section id="rewardsSection" class="hidden">
+  <h2 class="text-xl font-bold mb-3">Faith Rewards</h2>
   <div class="bg-white rounded-xl shadow p-4 flex justify-between items-center">
     <div>
-      <p class="font-medium">Gift Voucher</p>
-      <p class="text-sm text-gray-500">200 XP</p>
+      <p class="font-medium">Gift Item</p>
+      <p class="text-sm text-gray-500">200 Faith Points</p>
     </div>
-    <button id="redeemBtn" class="bg-blue-600 text-white px-4 py-2 rounded-lg">
+    <button class="bg-yellow-600 text-white px-4 py-2 rounded-lg">
       Redeem
     </button>
   </div>
 </section>
 
+<!-- GIVING -->
+<section id="givingSection" class="hidden">
+  <h2 class="text-xl font-bold mb-4">Give to the Church</h2>
+
+  <div class="bg-white rounded-xl shadow p-4 space-y-4">
+    <input type="number" placeholder="Enter amount (₦)"
+      class="w-full border rounded-lg p-3"/>
+
+    <button class="w-full bg-yellow-600 text-white py-3 rounded-lg font-medium">
+      Give Now
+    </button>
+
+    <p class="text-xs text-gray-500 text-center">
+      Secure church donation
+    </p>
+  </div>
+</section>
+
 <!-- PROFILE -->
 <section id="profileSection" class="hidden">
-  <p>User profile info</p>
+  <h2 class="text-xl font-bold mb-2">My Profile</h2>
+  <p class="text-gray-500">Member account details.</p>
 </section>
 
 </main>
 
 <!-- BOTTOM NAV -->
-<nav class="fixed bottom-0 left-0 right-0 bg-white border-t flex justify-around py-3">
-  <button id="navHome" onclick="showSection('home')" class="text-blue-600 font-medium">Home</button>
+<nav class="fixed bottom-0 left-0 right-0 bg-white border-t flex justify-around py-3 text-sm">
+
+  <button id="navHome" onclick="showSection('home')" class="text-yellow-600 font-medium">Home</button>
   <button id="navTasks" onclick="showSection('tasks')" class="text-gray-500">Tasks</button>
   <button id="navRewards" onclick="showSection('rewards')" class="text-gray-500">Rewards</button>
   <button id="navProfile" onclick="showSection('profile')" class="text-gray-500">Profile</button>
+
 </nav>
 
+<!-- SCRIPT -->
 <script>
-let xp = 320;
-
-function updateXP() {
-  document.getElementById("xp").innerText = xp + " XP";
-}
-
-document.getElementById("dailyTask").onclick = () => {
-  xp += 20;
-  updateXP();
-};
-
-document.getElementById("inviteTask").onclick = () => {
-  xp += 50;
-  updateXP();
-};
-
-document.getElementById("redeemBtn").onclick = () => {
-  if (xp >= 200) {
-    xp -= 200;
-    updateXP();
-    alert("Reward redeemed!");
-  } else {
-    alert("Not enough XP");
-  }
-};
-
 function showSection(name) {
-  const sections = ["home","tasks","rewards","profile"];
+  const sections = ["home","tasks","rewards","profile","giving"];
   sections.forEach(s => {
-    document.getElementById(s + "Section").classList.add("hidden");
+    const el = document.getElementById(s + "Section");
+    if (el) el.classList.add("hidden");
   });
+
   document.getElementById(name + "Section").classList.remove("hidden");
 
   const navs = ["Home","Tasks","Rewards","Profile"];
   navs.forEach(n => {
     const btn = document.getElementById("nav" + n);
-    btn.classList.remove("text-blue-600","font-medium");
-    btn.classList.add("text-gray-500");
+    if (btn) {
+      btn.classList.remove("text-yellow-600","font-medium");
+      btn.classList.add("text-gray-500");
+    }
   });
 
   const active = document.getElementById(
     "nav" + name.charAt(0).toUpperCase() + name.slice(1)
   );
-  active.classList.add("text-blue-600","font-medium");
+  if (active) {
+    active.classList.add("text-yellow-600","font-medium");
+  }
 }
 
 window.onload = () => showSection("home");
 </script>
 
 </body>
-        </html>
+      </html>
