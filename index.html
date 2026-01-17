@@ -8,91 +8,128 @@ console.log("App starting...");
 // --- DOM READY CHECK ---
 const authBox = document.getElementById("authBox");
 const navBar = document.getElementById("navBar");
-const authMsg = document.getElementById("authMsg");<body>
+const authMsg = document.getElementById("authMsg");
 
-  <!-- ================= AUTH BOX ================= -->
-  <div id="authBox" style="max-width:400px;margin:40px auto;padding:20px;background:#111;border-radius:12px;">
-    <h2 style="color:#f5c86a;text-align:center;">Login / Sign Up</h2>
+if (!authBox || !navBar) {
+  document.body.innerHTML = "<h2 style='color:red'>HTML not loaded properly</h2>";
+  throw new Error("Missing DOM elements");
+}
 
-    <input
-      id="email"
-      type="email"
-      placeholder="Email"
-      style="width:100%;padding:12px;margin:10px 0;border-radius:8px;border:none;"
-    />
+// --- SHOW AUTH BY DEFAULT (prevents white screen) ---
+authBox.style.display = "block";
+navBar.style.display = "none";
 
-    <input
-      id="password"
-      type="password"
-      placeholder="Password"
-      style="width:100%;padding:12px;margin:10px 0;border-radius:8px;border:none;"
-    />
+/* =========================
+   FIREBASE IMPORTS
+========================= */
+import { initializeApp } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js";
+import {
+  getAuth,
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+  sendPasswordResetEmail,
+  onAuthStateChanged,
+  signOut
+} from "https://www.gstatic.com/firebasejs/9.23.0/firebase-auth.js";
 
-    <button
-      id="signupBtn"
-      style="width:100%;padding:12px;margin-top:10px;background:#f5c86a;border:none;border-radius:8px;font-weight:bold;"
-    >
-      Sign Up
-    </button>
+/* =========================
+   REAL CONFIG REQUIRED
+========================= */
+const firebaseConfig = {
+  apiKey: "REPLACE_ME",
+  authDomain: "REPLACE_ME",
+  projectId: "REPLACE_ME",
+  appId: "REPLACE_ME"
+};
 
-    <button
-      id="loginBtn"
-      style="width:100%;padding:12px;margin-top:10px;background:#f5c86a;border:none;border-radius:8px;font-weight:bold;"
-    >
-      Login
-    </button>
+let auth;
 
-    <button
-      id="resetBtn"
-      style="width:100%;padding:10px;margin-top:10px;background:#333;color:#f5c86a;border:none;border-radius:8px;"
-    >
-      Forgot Password?
-    </button>
+try {
+  const app = initializeApp(firebaseConfig);
+  auth = getAuth(app);
+} catch (e) {
+  authMsg.innerText = "Firebase config error";
+  console.error(e);
+}
 
-    <p id="authMsg" style="color:#f5c86a;text-align:center;margin-top:10px;"></p>
-  </div>
+/* =========================
+   ELEMENTS
+========================= */
+const emailInput = document.getElementById("email");
+const passwordInput = document.getElementById("password");
 
-  <!-- ================= NAV BAR ================= -->
-  <nav
-    id="navBar"
-    style="display:none;justify-content:space-around;padding:12px;background:#111;color:#f5c86a;"
-  >
-    <button onclick="showSection('home')">Home</button>
-    <button onclick="showSection('tasks')">Tasks</button>
-    <button onclick="showSection('rewards')">Rewards</button>
-    <button onclick="showSection('giving')">Giving</button>
-    <button onclick="showSection('profile')">Profile</button>
-    <button onclick="logout()">Logout</button>
-  </nav>
+document.getElementById("signupBtn").onclick = signup;
+document.getElementById("loginBtn").onclick = login;
+document.getElementById("resetBtn").onclick = resetPassword;
 
-  <!-- ================= APP SECTIONS ================= -->
-  <main style="padding:16px;">
+/* =========================
+   SECTIONS (FIXED)
+========================= */
+const sections = {
+  home: document.getElementById("homeSection"),
+  tasks: document.getElementById("tasksSection"),
+  rewards: document.getElementById("rewardsSection"),
+  profile: document.getElementById("profileSection"),
+  giving: document.getElementById("givingSection")
+};
 
-    <section id="homeSection" class="active">
-      <h3>Home</h3>
-      <p>Welcome to your dashboard.</p>
-    </section>
+window.showSection = (name) => {
+  Object.values(sections).forEach(s => s.classList.remove("active"));
+  sections[name]?.classList.add("active");
+};
 
-    <section id="tasksSection" style="display:none;">
-      <h3>Tasks</h3>
-      <p>Your tasks will appear here.</p>
-    </section>
+/* =========================
+   AUTH STATE
+========================= */
+onAuthStateChanged(auth, (user) => {
+  if (user) {
+    authBox.style.display = "none";
+    navBar.style.display = "flex";
+    document.getElementById("profileEmail").innerText = user.email;
+    showSection("home");
+  } else {
+    authBox.style.display = "block";
+    navBar.style.display = "none";
+  }
+});
 
-    <section id="rewardsSection" style="display:none;">
-      <h3>Rewards</h3>
-      <p>Your rewards will appear here.</p>
-    </section>
+/* =========================
+   AUTH ACTIONS
+========================= */
+async function signup() {
+  authMsg.innerText = "Creating account...";
+  try {
+    await createUserWithEmailAndPassword(auth, emailInput.value, passwordInput.value);
+    authMsg.innerText = "Account created 🎉";
+  } catch (e) {
+    authMsg.innerText = e.message;
+  }
+}
 
-    <section id="givingSection" style="display:none;">
-      <h3>Giving</h3>
-      <p>Donation & giving section.</p>
-    </section>
+async function login() {
+  authMsg.innerText = "Logging in...";
+  try {
+    await signInWithEmailAndPassword(auth, emailInput.value, passwordInput.value);
+    authMsg.innerText = "Welcome back ✅";
+  } catch (e) {
+    authMsg.innerText = e.message;
+  }
+}
 
-    <section id="profileSection" style="display:none;">
-      <h3>Profile</h3>
-      <p>Email: <span id="profileEmail"></span></p>
-    </section>
+async function resetPassword() {
+  if (!emailInput.value) {
+    authMsg.innerText = "Enter your email";
+    return;
+  }
+  try {
+    await sendPasswordResetEmail(auth, emailInput.value);
+    authMsg.innerText = "Reset email sent 📩";
+  } catch (e) {
+    authMsg.innerText = e.message;
+  }
+}
 
-  </main>
-
-</body>
+window.logout = async () => {
+  await signOut(auth);
+};
+   </script>
