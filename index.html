@@ -1,87 +1,204 @@
-<script type="module">
-/* ================= FIREBASE IMPORTS ================= */
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-import {
-  getAuth,
-  createUserWithEmailAndPassword,
-  signInWithEmailAndPassword,
-  onAuthStateChanged
-} from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
-import {
-  getFirestore,
-  doc,
-  setDoc
-} from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Rewards Task MVP</title>
 
-/* ================= FIREBASE CONFIG ================= */
-/* 🔴 REPLACE ONLY apiKey VALUE */
-const firebaseConfig = {
-  apiKey: "AIzaSyDImP8ODFS0lxWZ5AdTLi7jTxZzFo6JxeY",
-  authDomain: "rewards-task-mvp.firebaseapp.com",
-  projectId: "rewards-task-mvp",
-  storageBucket: "rewards-task-mvp.appspot.com",
-  messagingSenderId: "154842831298",
-  appId: "1:154842831298:web:9ff9e24acfaf346aa99e5b"
-};
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background: #f5f5f5;
+    }
 
-/* ================= INIT ================= */
-const app = initializeApp(firebaseConfig);
-const auth = getAuth(app);
-const db = getFirestore(app);
+    nav {
+      background: #111;
+      color: #fff;
+      padding: 10px;
+      display: flex;
+      gap: 10px;
+    }
 
-/* ================= ELEMENTS ================= */
-const email = document.getElementById("email");
-const password = document.getElementById("password");
-const signupBtn = document.getElementById("signupBtn");
-const loginBtn = document.getElementById("loginBtn");
-const authMsg = document.getElementById("authMsg");
-const authBox = document.getElementById("authBox");
+    nav button {
+      background: #333;
+      color: #fff;
+      border: none;
+      padding: 8px 12px;
+      cursor: pointer;
+    }
 
-/* ================= SIGN UP ================= */
-if (signupBtn) {
-  signupBtn.addEventListener("click", async () => {
-    try {
-      const cred = await createUserWithEmailAndPassword(
-        auth,
-        email.value,
-        password.value
-      );
+    nav button:hover {
+      background: #555;
+    }
 
-      await setDoc(doc(db, "users", cred.user.uid), {
-        email: cred.user.email,
-        xp: 0,
-        createdAt: new Date()
+    .section {
+      padding: 20px;
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    #authBox {
+      padding: 20px;
+      background: white;
+      max-width: 300px;
+      margin: 30px auto;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+
+    input, button {
+      width: 100%;
+      padding: 8px;
+      margin-top: 10px;
+    }
+
+    #authMsg {
+      margin-top: 10px;
+      color: green;
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- NAVIGATION -->
+  <nav>
+    <button onclick="showSection('home')">Home</button>
+    <button onclick="showSection('tasks')">Tasks</button>
+    <button onclick="showSection('rewards')">Rewards</button>
+    <button onclick="showSection('profile')">Profile</button>
+    <button onclick="showSection('giving')">Giving</button>
+  </nav>
+
+  <!-- AUTH BOX -->
+  <div id="authBox">
+    <h3>Login / Sign Up</h3>
+    <input id="email" type="email" placeholder="Email" />
+    <input id="password" type="password" placeholder="Password" />
+    <button id="signupBtn">Sign Up</button>
+    <button id="loginBtn">Login</button>
+    <p id="authMsg"></p>
+  </div>
+
+  <!-- SECTIONS -->
+  <div id="homeSection" class="section">
+    <h2>Home</h2>
+    <p>Welcome to Rewards Task MVP</p>
+  </div>
+
+  <div id="tasksSection" class="section hidden">
+    <h2>Tasks</h2>
+    <p>Your tasks will appear here.</p>
+  </div>
+
+  <div id="rewardsSection" class="section hidden">
+    <h2>Rewards</h2>
+    <p>Your rewards will appear here.</p>
+  </div>
+
+  <div id="profileSection" class="section hidden">
+    <h2>Profile</h2>
+    <p>Your profile info.</p>
+  </div>
+
+  <div id="givingSection" class="section hidden">
+    <h2>Giving</h2>
+    <p>Giving & donations.</p>
+  </div>
+
+  <!-- GLOBAL SECTION SWITCHER (NON-MODULE) -->
+  <script>
+    function showSection(name) {
+      const sections = ["home","tasks","rewards","profile","giving"];
+      sections.forEach(s => {
+        const el = document.getElementById(s + "Section");
+        if (el) el.classList.add("hidden");
       });
 
-      authMsg.innerText = "Account created ✅";
-    } catch (err) {
-      authMsg.innerText = err.message;
+      const active = document.getElementById(name + "Section");
+      if (active) active.classList.remove("hidden");
     }
-  });
-}
-
-/* ================= LOGIN ================= */
-if (loginBtn) {
-  loginBtn.addEventListener("click", async () => {
-    try {
-      await signInWithEmailAndPassword(
-        auth,
-        email.value,
-        password.value
-      );
-      authMsg.innerText = "Logged in ✅";
-    } catch (err) {
-      authMsg.innerText = err.message;
-    }
-  });
-}
-
-/* ================= AUTH STATE ================= */
-onAuthStateChanged(auth, user => {
-  if (user) {
-    if (authBox) authBox.style.display = "none";
-  } else {
-    if (authBox) authBox.style.display = "block";
-  }
-});
   </script>
+
+  <!-- FIREBASE MODULE SCRIPT -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+    import {
+      getAuth,
+      createUserWithEmailAndPassword,
+      signInWithEmailAndPassword,
+      onAuthStateChanged
+    } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+    import {
+      getFirestore,
+      doc,
+      setDoc
+    } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyDImP8ODFS0lxWZ5AdTLi7jTxZzFo6JxeY",
+      authDomain: "rewards-task-mvp.firebaseapp.com",
+      projectId: "rewards-task-mvp",
+      storageBucket: "rewards-task-mvp.appspot.com",
+      messagingSenderId: "154842831298",
+      appId: "1:154842831298:web:9ff9e24acfaf346aa99e5b"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db = getFirestore(app);
+
+    const email = document.getElementById("email");
+    const password = document.getElementById("password");
+    const signupBtn = document.getElementById("signupBtn");
+    const loginBtn = document.getElementById("loginBtn");
+    const authMsg = document.getElementById("authMsg");
+    const authBox = document.getElementById("authBox");
+
+    signupBtn.addEventListener("click", async () => {
+      try {
+        const cred = await createUserWithEmailAndPassword(
+          auth,
+          email.value,
+          password.value
+        );
+
+        await setDoc(doc(db, "users", cred.user.uid), {
+          email: cred.user.email,
+          xp: 0,
+          createdAt: new Date()
+        });
+
+        authMsg.innerText = "Account created ✅";
+      } catch (err) {
+        authMsg.innerText = err.message;
+      }
+    });
+
+    loginBtn.addEventListener("click", async () => {
+      try {
+        await signInWithEmailAndPassword(
+          auth,
+          email.value,
+          password.value
+        );
+        authMsg.innerText = "Logged in ✅";
+      } catch (err) {
+        authMsg.innerText = err.message;
+      }
+    });
+
+    onAuthStateChanged(auth, user => {
+      if (user) {
+        authBox.style.display = "none";
+      } else {
+        authBox.style.display = "block";
+      }
+    });
+  </script>
+
+</body>
+      </html>
