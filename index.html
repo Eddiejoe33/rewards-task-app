@@ -1,219 +1,287 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Rewards Task MVP</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Rewards Task MVP</title>
 
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      margin: 0;
-      background: #f5f5f5;
-    }
+<style>
+* {
+  box-sizing: border-box;
+  font-family: Arial, sans-serif;
+}
 
-    nav {
-      background: #111;
-      color: #fff;
-      padding: 10px;
-      display: flex;
-      gap: 10px;
-      position: sticky;
-      top: 0;
-    }
+body {
+  margin: 0;
+  background: #f4f6f8;
+  color: #222;
+}
 
-    nav button {
-      background: #333;
-      color: #fff;
-      border: none;
-      padding: 10px 14px;
-      cursor: pointer;
-      border-radius: 4px;
-    }
+/* NAV */
+nav {
+  background: #111;
+  color: #fff;
+  display: flex;
+  gap: 8px;
+  padding: 10px;
+  position: sticky;
+  top: 0;
+}
 
-    nav button:hover {
-      background: #555;
-    }
+nav button {
+  background: #222;
+  color: #fff;
+  border: none;
+  padding: 10px 14px;
+  border-radius: 6px;
+  cursor: pointer;
+}
 
-    .container {
-      max-width: 420px;
-      margin: 40px auto;
-      background: #fff;
-      padding: 20px;
-      border-radius: 6px;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-    }
+nav button:hover {
+  background: #444;
+}
 
-    input {
-      width: 100%;
-      padding: 10px;
-      margin-bottom: 10px;
-    }
+/* AUTH */
+#authBox {
+  max-width: 400px;
+  margin: 60px auto;
+  background: #fff;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 15px rgba(0,0,0,.1);
+}
 
-    button.primary {
-      width: 100%;
-      padding: 10px;
-      margin-bottom: 10px;
-      border: none;
-      background: #000;
-      color: #fff;
-      cursor: pointer;
-      border-radius: 4px;
-    }
+input {
+  width: 100%;
+  padding: 12px;
+  margin-bottom: 12px;
+}
 
-    main {
-      padding: 20px;
-    }
+button.primary {
+  width: 100%;
+  padding: 12px;
+  margin-bottom: 10px;
+  background: #000;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
 
-    section {
-      display: none;
-    }
+.msg {
+  text-align: center;
+  margin-top: 10px;
+  color: green;
+}
 
-    .msg {
-      text-align: center;
-      margin-top: 10px;
-      color: green;
-    }
+/* SECTIONS */
+section {
+  display: none;
+  padding: 20px;
+}
 
-    .logout {
-      margin: 10px;
-    }
-  </style>
+section.active {
+  display: block;
+}
+
+/* DASHBOARD */
+.card {
+  background: #fff;
+  padding: 20px;
+  border-radius: 10px;
+  margin-bottom: 15px;
+  box-shadow: 0 2px 10px rgba(0,0,0,.08);
+}
+
+.xp {
+  font-size: 22px;
+  font-weight: bold;
+}
+
+/* TASK BUTTONS */
+.task-btn {
+  padding: 12px;
+  width: 100%;
+  border: none;
+  border-radius: 6px;
+  margin-top: 10px;
+  cursor: pointer;
+  background: #007bff;
+  color: #fff;
+}
+
+.task-btn.secondary {
+  background: #28a745;
+}
+
+.task-btn.danger {
+  background: #dc3545;
+}
+
+.logout {
+  background: #dc3545;
+}
+</style>
 </head>
 
 <body>
 
-<button class="logout" onclick="logout()">Logout</button>
-
-<nav>
+<nav id="navBar" style="display:none">
   <button onclick="showSection('home')">Home</button>
   <button onclick="showSection('tasks')">Tasks</button>
   <button onclick="showSection('rewards')">Rewards</button>
   <button onclick="showSection('profile')">Profile</button>
   <button onclick="showSection('giving')">Giving</button>
+  <button class="logout" onclick="logout()">Logout</button>
 </nav>
 
-<main>
-  <!-- LOGIN -->
-  <section id="login">
-    <div class="container" id="authBox">
-      <h2>Login / Sign Up</h2>
-      <input id="email" type="email" placeholder="Email" />
-      <input id="password" type="password" placeholder="Password" />
-      <button class="primary" id="signupBtn">Sign Up</button>
-      <button class="primary" id="loginBtn">Login</button>
-      <div class="msg" id="authMsg"></div>
-    </div>
-  </section>
+<!-- AUTH -->
+<div id="authBox">
+  <h2>Login / Sign Up</h2>
+  <input id="email" type="email" placeholder="Email">
+  <input id="password" type="password" placeholder="Password">
+  <button class="primary" id="signupBtn">Sign Up</button>
+  <button class="primary" id="loginBtn">Login</button>
+  <div class="msg" id="authMsg"></div>
+</div>
 
-  <!-- DASHBOARD -->
-  <section id="home">
+<!-- HOME -->
+<section id="homeSection" class="active">
+  <div class="card">
     <h2>Dashboard</h2>
-    <p>Welcome 🎉</p>
-  </section>
+    <p class="xp" id="xp">0 XP</p>
+  </div>
+</section>
 
-  <section id="tasks">
-    <h2>Tasks</h2>
-    <p>Your tasks here.</p>
-  </section>
+<!-- TASKS -->
+<section id="tasksSection">
+  <div class="card">
+    <h3>Daily Task</h3>
+    <button class="task-btn" id="dailyTask">Complete (+20 XP)</button>
+  </div>
 
-  <section id="rewards">
-    <h2>Rewards</h2>
-    <p>Your rewards here.</p>
-  </section>
+  <div class="card">
+    <h3>Invite Friend</h3>
+    <button class="task-btn secondary" id="inviteTask">Invite (+50 XP)</button>
+  </div>
+</section>
 
-  <section id="profile">
-    <h2>Profile</h2>
-    <p>User profile.</p>
-  </section>
+<!-- REWARDS -->
+<section id="rewardsSection">
+  <div class="card">
+    <h3>Redeem Reward</h3>
+    <button class="task-btn danger" id="redeemBtn">Redeem 200 XP</button>
+  </div>
+</section>
 
-  <section id="giving">
-    <h2>Giving</h2>
-    <p>Giving & donations.</p>
-  </section>
-</main>
+<!-- PROFILE -->
+<section id="profileSection">
+  <div class="card">
+    <h3>Profile</h3>
+    <p id="profileEmail"></p>
+  </div>
+</section>
+
+<!-- GIVING -->
+<section id="givingSection">
+  <div class="card">
+    <h3>Giving</h3>
+    <p>Support good causes 🙏</p>
+  </div>
+</section>
 
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-import {
-  getAuth,
-  createUserWithEmailAndPassword,
-  signInWithEmailAndPassword,
-  onAuthStateChanged,
-  signOut
-} from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
-import {
-  getFirestore,
-  doc,
-  setDoc
-} from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+import { getFirestore, doc, setDoc, getDoc, updateDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
-/* 🔴 PUT YOUR REAL API KEY HERE */
+/* 🔥 REPLACE WITH YOUR REAL FIREBASE CONFIG */
 const firebaseConfig = {
-  apiKey: "YOUR_REAL_API_KEY",
+  apiKey: "AIzaSyDImP8ODFS0lxWZ5AdTLi7jTxZzFo6JxeY",
   authDomain: "rewards-task-mvp.firebaseapp.com",
   projectId: "rewards-task-mvp",
-  storageBucket: "rewards-task-mvp.appspot.com",
+  storageBucket: "YOUR_PROJECT.appspot.com",
   messagingSenderId: "154842831298",
-  appId: "1:154842831298:web:9ff9e24acfaf346aa99e5b"
+  appId: "YOUR_APP_ID"
 };
 
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
 
-const email = document.getElementById("email");
-const password = document.getElementById("password");
-const signupBtn = document.getElementById("signupBtn");
-const loginBtn = document.getElementById("loginBtn");
-const authMsg = document.getElementById("authMsg");
-const authBox = document.getElementById("authBox");
+let xp = 0;
 
-/* SECTION SWITCH */
-window.showSection = function(id) {
-  document.querySelectorAll("main section").forEach(s => {
-    s.style.display = "none";
-  });
-  document.getElementById(id).style.display = "block";
+/* NAV */
+window.showSection = (name) => {
+  document.querySelectorAll("section").forEach(s => s.classList.remove("active"));
+  document.getElementById(name + "Section").classList.add("active");
 };
 
 /* AUTH */
 signupBtn.onclick = async () => {
-  try {
-    const cred = await createUserWithEmailAndPassword(auth, email.value, password.value);
-    await setDoc(doc(db, "users", cred.user.uid), {
-      email: cred.user.email,
-      xp: 0,
-      createdAt: new Date()
-    });
-    authMsg.innerText = "Account created ✅";
-  } catch (e) {
-    authMsg.innerText = e.message;
-  }
+  const cred = await createUserWithEmailAndPassword(auth, email.value, password.value);
+  await setDoc(doc(db, "users", cred.user.uid), {
+    email: cred.user.email,
+    xp: 0
+  });
 };
 
 loginBtn.onclick = async () => {
-  try {
-    await signInWithEmailAndPassword(auth, email.value, password.value);
-    authMsg.innerText = "Logged in ✅";
-  } catch (e) {
-    authMsg.innerText = e.message;
-  }
+  await signInWithEmailAndPassword(auth, email.value, password.value);
 };
 
 window.logout = async () => {
   await signOut(auth);
 };
 
+/* XP */
+async function loadXP(uid) {
+  const snap = await getDoc(doc(db, "users", uid));
+  xp = snap.data().xp || 0;
+  document.getElementById("xp").innerText = xp + " XP";
+}
+
+async function saveXP(uid) {
+  await updateDoc(doc(db, "users", uid), { xp });
+}
+
+/* TASKS */
+dailyTask.onclick = async () => {
+  xp += 20;
+  document.getElementById("xp").innerText = xp + " XP";
+  saveXP(auth.currentUser.uid);
+};
+
+inviteTask.onclick = async () => {
+  xp += 50;
+  document.getElementById("xp").innerText = xp + " XP";
+  saveXP(auth.currentUser.uid);
+};
+
+redeemBtn.onclick = async () => {
+  if (xp >= 200) {
+    xp -= 200;
+    alert("Reward redeemed 🎉");
+    saveXP(auth.currentUser.uid);
+    document.getElementById("xp").innerText = xp + " XP";
+  } else {
+    alert("Not enough XP");
+  }
+};
+
+/* STATE */
 onAuthStateChanged(auth, user => {
   if (user) {
     authBox.style.display = "none";
-    showSection("home");
+    navBar.style.display = "flex";
+    profileEmail.innerText = user.email;
+    loadXP(user.uid);
   } else {
-    showSection("login");
+    authBox.style.display = "block";
+    navBar.style.display = "none";
   }
 });
 </script>
 
 </body>
-        </html>
+  </html>
