@@ -17,18 +17,16 @@ body {
   color: #222;
 }
 
-/* APP WRAPPER */
 .app {
   max-width: 420px;
   margin: 40px auto;
   padding: 16px;
 }
 
-/* NAV */
 nav {
   background: #111;
   color: #fff;
-  display: flex;
+  display: none;
   flex-wrap: wrap;
   gap: 6px;
   padding: 10px;
@@ -49,7 +47,10 @@ nav button:hover {
   background: #444;
 }
 
-/* AUTH */
+.logout {
+  background: #dc3545;
+}
+
 #authBox {
   background: #fff;
   padding: 20px;
@@ -77,10 +78,9 @@ button.primary {
 .msg {
   text-align: center;
   margin-top: 10px;
-  color: green;
+  min-height: 18px;
 }
 
-/* SECTIONS */
 section {
   display: none;
 }
@@ -89,7 +89,6 @@ section.active {
   display: block;
 }
 
-/* CARDS */
 .card {
   background: #fff;
   padding: 20px;
@@ -103,7 +102,6 @@ section.active {
   font-weight: bold;
 }
 
-/* TASK BUTTONS */
 .task-btn {
   padding: 12px;
   width: 100%;
@@ -115,106 +113,78 @@ section.active {
   color: #fff;
 }
 
-.task-btn.secondary {
-  background: #28a745;
-}
-
-.task-btn.danger {
-  background: #dc3545;
-}
-
-.logout {
-  background: #dc3545;
-}
+.task-btn.secondary { background: #28a745; }
+.task-btn.danger { background: #dc3545; }
 </style>
 </head>
 
 <body>
-
 <div class="app">
 
-  <nav id="navBar" style="display:none">
-    <button onclick="showSection('home')">Home</button>
-    <button onclick="showSection('tasks')">Tasks</button>
-    <button onclick="showSection('rewards')">Rewards</button>
-    <button onclick="showSection('profile')">Profile</button>
-    <button onclick="showSection('giving')">Giving</button>
-    <button class="logout" onclick="logout()">Logout</button>
-  </nav>
+<nav id="navBar">
+  <button onclick="showSection('home')">Home</button>
+  <button onclick="showSection('tasks')">Tasks</button>
+  <button onclick="showSection('rewards')">Rewards</button>
+  <button onclick="showSection('profile')">Profile</button>
+  <button onclick="showSection('giving')">Giving</button>
+  <button class="logout" onclick="logout()">Logout</button>
+</nav>
 
-  <!-- AUTH -->
-  <div id="authBox">
-    <h2>Login / Sign Up</h2>
-    <input id="email" type="email" placeholder="Email">
-    <input id="password" type="password" placeholder="Password">
-    <button class="primary" id="signupBtn">Sign Up</button>
-    <button class="primary" id="loginBtn">Login</button>
-    <div class="msg" id="authMsg"></div>
+<div id="authBox">
+  <h2>Login / Sign Up</h2>
+  <input id="email" type="email" placeholder="Email">
+  <input id="password" type="password" placeholder="Password">
+  <button class="primary" id="signupBtn">Sign Up</button>
+  <button class="primary" id="loginBtn">Login</button>
+  <div class="msg" id="authMsg"></div>
+</div>
+
+<section id="homeSection">
+  <div class="card">
+    <h2>Dashboard</h2>
+    <p class="xp" id="xp">0 XP</p>
   </div>
+</section>
 
-  <!-- HOME -->
-  <section id="homeSection">    <div class="card">
-      <h2>Dashboard</h2>
-      <p class="xp" id="xp">0 XP</p>
-    </div>
-  </section>
+<section id="tasksSection">
+  <div class="card">
+    <h3>Daily Task</h3>
+    <button class="task-btn" id="dailyTask">Complete (+20 XP)</button>
+  </div>
+  <div class="card">
+    <h3>Invite Friend</h3>
+    <button class="task-btn secondary" id="inviteTask">Invite (+50 XP)</button>
+  </div>
+</section>
 
-  <!-- TASKS -->
-  <section id="tasksSection">
-    <div class="card">
-      <h3>Daily Task</h3>
-      <button class="task-btn" id="dailyTask">Complete (+20 XP)</button>
-    </div>
+<section id="rewardsSection">
+  <div class="card">
+    <h3>Redeem Reward</h3>
+    <button class="task-btn danger" id="redeemBtn">Redeem 200 XP</button>
+  </div>
+</section>
 
-    <div class="card">
-      <h3>Invite Friend</h3>
-      <button class="task-btn secondary" id="inviteTask">Invite (+50 XP)</button>
-    </div>
-  </section>
+<section id="profileSection">
+  <div class="card">
+    <h3>Profile</h3>
+    <p id="profileEmail"></p>
+  </div>
+</section>
 
-  <!-- REWARDS -->
-  <section id="rewardsSection">
-    <div class="card">
-      <h3>Redeem Reward</h3>
-      <button class="task-btn danger" id="redeemBtn">Redeem 200 XP</button>
-    </div>
-  </section>
-
-  <!-- PROFILE -->
-  <section id="profileSection">
-    <div class="card">
-      <h3>Profile</h3>
-      <p id="profileEmail"></p>
-    </div>
-  </section>
-
-  <!-- GIVING -->
-  <section id="givingSection">
-    <div class="card">
-      <h3>Giving</h3>
-      <p>Support good causes 🙏</p>
-    </div>
-  </section>
+<section id="givingSection">
+  <div class="card">
+    <h3>Giving</h3>
+    <p>Support good causes 🙏</p>
+  </div>
+</section>
 
 </div>
+
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-import {
-  getAuth,
-  createUserWithEmailAndPassword,
-  signInWithEmailAndPassword,
-  onAuthStateChanged,
-  signOut
-} from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
-import {
-  getFirestore,
-  doc,
-  setDoc,
-  getDoc,
-  updateDoc
-} from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+import { getFirestore, doc, setDoc, getDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
-/* 🔥 FIREBASE CONFIG */
 const firebaseConfig = {
   apiKey: "AIzaSyDImP8ODFS0lxWZ5AdTLi7jTxZzFo6JxeY",
   authDomain: "rewards-task-mvp.firebaseapp.com",
@@ -228,100 +198,81 @@ const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
 
-/* ELEMENTS */
-const authBox = document.getElementById("authBox");
-const navBar = document.getElementById("navBar");
-const signupBtn = document.getElementById("signupBtn");
-const loginBtn = document.getElementById("loginBtn");
-const emailInput = document.getElementById("email");
-const passwordInput = document.getElementById("password");
-const profileEmail = document.getElementById("profileEmail");
-const xpEl = document.getElementById("xp");
-
-const dailyTask = document.getElementById("dailyTask");
-const inviteTask = document.getElementById("inviteTask");
-const redeemBtn = document.getElementById("redeemBtn");
-
 let xp = 0;
+let currentUID = null;
 
-/* NAV */
-window.showSection = (name) => {
+const msg = document.getElementById("authMsg");
+const xpEl = document.getElementById("xp");
+const profileEmail = document.getElementById("profileEmail");
+
+window.showSection = name => {
   document.querySelectorAll("section").forEach(s => s.classList.remove("active"));
   document.getElementById(name + "Section").classList.add("active");
 };
 
-/* AUTH */
-signupBtn.onclick = async () => {
-  const cred = await createUserWithEmailAndPassword(
-    auth,
-    emailInput.value,
-    passwordInput.value
-  );
-
-  await setDoc(doc(db, "users", cred.user.uid), {
-    email: cred.user.email,
-    xp: 0
-  });
-};
-
-loginBtn.onclick = async () => {
-  await signInWithEmailAndPassword(
-    auth,
-    emailInput.value,
-    passwordInput.value
-  );
-};
-
-window.logout = async () => {
-  await signOut(auth);
-};
-
-/* XP */
-async function loadXP(uid) {
-  const snap = await getDoc(doc(db, "users", uid));
-  xp = snap.exists() ? snap.data().xp : 0;
-  xpEl.innerText = xp + " XP";
+async function ensureUserDoc(uid, email) {
+  const ref = doc(db, "users", uid);
+  const snap = await getDoc(ref);
+  if (!snap.exists()) {
+    await setDoc(ref, { email, xp: 0 });
+    return 0;
+  }
+  return snap.data().xp || 0;
 }
 
-async function saveXP(uid) {
-  await updateDoc(doc(db, "users", uid), { xp });
-}
-
-/* TASKS */
-dailyTask.onclick = () => {
-  xp += 20;
-  xpEl.innerText = xp + " XP";
-  saveXP(auth.currentUser.uid);
-};
-
-inviteTask.onclick = () => {
-  xp += 50;
-  xpEl.innerText = xp + " XP";
-  saveXP(auth.currentUser.uid);
-};
-
-redeemBtn.onclick = () => {
-  if (xp >= 200) {
-    xp -= 200;
-    alert("Reward redeemed 🎉");
-    xpEl.innerText = xp + " XP";
-    saveXP(auth.currentUser.uid);
-  } else {
-    alert("Not enough XP");
+document.getElementById("signupBtn").onclick = async () => {
+  msg.textContent = "Signing up...";
+  try {
+    const cred = await createUserWithEmailAndPassword(auth, email.value, password.value);
+    await ensureUserDoc(cred.user.uid, cred.user.email);
+    msg.textContent = "Account created ✅";
+  } catch (e) {
+    msg.textContent = e.message;
   }
 };
 
-/* STATE */
-onAuthStateChanged(auth, user => {
+document.getElementById("loginBtn").onclick = async () => {
+  msg.textContent = "Logging in...";
+  try {
+    await signInWithEmailAndPassword(auth, email.value, password.value);
+    msg.textContent = "";
+  } catch (e) {
+    msg.textContent = e.message;
+  }
+};
+
+window.logout = async () => signOut(auth);
+
+onAuthStateChanged(auth, async user => {
   if (user) {
+    currentUID = user.uid;
+    xp = await ensureUserDoc(user.uid, user.email);
+    xpEl.textContent = xp + " XP";
+    profileEmail.textContent = user.email;
     authBox.style.display = "none";
     navBar.style.display = "flex";
     showSection("home");
-    profileEmail.innerText = user.email;
-    loadXP(user.uid);
   } else {
+    currentUID = null;
     authBox.style.display = "block";
     navBar.style.display = "none";
   }
 });
-        </script>
+
+function saveXP() {
+  if (!currentUID) return;
+  setDoc(doc(db, "users", currentUID), { xp }, { merge: true });
+}
+
+dailyTask.onclick = () => { xp += 20; xpEl.textContent = xp + " XP"; saveXP(); };
+inviteTask.onclick = () => { xp += 50; xpEl.textContent = xp + " XP"; saveXP(); };
+redeemBtn.onclick = () => {
+  if (xp < 200) return alert("Not enough XP");
+  xp -= 200;
+  xpEl.textContent = xp + " XP";
+  saveXP();
+  alert("Reward redeemed 🎉");
+};
+</script>
+</body>
+  </html>
