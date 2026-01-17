@@ -1,270 +1,118 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Rewards Task MVP</title>
-
-<style>
-* {
-  box-sizing: border-box;
-  font-family: "Segoe UI", Arial, sans-serif;
-}
-
-body {
-  margin: 0;
-  background: linear-gradient(180deg, #0b0b0b, #1a1a1a);
-  color: #fff;
-}
-
-/* App container (scrollable) */
-.app {
-  max-width: 420px;
-  height: 100vh;
-  margin: 0 auto;
-  padding: 16px;
-  overflow-y: auto;
-}
-
-/* Navigation */
-nav {
-  background: linear-gradient(90deg, #000, #1f1f1f);
-  display: none;
-  flex-wrap: wrap;
-  gap: 8px;
-  padding: 14px;
-  border-radius: 16px;
-  margin-bottom: 20px;
-  position: sticky;
-  top: 0;
-  z-index: 10;
-}
-
-nav button {
-  background: #111;
-  color: #f5c86a;
-  border: none;
-  padding: 12px 18px;
-  border-radius: 12px;
-  cursor: pointer;
-  font-size: 15px;
-  font-weight: bold;
-}
-
-nav button:hover {
-  background: #f5c86a;
-  color: #000;
-}
-
-.logout {
-  background: #b11226;
-  color: #fff;
-}
-
-/* Auth */
-#authBox {
-  background: #111;
-  padding: 26px;
-  border-radius: 20px;
-  box-shadow: 0 10px 30px rgba(0,0,0,.6);
-}
-
-#authBox h2 {
-  text-align: center;
-  color: #f5c86a;
-}
-
-input {
-  width: 100%;
-  padding: 14px;
-  margin-bottom: 14px;
-  border-radius: 12px;
-  border: none;
-  font-size: 15px;
-}
-
-button.primary {
-  width: 100%;
-  padding: 14px;
-  margin-bottom: 12px;
-  background: linear-gradient(90deg, #f5c86a, #d4a94f);
-  color: #000;
-  border: none;
-  border-radius: 14px;
-  cursor: pointer;
-  font-weight: bold;
-  font-size: 16px;
-}
-
-button.reset {
-  background: #333;
-  color: #f5c86a;
-}
-
-.msg {
-  text-align: center;
-  margin-top: 10px;
-  min-height: 18px;
-  font-size: 14px;
-  color: #f5c86a;
-}
-
-/* Sections */
-section { display: none; }
-section.active { display: block; }
-
-/* Cards */
-.card {
-  background: linear-gradient(180deg, #141414, #1f1f1f);
-  padding: 22px;
-  border-radius: 22px;
-  margin-bottom: 18px;
-  box-shadow: 0 10px 25px rgba(0,0,0,.6);
-}
-
-.card h2,
-.card h3 {
-  margin-top: 0;
-  color: #f5c86a;
-}
-
-/* XP */
-.xp {
-  font-size: 34px;
-  font-weight: bold;
-  margin-top: 10px;
-  color: #f5c86a;
-}
-
-/* Buttons */
-.task-btn {
-  padding: 14px;
-  width: 100%;
-  border: none;
-  border-radius: 14px;
-  margin-top: 12px;
-  cursor: pointer;
-  font-size: 15px;
-  font-weight: bold;
-  background: linear-gradient(90deg, #f5c86a, #d4a94f);
-  color: #000;
-}
-
-.task-btn.secondary {
-  background: linear-gradient(90deg, #4caf50, #2e7d32);
-  color: #fff;
-}
-
-.task-btn.danger {
-  background: linear-gradient(90deg, #e53935, #b71c1c);
-  color: #fff;
-}
-
-/* Placeholders */
-.placeholder {
-  padding: 16px;
-  border-radius: 14px;
-  background: #0f0f0f;
-  color: #ccc;
-  text-align: center;
-  font-size: 15px;
-  font-weight: bold;
-  border: 1px dashed #f5c86a;
-  margin-top: 12px;
-}
-</style>
-</head>
-
-<body>
-<div class="app">
-
-<nav id="navBar">
-  <button onclick="showSection('home')">Home</button>
-  <button onclick="showSection('tasks')">Tasks</button>
-  <button onclick="showSection('rewards')">Rewards</button>
-  <button onclick="showSection('profile')">Profile</button>
-  <button onclick="showSection('giving')">Giving</button>
-  <button class="logout" onclick="logout()">Logout</button>
-</nav>
-
-<div id="authBox">
-  <h2>Login / Sign Up</h2>
-  <input id="email" type="email" placeholder="Email"/>
-  <input id="password" type="password" placeholder="Password"/>
-  <button class="primary" id="signupBtn">Sign Up</button>
-  <button class="primary" id="loginBtn">Login</button>
-  <button class="primary reset" id="resetBtn">Forgot Password?</button>
-  <div class="msg" id="authMsg"></div>
-</div>
-
-<section id="homeSection">
-  <div class="card">
-    <h2>Dashboard</h2>
-    <p class="xp" id="xp">0 XP</p>
-  </div>
-
-  <div class="card">
-    <h3>🔴 Live / Streaming</h3>
-    <div class="placeholder">
-      Live streaming & social broadcast will be enabled in future updates.
-    </div>
-  </div>
-</section>
-
-<section id="tasksSection">
-  <div class="card">
-    <h3>Daily Task</h3>
-    <button class="task-btn" id="dailyTask">Complete (+20 XP)</button>
-  </div>
-
-  <div class="card">
-    <h3>Invite Friend</h3>
-    <button class="task-btn secondary" id="inviteTask">Invite (+50 XP)</button>
-  </div>
-
-  <div class="card">
-    <h3>🌍 Social Sharing</h3>
-    <div class="placeholder">
-      WhatsApp, TikTok, Facebook, X (Coming Soon)
-    </div>
-  </div>
-</section>
-
-<section id="rewardsSection">
-  <div class="card">
-    <h3>Redeem Reward</h3>
-    <button class="task-btn danger" id="redeemBtn">Redeem 200 XP</button>
-  </div>
-
-  <div class="card">
-    <h3>💳 Donations (Flutterwave)</h3>
-    <div class="placeholder">
-      Flutterwave donations will be enabled after approval.
-    </div>
-  </div>
-</section>
-
-<section id="profileSection">
-  <div class="card">
-    <h3>Profile</h3>
-    <p id="profileEmail"></p>
-  </div>
-</section>
-
-<section id="givingSection">
-  <div class="card">
-    <h3>Giving</h3>
-    <div class="placeholder">
-      Charity campaigns & causes will appear here.
-    </div>
-  </div>
-</section>
-
-</div>
-
 <script type="module">
-/* 🔒 YOUR FIREBASE + JS LOGIC IS UNCHANGED */
-</script>
+  // 🔥 Firebase v9 Modular SDK
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js";
+  import {
+    getAuth,
+    createUserWithEmailAndPassword,
+    signInWithEmailAndPassword,
+    sendPasswordResetEmail,
+    onAuthStateChanged,
+    signOut
+  } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-auth.js";
 
-</body>
-  </html>
+  // ✅ TODO: REPLACE WITH YOUR REAL CONFIG
+  const firebaseConfig = {
+    apiKey: "YOUR_API_KEY",
+    authDomain: "YOUR_PROJECT.firebaseapp.com",
+    projectId: "YOUR_PROJECT_ID",
+    appId: "YOUR_APP_ID"
+  };
+
+  // Init
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+
+  // Elements
+  const authBox = document.getElementById("authBox");
+  const navBar = document.getElementById("navBar");
+  const authMsg = document.getElementById("authMsg");
+
+  const emailInput = document.getElementById("email");
+  const passwordInput = document.getElementById("password");
+
+  const signupBtn = document.getElementById("signupBtn");
+  const loginBtn = document.getElementById("loginBtn");
+  const resetBtn = document.getElementById("resetBtn");
+
+  // Sections
+  const sections = {
+    home: document.getElementById("homeSection"),
+    tasks: document.getElementById("tasksSection"),
+    rewards: document.getElementById("rewardsSection"),
+    profile: document.getElementById("profileSection"),
+    giving: document.getElementById("givingSection")
+  };
+
+  // Helpers
+  window.showSection = (name) => {
+    Object.values(sections).forEach(s => s.classList.remove("active"));
+    sections[name + "Section"]?.classList.add("active");
+  };
+
+  function showApp(user) {
+    authBox.style.display = "none";
+    navBar.style.display = "flex";
+    document.getElementById("profileEmail").innerText = user.email;
+    showSection("home");
+  }
+
+  function showAuth() {
+    authBox.style.display = "block";
+    navBar.style.display = "none";
+  }
+
+  // Auth state
+  onAuthStateChanged(auth, (user) => {
+    if (user) showApp(user);
+    else showAuth();
+  });
+
+  // Sign Up
+  signupBtn.onclick = async () => {
+    authMsg.innerText = "Creating account...";
+    try {
+      await createUserWithEmailAndPassword(
+        auth,
+        emailInput.value,
+        passwordInput.value
+      );
+      authMsg.innerText = "Account created successfully 🎉";
+    } catch (err) {
+      authMsg.innerText = err.message;
+    }
+  };
+
+  // Login
+  loginBtn.onclick = async () => {
+    authMsg.innerText = "Logging in...";
+    try {
+      await signInWithEmailAndPassword(
+        auth,
+        emailInput.value,
+        passwordInput.value
+      );
+      authMsg.innerText = "Welcome back ✅";
+    } catch (err) {
+      authMsg.innerText = err.message;
+    }
+  };
+
+  // Reset Password
+  resetBtn.onclick = async () => {
+    if (!emailInput.value) {
+      authMsg.innerText = "Enter your email to reset password";
+      return;
+    }
+    try {
+      await sendPasswordResetEmail(auth, emailInput.value);
+      authMsg.innerText = "Password reset email sent 📩";
+    } catch (err) {
+      authMsg.innerText = err.message;
+    }
+  };
+
+  // Logout
+  window.logout = async () => {
+    await signOut(auth);
+  };
+    </script>
