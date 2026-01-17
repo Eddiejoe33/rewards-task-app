@@ -16,13 +16,13 @@ import {
 } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
 /* ================= FIREBASE CONFIG ================= */
-/* 🔴 REPLACE ONLY THE VALUES BELOW */
+/* 🔴 REPLACE VALUES ONLY */
 const firebaseConfig = {
   apiKey: "AIzaSyDImP8ODFS0lxWZ5AdTLi7jTxZzFo6JxeY",
-  authDomain: "YOUR_PROJECT.firebaseapp.com",
-  projectId: "YOUR_PROJECT_ID",
-  storageBucket: "YOUR_PROJECT.appspot.com",
-  messagingSenderId: "YOUR_SENDER_ID",
+  authDomain: "PASTE_AUTH_DOMAIN_HERE",
+  projectId: "PASTE_PROJECT_ID_HERE",
+  storageBucket: "PASTE_STORAGE_BUCKET_HERE",
+  messagingSenderId: "PASTE_SENDER_ID_HERE",
   appId: "PASTE_APP_ID_HERE"
 };
 
@@ -31,14 +31,19 @@ const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
 
-/* ================= AUTH ELEMENTS ================= */
+/* ================= ELEMENTS ================= */
 const emailInput = document.getElementById("email");
 const passwordInput = document.getElementById("password");
 const authMsg = document.getElementById("authMsg");
 const authBox = document.getElementById("authBox");
 
 /* ================= SIGN UP ================= */
-document.getElementById("signupBtn").onclick = async () => {
+document.getElementById("signupBtn").addEventListener("click", async () => {
+  if (!emailInput.value || !passwordInput.value) {
+    authMsg.innerText = "Enter email & password";
+    return;
+  }
+
   try {
     const cred = await createUserWithEmailAndPassword(
       auth,
@@ -56,10 +61,15 @@ document.getElementById("signupBtn").onclick = async () => {
   } catch (err) {
     authMsg.innerText = err.message;
   }
-};
+});
 
 /* ================= LOGIN ================= */
-document.getElementById("loginBtn").onclick = async () => {
+document.getElementById("loginBtn").addEventListener("click", async () => {
+  if (!emailInput.value || !passwordInput.value) {
+    authMsg.innerText = "Enter email & password";
+    return;
+  }
+
   try {
     await signInWithEmailAndPassword(
       auth,
@@ -70,18 +80,26 @@ document.getElementById("loginBtn").onclick = async () => {
   } catch (err) {
     authMsg.innerText = err.message;
   }
-};
+});
 
-/* ================= XP LOGIC ================= */
+/* ================= XP ================= */
 let xp = 0;
 
 async function loadXP(uid) {
-  const snap = await getDoc(doc(db, "users", uid));
-  xp = snap.exists() ? snap.data().xp : 0;
+  const ref = doc(db, "users", uid);
+  const snap = await getDoc(ref);
+
+  if (snap.exists()) {
+    xp = snap.data().xp || 0;
+  } else {
+    await setDoc(ref, { xp: 0 });
+    xp = 0;
+  }
   updateXP();
 }
 
 async function saveXP(uid) {
+  if (!uid) return;
   await updateDoc(doc(db, "users", uid), { xp });
 }
 
@@ -92,18 +110,22 @@ function updateXP() {
 
 /* ================= TASK BUTTONS ================= */
 document.getElementById("dailyTask")?.addEventListener("click", async () => {
+  if (!auth.currentUser) return;
   xp += 20;
   updateXP();
   saveXP(auth.currentUser.uid);
 });
 
 document.getElementById("inviteTask")?.addEventListener("click", async () => {
+  if (!auth.currentUser) return;
   xp += 50;
   updateXP();
   saveXP(auth.currentUser.uid);
 });
 
 document.getElementById("redeemBtn")?.addEventListener("click", async () => {
+  if (!auth.currentUser) return;
+
   if (xp >= 200) {
     xp -= 200;
     updateXP();
@@ -114,7 +136,7 @@ document.getElementById("redeemBtn")?.addEventListener("click", async () => {
   }
 });
 
-/* ================= NAVIGATION ================= */
+/* ================= NAV ================= */
 window.showSection = function (name) {
   ["home","tasks","rewards","profile"].forEach(s => {
     document.getElementById(s + "Section")?.classList.add("hidden");
