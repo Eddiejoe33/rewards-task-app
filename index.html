@@ -16,7 +16,7 @@ body {
 
 .app {
   max-width: 420px;
-  margin: 40px auto;
+  margin: 30px auto;
   padding: 16px;
 }
 
@@ -25,9 +25,9 @@ nav {
   color: #fff;
   display: none;
   flex-wrap: wrap;
-  gap: 6px;
-  padding: 10px;
-  border-radius: 10px;
+  gap: 8px;
+  padding: 12px;
+  border-radius: 12px;
   margin-bottom: 20px;
 }
 
@@ -36,7 +36,7 @@ nav button {
   color: #fff;
   border: none;
   padding: 10px 14px;
-  border-radius: 6px;
+  border-radius: 8px;
   cursor: pointer;
 }
 
@@ -45,15 +45,17 @@ nav button:hover { background: #444; }
 
 #authBox {
   background: #fff;
-  padding: 20px;
-  border-radius: 12px;
-  box-shadow: 0 4px 15px rgba(0,0,0,.1);
+  padding: 22px;
+  border-radius: 14px;
+  box-shadow: 0 6px 20px rgba(0,0,0,.12);
 }
 
 input {
   width: 100%;
   padding: 12px;
   margin-bottom: 12px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
 }
 
 button.primary {
@@ -63,18 +65,17 @@ button.primary {
   background: #000;
   color: #fff;
   border: none;
-  border-radius: 6px;
+  border-radius: 8px;
   cursor: pointer;
 }
 
-button.reset {
-  background: #555;
-}
+button.reset { background: #555; }
 
 .msg {
   text-align: center;
   margin-top: 10px;
   min-height: 18px;
+  font-size: 14px;
 }
 
 section { display: none; }
@@ -83,18 +84,23 @@ section.active { display: block; }
 .card {
   background: #fff;
   padding: 20px;
-  border-radius: 12px;
-  margin-bottom: 15px;
-  box-shadow: 0 2px 10px rgba(0,0,0,.08);
+  border-radius: 14px;
+  margin-bottom: 16px;
+  box-shadow: 0 4px 14px rgba(0,0,0,.1);
 }
 
-.xp { font-size: 22px; font-weight: bold; }
+.card h3 { margin-top: 0; }
+
+.xp {
+  font-size: 26px;
+  font-weight: bold;
+}
 
 .task-btn {
   padding: 12px;
   width: 100%;
   border: none;
-  border-radius: 6px;
+  border-radius: 8px;
   margin-top: 10px;
   cursor: pointer;
   background: #007bff;
@@ -103,6 +109,16 @@ section.active { display: block; }
 
 .task-btn.secondary { background: #28a745; }
 .task-btn.danger { background: #dc3545; }
+
+.placeholder {
+  padding: 14px;
+  border-radius: 10px;
+  background: #f0f0f0;
+  color: #666;
+  text-align: center;
+  font-size: 14px;
+  margin-top: 10px;
+}
 </style>
 </head>
 
@@ -133,6 +149,13 @@ section.active { display: block; }
     <h2>Dashboard</h2>
     <p class="xp" id="xp">0 XP</p>
   </div>
+
+  <div class="card">
+    <h3>🔴 Live / Streaming</h3>
+    <div class="placeholder">
+      Live streaming & social broadcast will be enabled here in future updates.
+    </div>
+  </div>
 </section>
 
 <section id="tasksSection">
@@ -140,9 +163,17 @@ section.active { display: block; }
     <h3>Daily Task</h3>
     <button class="task-btn" id="dailyTask">Complete (+20 XP)</button>
   </div>
+
   <div class="card">
     <h3>Invite Friend</h3>
     <button class="task-btn secondary" id="inviteTask">Invite (+50 XP)</button>
+  </div>
+
+  <div class="card">
+    <h3>🌍 Social Sharing</h3>
+    <div class="placeholder">
+      Share tasks on WhatsApp, TikTok, Facebook, X (coming soon)
+    </div>
   </div>
 </section>
 
@@ -150,6 +181,13 @@ section.active { display: block; }
   <div class="card">
     <h3>Redeem Reward</h3>
     <button class="task-btn danger" id="redeemBtn">Redeem 200 XP</button>
+  </div>
+
+  <div class="card">
+    <h3>💳 Donations (Flutterwave)</h3>
+    <div class="placeholder">
+      Secure donations via Flutterwave will appear here after client approval.
+    </div>
   </div>
 </section>
 
@@ -163,7 +201,9 @@ section.active { display: block; }
 <section id="givingSection">
   <div class="card">
     <h3>Giving</h3>
-    <p>Support good causes 🙏</p>
+    <div class="placeholder">
+      Charity campaigns & causes will be listed here.
+    </div>
   </div>
 </section>
 
