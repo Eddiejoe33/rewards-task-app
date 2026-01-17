@@ -28,32 +28,30 @@ document.getElementById("redeemBtn")?.addEventListener("click", () => {
 
 /* ===== NAV + SECTIONS ===== */
 function showSection(name) {
-  // hide all sections
   ["home","tasks","rewards","profile"].forEach(s => {
-    document.getElementById(s + "Section").classList.add("hidden");
+    document.getElementById(s + "Section")?.classList.add("hidden");
   });
 
-  // show active section
-  document.getElementById(name + "Section").classList.remove("hidden");
+  document.getElementById(name + "Section")?.classList.remove("hidden");
 
-  // reset nav styles
   document.querySelectorAll("nav button").forEach(btn => {
     btn.classList.remove("text-blue-600","font-medium");
     btn.classList.add("text-gray-500");
   });
 
-  // activate clicked nav
   const activeBtn = document.getElementById(
     "nav" + name.charAt(0).toUpperCase() + name.slice(1)
   );
 
-  activeBtn.classList.remove("text-gray-500");
-  activeBtn.classList.add("text-blue-600","font-medium");
+  if (activeBtn) {
+    activeBtn.classList.remove("text-gray-500");
+    activeBtn.classList.add("text-blue-600","font-medium");
+  }
 }
 
 /* ===== DEFAULT ===== */
 document.addEventListener("DOMContentLoaded", () => {
   updateXP();
-  showSection("home"); // Home blue by default
+  showSection("home");
 });
 </script>
