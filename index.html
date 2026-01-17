@@ -1,118 +1,137 @@
 <script type="module">
-  // 🔥 Firebase v9 Modular SDK
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js";
-  import {
-    getAuth,
-    createUserWithEmailAndPassword,
-    signInWithEmailAndPassword,
-    sendPasswordResetEmail,
-    onAuthStateChanged,
-    signOut
-  } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-auth.js";
+/* =========================
+   SAFE FIREBASE BOOTSTRAP
+========================= */
 
-  // ✅ TODO: REPLACE WITH YOUR REAL CONFIG
-  const firebaseConfig = {
-    apiKey: "YOUR_API_KEY",
-    authDomain: "YOUR_PROJECT.firebaseapp.com",
-    projectId: "YOUR_PROJECT_ID",
-    appId: "YOUR_APP_ID"
-  };
+console.log("App starting...");
 
-  // Init
+// --- DOM READY CHECK ---
+const authBox = document.getElementById("authBox");
+const navBar = document.getElementById("navBar");
+const authMsg = document.getElementById("authMsg");
+
+if (!authBox || !navBar) {
+  document.body.innerHTML = "<h2 style='color:red'>HTML not loaded properly</h2>";
+  throw new Error("Missing DOM elements");
+}
+
+// --- SHOW AUTH BY DEFAULT (prevents white screen) ---
+authBox.style.display = "block";
+navBar.style.display = "none";
+
+/* =========================
+   FIREBASE IMPORTS
+========================= */
+import { initializeApp } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js";
+import {
+  getAuth,
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+  sendPasswordResetEmail,
+  onAuthStateChanged,
+  signOut
+} from "https://www.gstatic.com/firebasejs/9.23.0/firebase-auth.js";
+
+/* =========================
+   REAL CONFIG REQUIRED
+========================= */
+ apiKey: "AIzaSyDImP8ODFS0lxWZ5AdTLi7jTxZzFo6JxeY",
+  authDomain: "rewards-task-mvp.firebaseapp.com",
+  projectId: "rewards-task-mvp",
+  storageBucket: "YOUR_PROJECT.appspot.com",
+  messagingSenderId: "154842831298",
+  appId: "1:154842831298:web:9ff9e24acfaf346aa99e5b"
+};
+
+
+let auth;
+
+try {
   const app = initializeApp(firebaseConfig);
-  const auth = getAuth(app);
+  auth = getAuth(app);
+} catch (e) {
+  authMsg.innerText = "Firebase config error";
+  console.error(e);
+}
 
-  // Elements
-  const authBox = document.getElementById("authBox");
-  const navBar = document.getElementById("navBar");
-  const authMsg = document.getElementById("authMsg");
+/* =========================
+   ELEMENTS
+========================= */
+const emailInput = document.getElementById("email");
+const passwordInput = document.getElementById("password");
 
-  const emailInput = document.getElementById("email");
-  const passwordInput = document.getElementById("password");
+document.getElementById("signupBtn").onclick = signup;
+document.getElementById("loginBtn").onclick = login;
+document.getElementById("resetBtn").onclick = resetPassword;
 
-  const signupBtn = document.getElementById("signupBtn");
-  const loginBtn = document.getElementById("loginBtn");
-  const resetBtn = document.getElementById("resetBtn");
+/* =========================
+   SECTIONS (FIXED)
+========================= */
+const sections = {
+  home: document.getElementById("homeSection"),
+  tasks: document.getElementById("tasksSection"),
+  rewards: document.getElementById("rewardsSection"),
+  profile: document.getElementById("profileSection"),
+  giving: document.getElementById("givingSection")
+};
 
-  // Sections
-  const sections = {
-    home: document.getElementById("homeSection"),
-    tasks: document.getElementById("tasksSection"),
-    rewards: document.getElementById("rewardsSection"),
-    profile: document.getElementById("profileSection"),
-    giving: document.getElementById("givingSection")
-  };
+window.showSection = (name) => {
+  Object.values(sections).forEach(s => s.classList.remove("active"));
+  sections[name]?.classList.add("active");
+};
 
-  // Helpers
-  window.showSection = (name) => {
-    Object.values(sections).forEach(s => s.classList.remove("active"));
-    sections[name + "Section"]?.classList.add("active");
-  };
-
-  function showApp(user) {
+/* =========================
+   AUTH STATE
+========================= */
+onAuthStateChanged(auth, (user) => {
+  if (user) {
     authBox.style.display = "none";
     navBar.style.display = "flex";
     document.getElementById("profileEmail").innerText = user.email;
     showSection("home");
-  }
-
-  function showAuth() {
+  } else {
     authBox.style.display = "block";
     navBar.style.display = "none";
   }
+});
 
-  // Auth state
-  onAuthStateChanged(auth, (user) => {
-    if (user) showApp(user);
-    else showAuth();
-  });
+/* =========================
+   AUTH ACTIONS
+========================= */
+async function signup() {
+  authMsg.innerText = "Creating account...";
+  try {
+    await createUserWithEmailAndPassword(auth, emailInput.value, passwordInput.value);
+    authMsg.innerText = "Account created 🎉";
+  } catch (e) {
+    authMsg.innerText = e.message;
+  }
+}
 
-  // Sign Up
-  signupBtn.onclick = async () => {
-    authMsg.innerText = "Creating account...";
-    try {
-      await createUserWithEmailAndPassword(
-        auth,
-        emailInput.value,
-        passwordInput.value
-      );
-      authMsg.innerText = "Account created successfully 🎉";
-    } catch (err) {
-      authMsg.innerText = err.message;
-    }
-  };
+async function login() {
+  authMsg.innerText = "Logging in...";
+  try {
+    await signInWithEmailAndPassword(auth, emailInput.value, passwordInput.value);
+    authMsg.innerText = "Welcome back ✅";
+  } catch (e) {
+    authMsg.innerText = e.message;
+  }
+}
 
-  // Login
-  loginBtn.onclick = async () => {
-    authMsg.innerText = "Logging in...";
-    try {
-      await signInWithEmailAndPassword(
-        auth,
-        emailInput.value,
-        passwordInput.value
-      );
-      authMsg.innerText = "Welcome back ✅";
-    } catch (err) {
-      authMsg.innerText = err.message;
-    }
-  };
+async function resetPassword() {
+  if (!emailInput.value) {
+    authMsg.innerText = "Enter your email";
+    return;
+  }
+  try {
+    await sendPasswordResetEmail(auth, emailInput.value);
+    authMsg.innerText = "Reset email sent 📩";
+  } catch (e) {
+    authMsg.innerText = e.message;
+  }
+}
 
-  // Reset Password
-  resetBtn.onclick = async () => {
-    if (!emailInput.value) {
-      authMsg.innerText = "Enter your email to reset password";
-      return;
-    }
-    try {
-      await sendPasswordResetEmail(auth, emailInput.value);
-      authMsg.innerText = "Password reset email sent 📩";
-    } catch (err) {
-      authMsg.innerText = err.message;
-    }
-  };
-
-  // Logout
-  window.logout = async () => {
-    await signOut(auth);
-  };
-    </script>
+window.logout = async () => {
+  await signOut(auth);
+};
+  </script>
