@@ -10,18 +10,17 @@ import {
 import {
   getFirestore,
   doc,
-  setDoc,
-  getDoc,
-  updateDoc
+  setDoc
 } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
 /* ================= FIREBASE CONFIG ================= */
+/* 🔴 PUT YOUR REAL VALUES BACK HERE */
 const firebaseConfig = {
   apiKey: "AIzaSyDImP8ODFS0lxWZ5AdTLi7jTxZzFo6JxeY",
-  authDomain: "YOUR_PROJECT.firebaseapp.com",
-  projectId: "YOUR_PROJECT_ID",
-  storageBucket: "YOUR_PROJECT.appspot.com",
-  messagingSenderId: "SENDER_ID",
+  authDomain: "rewards-task-mvp.firebaseapp.com",
+  projectId: "rewards-task-mvp",
+  storageBucket: "rewards-task-mvp.appspot.com",
+  messagingSenderId: "154842831298",
   appId: "1:154842831298:web:9ff9e24acfaf346aa99e5b"
 };
 
@@ -80,7 +79,6 @@ onAuthStateChanged(auth, user => {
     showSection("home");
   } else {
     authBox.style.display = "block";
-    showSection("profile");
   }
 });
   </script>
