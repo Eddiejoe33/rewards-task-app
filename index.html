@@ -1,225 +1,5 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Church App</title>
-
-  <script src="https://cdn.tailwindcss.com"></script>
-</head>
-
-<body class="bg-gray-100 text-gray-800">
-
-<!-- HEADER -->
-<header class="bg-yellow-600 text-white p-4 text-center text-lg font-semibold">
-  Church App
-</header>
-
-<!-- MAIN -->
-<main class="p-4 pb-28 overflow-y-auto">
-
-<!-- HOME -->
-<section id="homeSection">
-
-  <div class="mb-6">
-    <h1 class="text-2xl font-bold">Church Dashboard</h1>
-    <p class="text-gray-500 text-sm">Welcome to your church platform</p>
-  </div>
-
-  <!-- Faith Points -->
-  <div class="bg-white rounded-2xl shadow p-5 mb-6">
-    <p class="text-sm text-gray-500">Faith Points</p>
-    <h2 class="text-3xl font-extrabold text-yellow-600 mt-1">320</h2>
-  </div>
-<!-- MEMBERSHIP DASHBOARD -->
-<div class="grid grid-cols-2 gap-4 mb-6">
-
-  <div class="bg-white rounded-2xl shadow p-4 text-center">
-    <p class="text-sm text-gray-500">Total Members</p>
-    <h3 id="totalMembers" class="text-2xl font-bold text-yellow-600">150</h3>
-  </div>
-
-  <div class="bg-white rounded-2xl shadow p-4 text-center">
-    <p class="text-sm text-gray-500">Active Members</p>
-    <h3 id="activeMembers" class="text-2xl font-bold text-yellow-600">98</h3>
-  </div>
-
-</div>
-  <!-- DASHBOARD MENU (SCROLLABLE & CLICKABLE) -->
-  <div class="space-y-4">
-
-    <div onclick="showSection('tasks')" class="bg-white rounded-2xl shadow p-5 cursor-pointer hover:bg-yellow-50">
-      <h3 class="text-lg font-bold">📖 Daily Devotion</h3>
-      <p class="text-sm text-gray-500">Read today’s devotion</p>
-    </div>
-
-    <div onclick="showSection('tasks')" class="bg-white rounded-2xl shadow p-5 cursor-pointer hover:bg-yellow-50">
-      <h3 class="text-lg font-bold">📝 Attendance</h3>
-      <p class="text-sm text-gray-500">Mark church attendance</p>
-    </div>
-
-    <div onclick="showSection('giving')" class="bg-white rounded-2xl shadow p-5 cursor-pointer hover:bg-yellow-50">
-      <h3 class="text-lg font-bold">💛 Give / Donate</h3>
-      <p class="text-sm text-gray-500">Tithes, offerings & donations</p>
-    </div>
-
-    <div onclick="showSection('rewards')" class="bg-white rounded-2xl shadow p-5 cursor-pointer hover:bg-yellow-50">
-      <h3 class="text-lg font-bold">🎁 Faith Rewards</h3>
-      <p class="text-sm text-gray-500">Member appreciation rewards</p>
-    </div>
-
-    <div onclick="showSection('profile')" class="bg-white rounded-2xl shadow p-5 cursor-pointer hover:bg-yellow-50">
-      <h3 class="text-lg font-bold">👤 My Account</h3>
-      <p class="text-sm text-gray-500">Profile & membership info</p>
-    </div>
-
-  </div>
-</section>
-
-<!-- TASKS -->
-<section id="tasksSection" class="hidden">
-  <h2 class="text-xl font-bold mb-3">Church Activities</h2>
-  <p class="text-gray-500">
-    Daily devotions, attendance tracking, and church programs will appear here.
-  </p>
-</section>
-
-<!-- REWARDS -->
-<section id="rewardsSection" class="hidden">
-  <h2 class="text-xl font-bold mb-4">Faith Rewards</h2>
-
-  <div class="bg-white rounded-xl shadow p-4 flex justify-between items-center">
-    <div>
-      <p class="font-medium">Church Gift Item</p>
-      <p class="text-sm text-gray-500">200 Faith Points</p>
-    </div>
-    <button class="bg-yellow-600 text-white px-4 py-2 rounded-lg">
-      Redeem
-    </button>
-  </div>
-</section>
-
-<!-- GIVING (PAYSTACK PLACEHOLDER) -->
-<section id="givingSection" class="hidden">
-  <h2 class="text-xl font-bold mb-4">Give to the Church</h2>
-
-  <div class="bg-white rounded-xl shadow p-4 space-y-4">
-    <input
-      type="number"
-      placeholder="Enter amount (₦)"
-      class="w-full border rounded-lg p-3"
-    />
-
-    <button
-      class="w-full bg-yellow-600 text-white py-3 rounded-lg font-medium"
-      onclick="alert('Paystack payment integration goes here')"
-    >
-      Give Now
-    </button>
-
-    <p class="text-xs text-gray-500 text-center">
-      Secure online giving • Paystack-ready
-    </p>
-  </div>
-</section>
-
-<!-- PROFILE -->
-<section id="profileSection" class="hidden">
-  <h2 class="text-xl font-bold mb-2">My Profile</h2>
-  <p class="text-gray-500">
-    Member information, giving history, and church records.
-  </p>
-</section>
-<div id="authBox" class="p-4 max-w-sm mx-auto">
-  <input id="email" type="email" placeholder="Email"
-    class="w-full p-2 mb-2 border rounded" />
-
-  <input id="password" type="password" placeholder="Password"
-    class="w-full p-2 mb-2 border rounded" />
-
-  <button id="signupBtn"
-    class="w-full bg-green-600 text-white p-2 rounded mb-2">
-    Sign Up
-  </button>
-
-  <button id="loginBtn"
-    class="w-full bg-blue-600 text-white p-2 rounded">
-    Login
-  </button>
-
-  <p id="authMsg" class="text-center mt-2 text-sm"></p>
-</div>
-</main>
-
-<!-- BOTTOM NAV -->
-<nav class="fixed bottom-0 left-0 right-0 bg-white border-t flex justify-around py-3 text-sm">
-
-  <button id="navHome" onclick="showSection('home')" class="text-yellow-600 font-medium">
-    Home
-  </button>
-  <button id="navTasks" onclick="showSection('tasks')" class="text-gray-500">
-    Tasks
-  </button>
-  <button id="navRewards" onclick="showSection('rewards')" class="text-gray-500">
-    Rewards
-  </button>
-  <button id="navProfile" onclick="showSection('profile')" class="text-gray-500">
-    Profile
-  </button>
-
-</nav>
-
-<!-- SCRIPT -->
-<script>
-function showSection(name) {
-  const sections = ["home","tasks","rewards","profile","giving"];
-  sections.forEach(s => {
-    const sec = document.getElementById(s + "Section");
-    if (sec) sec.classList.add("hidden");
-  });
-
-  document.getElementById(name + "Section").classList.remove("hidden");
-
-  const navs = ["Home","Tasks","Rewards","Profile"];
-  navs.forEach(n => {
-    const btn = document.getElementById("nav" + n);
-    btn.classList.remove("text-yellow-600","font-medium");
-    btn.classList.add("text-gray-500");
-  });
-
-  const active = document.getElementById(
-    "nav" + name.charAt(0).toUpperCase() + name.slice(1)
-  );
-  if (active) {
-    active.classList.add("text-yellow-600","font-medium");
-  }
-}
-
-window.onload = () => showSection("home");
-</script>
 <script type="module">
-// Import the functions you need from the SDKs you need
-import { initializeApp } from "firebase/app";
-import { getAnalytics } from "firebase/analytics";
-// TODO: Add SDKs for Firebase products that you want to use
-// https://firebase.google.com/docs/web/setup#available-libraries
-
-// Your web app's Firebase configuration
-// For Firebase JS SDK v7.20.0 and later, measurementId is optional
-const firebaseConfig = {
-  apiKey: "AIzaSyDImP8ODFS0lxWZ5AdTLi7jTxZzFo6JxeY",
-  authDomain: "rewards-task-mvp.firebaseapp.com",
-  projectId: "rewards-task-mvp",
-  storageBucket: "rewards-task-mvp.firebasestorage.app",
-  messagingSenderId: "154842831298",
-  appId: "1:154842831298:web:9ff9e24acfaf346aa99e5b",
-  measurementId: "G-CF0J4HTZWB"
-};
-const db = firebase.firestore();
-// Initialize Firebase
-const app = initializeApp(firebaseConfig);
-const analytics = getAnalytics(app);
-  <script type="module">
+/* ================= FIREBASE IMPORTS ================= */
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
 import {
   getAuth,
@@ -227,21 +7,30 @@ import {
   signInWithEmailAndPassword,
   onAuthStateChanged
 } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+import {
+  getFirestore,
+  doc,
+  setDoc,
+  getDoc,
+  updateDoc
+} from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
-/* 🔥 Firebase Config */
+/* ================= FIREBASE CONFIG ================= */
 const firebaseConfig = {
-  apiKey: "YOUR_API_KEY",
+  apiKey: "AIzaSyDImP8ODFS0lxWZ5AdTLi7jTxZzFo6JxeY",
   authDomain: "YOUR_PROJECT.firebaseapp.com",
   projectId: "YOUR_PROJECT_ID",
   storageBucket: "YOUR_PROJECT.appspot.com",
   messagingSenderId: "SENDER_ID",
-  appId: "APP_ID"
+  appId: "1:154842831298:web:9ff9e24acfaf346aa99e5b"
 };
-<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+
+/* ================= INIT ================= */
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
+const db = getFirestore(app);
 
-/* ===== AUTH ===== */
+/* ================= ELEMENTS ================= */
 const email = document.getElementById("email");
 const password = document.getElementById("password");
 const signupBtn = document.getElementById("signupBtn");
@@ -249,19 +38,42 @@ const loginBtn = document.getElementById("loginBtn");
 const authMsg = document.getElementById("authMsg");
 const authBox = document.getElementById("authBox");
 
-signupBtn.addEventListener("click", () => {
-  createUserWithEmailAndPassword(auth, email.value, password.value)
-    .then(() => authMsg.innerText = "Signup successful ✅")
-    .catch(err => authMsg.innerText = err.message);
+/* ================= SIGN UP ================= */
+signupBtn.addEventListener("click", async () => {
+  try {
+    const cred = await createUserWithEmailAndPassword(
+      auth,
+      email.value,
+      password.value
+    );
+
+    await setDoc(doc(db, "users", cred.user.uid), {
+      email: cred.user.email,
+      xp: 0,
+      createdAt: new Date()
+    });
+
+    authMsg.innerText = "Account created ✅";
+  } catch (err) {
+    authMsg.innerText = err.message;
+  }
 });
 
-loginBtn.addEventListener("click", () => {
-  signInWithEmailAndPassword(auth, email.value, password.value)
-    .then(() => authMsg.innerText = "Login successful ✅")
-    .catch(err => authMsg.innerText = err.message);
+/* ================= LOGIN ================= */
+loginBtn.addEventListener("click", async () => {
+  try {
+    await signInWithEmailAndPassword(
+      auth,
+      email.value,
+      password.value
+    );
+    authMsg.innerText = "Logged in ✅";
+  } catch (err) {
+    authMsg.innerText = err.message;
+  }
 });
 
-/* ===== AUTH STATE ===== */
+/* ================= AUTH STATE ================= */
 onAuthStateChanged(auth, user => {
   if (user) {
     authBox.style.display = "none";
@@ -271,6 +83,4 @@ onAuthStateChanged(auth, user => {
     showSection("profile");
   }
 });
-</script>
-</body>
-      </html>
+  </script>
