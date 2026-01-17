@@ -133,7 +133,7 @@ document.getElementById("redeemBtn")?.addEventListener("click", async () => {
 
 /* ================= NAV ================= */
 window.showSection = function (name) {
-  ["home","tasks","rewards","profile"].forEach(s => {
+  ["home","tasks","rewards","profile","giving"].forEach(s => {
     document.getElementById(s + "Section")?.classList.add("hidden");
   });
   document.getElementById(name + "Section")?.classList.remove("hidden");
