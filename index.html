@@ -197,11 +197,22 @@ section.active {
   </section>
 
 </div>
-
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
-import { getFirestore, doc, setDoc, getDoc, updateDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+import {
+  getAuth,
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+  onAuthStateChanged,
+  signOut
+} from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+import {
+  getFirestore,
+  doc,
+  setDoc,
+  getDoc,
+  updateDoc
+} from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
 /* 🔥 FIREBASE CONFIG */
 const firebaseConfig = {
@@ -217,11 +228,22 @@ const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
 
+/* ELEMENTS */
+const authBox = document.getElementById("authBox");
+const navBar = document.getElementById("navBar");
+const signupBtn = document.getElementById("signupBtn");
+const loginBtn = document.getElementById("loginBtn");
+const emailInput = document.getElementById("email");
+const passwordInput = document.getElementById("password");
+const profileEmail = document.getElementById("profileEmail");
+const xpEl = document.getElementById("xp");
+
+const dailyTask = document.getElementById("dailyTask");
+const inviteTask = document.getElementById("inviteTask");
+const redeemBtn = document.getElementById("redeemBtn");
+
 let xp = 0;
-// Hide all sections on load
-document.querySelectorAll("section").forEach(s => {
-  s.style.display = "none";
-});
+
 /* NAV */
 window.showSection = (name) => {
   document.querySelectorAll("section").forEach(s => s.classList.remove("active"));
@@ -230,7 +252,12 @@ window.showSection = (name) => {
 
 /* AUTH */
 signupBtn.onclick = async () => {
-  const cred = await createUserWithEmailAndPassword(auth, email.value, password.value);
+  const cred = await createUserWithEmailAndPassword(
+    auth,
+    emailInput.value,
+    passwordInput.value
+  );
+
   await setDoc(doc(db, "users", cred.user.uid), {
     email: cred.user.email,
     xp: 0
@@ -238,7 +265,11 @@ signupBtn.onclick = async () => {
 };
 
 loginBtn.onclick = async () => {
-  await signInWithEmailAndPassword(auth, email.value, password.value);
+  await signInWithEmailAndPassword(
+    auth,
+    emailInput.value,
+    passwordInput.value
+  );
 };
 
 window.logout = async () => {
@@ -248,8 +279,8 @@ window.logout = async () => {
 /* XP */
 async function loadXP(uid) {
   const snap = await getDoc(doc(db, "users", uid));
-  xp = snap.data()?.xp || 0;
-  document.getElementById("xp").innerText = xp + " XP";
+  xp = snap.exists() ? snap.data().xp : 0;
+  xpEl.innerText = xp + " XP";
 }
 
 async function saveXP(uid) {
@@ -259,13 +290,13 @@ async function saveXP(uid) {
 /* TASKS */
 dailyTask.onclick = () => {
   xp += 20;
-  document.getElementById("xp").innerText = xp + " XP";
+  xpEl.innerText = xp + " XP";
   saveXP(auth.currentUser.uid);
 };
 
 inviteTask.onclick = () => {
   xp += 50;
-  document.getElementById("xp").innerText = xp + " XP";
+  xpEl.innerText = xp + " XP";
   saveXP(auth.currentUser.uid);
 };
 
@@ -273,8 +304,8 @@ redeemBtn.onclick = () => {
   if (xp >= 200) {
     xp -= 200;
     alert("Reward redeemed 🎉");
+    xpEl.innerText = xp + " XP";
     saveXP(auth.currentUser.uid);
-    document.getElementById("xp").innerText = xp + " XP";
   } else {
     alert("Not enough XP");
   }
@@ -282,13 +313,10 @@ redeemBtn.onclick = () => {
 
 /* STATE */
 onAuthStateChanged(auth, user => {
-  document.querySelectorAll("section").forEach(s => s.style.display = "none");
-
   if (user) {
     authBox.style.display = "none";
     navBar.style.display = "flex";
-
-    document.getElementById("homeSection").style.display = "block";
+    showSection("home");
     profileEmail.innerText = user.email;
     loadXP(user.uid);
   } else {
@@ -296,4 +324,4 @@ onAuthStateChanged(auth, user => {
     navBar.style.display = "none";
   }
 });
-  </html>
+        </script>
