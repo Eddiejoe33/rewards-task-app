@@ -215,7 +215,7 @@ const firebaseConfig = {
   appId: "1:154842831298:web:9ff9e24acfaf346aa99e5b",
   measurementId: "G-CF0J4HTZWB"
 };
-
+const db = firebase.firestore();
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 const analytics = getAnalytics(app);
@@ -237,7 +237,7 @@ const firebaseConfig = {
   messagingSenderId: "SENDER_ID",
   appId: "APP_ID"
 };
-
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 
