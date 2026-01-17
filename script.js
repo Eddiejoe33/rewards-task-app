@@ -141,12 +141,18 @@ window.showSection = function (name) {
 
 /* ================= AUTH STATE ================= */
 onAuthStateChanged(auth, user => {
+  hideAllSections();
+
   if (user) {
     authBox.style.display = "none";
-    loadXP(user.uid);
+    navBar.style.display = "flex";
+
     showSection("home");
+    profileEmail.innerText = user.email;
+    loadXP(user.uid);
   } else {
     authBox.style.display = "block";
+    navBar.style.display = "none";
   }
 });
-</script>
+
