@@ -16,14 +16,14 @@ import {
 } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
 /* ================= FIREBASE CONFIG ================= */
-/* 🔴 REPLACE VALUES ONLY */
+/* 🔴 REPLACE ONLY THESE VALUES */
 const firebaseConfig = {
   apiKey: "AIzaSyDImP8ODFS0lxWZ5AdTLi7jTxZzFo6JxeY",
-  authDomain: "PASTE_AUTH_DOMAIN_HERE",
-  projectId: "PASTE_PROJECT_ID_HERE",
-  storageBucket: "PASTE_STORAGE_BUCKET_HERE",
-  messagingSenderId: "PASTE_SENDER_ID_HERE",
-  appId: "PASTE_APP_ID_HERE"
+  authDomain: "YOUR_PROJECT.firebaseapp.com",
+  projectId: "YOUR_PROJECT_ID",
+  storageBucket: "YOUR_PROJECT.appspot.com",
+  messagingSenderId: "YOUR_SENDER_ID",
+  appId: "YOUR_APP_ID"
 };
 
 /* ================= INIT ================= */
@@ -89,12 +89,7 @@ async function loadXP(uid) {
   const ref = doc(db, "users", uid);
   const snap = await getDoc(ref);
 
-  if (snap.exists()) {
-    xp = snap.data().xp || 0;
-  } else {
-    await setDoc(ref, { xp: 0 });
-    xp = 0;
-  }
+  xp = snap.exists() ? snap.data().xp || 0 : 0;
   updateXP();
 }
 
