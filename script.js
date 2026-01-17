@@ -1,12 +1,11 @@
 <script type="module">
-/* ================= FIREBASE ================= */
+/* ================= FIREBASE IMPORTS ================= */
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
 import {
   getAuth,
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
-  onAuthStateChanged,
-  signOut
+  onAuthStateChanged
 } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
 import {
   getFirestore,
@@ -16,35 +15,41 @@ import {
   updateDoc
 } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
+/* ================= FIREBASE CONFIG ================= */
+/* 🔴 REPLACE ONLY THE VALUES BELOW */
 const firebaseConfig = {
   apiKey: "AIzaSyDImP8ODFS0lxWZ5AdTLi7jTxZzFo6JxeY",
-  authDomain: "rewards-task-mvp.firebaseapp.com",
-  projectId: "rewards-task-mvp",
-  storageBucket: "rewards-task-mvp.appspot.com",
-  messagingSenderId: "154842831298",
-  appId: "PASTE_YOUR_APP_ID_HERE"
+  authDomain: "YOUR_PROJECT.firebaseapp.com",
+  projectId: "YOUR_PROJECT_ID",
+  storageBucket: "YOUR_PROJECT.appspot.com",
+  messagingSenderId: "YOUR_SENDER_ID",
+  appId: "PASTE_APP_ID_HERE"
 };
 
+/* ================= INIT ================= */
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
 
-/* ================= AUTH ================= */
+/* ================= AUTH ELEMENTS ================= */
 const emailInput = document.getElementById("email");
 const passwordInput = document.getElementById("password");
 const authMsg = document.getElementById("authMsg");
+const authBox = document.getElementById("authBox");
 
+/* ================= SIGN UP ================= */
 document.getElementById("signupBtn").onclick = async () => {
   try {
-    const userCred = await createUserWithEmailAndPassword(
+    const cred = await createUserWithEmailAndPassword(
       auth,
       emailInput.value,
       passwordInput.value
     );
 
-    await setDoc(doc(db, "users", userCred.user.uid), {
-      email: userCred.user.email,
-      xp: 0
+    await setDoc(doc(db, "users", cred.user.uid), {
+      email: cred.user.email,
+      xp: 0,
+      createdAt: new Date()
     });
 
     authMsg.innerText = "Account created ✅";
@@ -53,6 +58,7 @@ document.getElementById("signupBtn").onclick = async () => {
   }
 };
 
+/* ================= LOGIN ================= */
 document.getElementById("loginBtn").onclick = async () => {
   try {
     await signInWithEmailAndPassword(
@@ -108,34 +114,22 @@ document.getElementById("redeemBtn")?.addEventListener("click", async () => {
   }
 });
 
-/* ================= NAV ================= */
+/* ================= NAVIGATION ================= */
 window.showSection = function (name) {
   ["home","tasks","rewards","profile"].forEach(s => {
     document.getElementById(s + "Section")?.classList.add("hidden");
   });
-
   document.getElementById(name + "Section")?.classList.remove("hidden");
-
-  document.querySelectorAll("nav button").forEach(btn => {
-    btn.classList.remove("text-blue-600","font-medium");
-    btn.classList.add("text-gray-500");
-  });
-
-  const activeBtn = document.getElementById(
-    "nav" + name.charAt(0).toUpperCase() + name.slice(1)
-  );
-
-  activeBtn?.classList.add("text-blue-600","font-medium");
 };
 
 /* ================= AUTH STATE ================= */
 onAuthStateChanged(auth, user => {
   if (user) {
-    document.getElementById("authBox").style.display = "none";
+    authBox.style.display = "none";
     loadXP(user.uid);
     showSection("home");
   } else {
-    document.getElementById("authBox").style.display = "block";
+    authBox.style.display = "block";
   }
 });
 </script>
