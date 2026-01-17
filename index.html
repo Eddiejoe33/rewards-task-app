@@ -218,7 +218,10 @@ const auth = getAuth(app);
 const db = getFirestore(app);
 
 let xp = 0;
-
+// Hide all sections on load
+document.querySelectorAll("section").forEach(s => {
+  s.style.display = "none";
+});
 /* NAV */
 window.showSection = (name) => {
   document.querySelectorAll("section").forEach(s => s.classList.remove("active"));
@@ -279,18 +282,18 @@ redeemBtn.onclick = () => {
 
 /* STATE */
 onAuthStateChanged(auth, user => {
+  document.querySelectorAll("section").forEach(s => s.style.display = "none");
+
   if (user) {
     authBox.style.display = "none";
     navBar.style.display = "flex";
+
+    document.getElementById("homeSection").style.display = "block";
     profileEmail.innerText = user.email;
-    showSection("home");
     loadXP(user.uid);
   } else {
     authBox.style.display = "block";
     navBar.style.display = "none";
   }
 });
-</script>
-
-</body>
   </html>
