@@ -26,10 +26,9 @@ html, body {
 /* ===== HEADER ===== */
 .header {
   background: #111;
-  padding: 14px;
+  padding: 16px;
   text-align: center;
   border-bottom: 1px solid rgba(255,215,0,0.3);
-  animation: slideDown 0.6s ease;
 }
 
 .header h1 {
@@ -39,76 +38,36 @@ html, body {
   letter-spacing: 2px;
 }
 
-@keyframes slideDown {
-  from { opacity: 0; transform: translateY(-12px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
 /* ===== MAIN CONTENT ===== */
 .main-content {
   flex: 1;
   overflow-y: auto;
-  padding: 20px 16px 90px;
-  scroll-behavior: smooth;
-}
-
-/* ===== BOTTOM NAV ===== */
-.bottom-nav {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  height: 70px;
-  background: #111;
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
-  border-top: 1px solid rgba(255,215,0,0.25);
-}
-
-.bottom-nav button {
-  background: none;
-  border: none;
-  color: gold;
-  font-size: 12px;
-  font-weight: 900;
-  letter-spacing: 1px;
-  cursor: pointer;
-}
-
-.bottom-nav button:active {
-  transform: scale(0.9);
+  padding: 20px 16px 120px;
 }
 
 /* ===== AUTH ===== */
 #authBox {
   padding: 40px 20px;
   text-align: center;
-  animation: fadeIn 0.6s ease;
-}
-
-@keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
 }
 
 input {
-  padding: 10px;
+  padding: 12px;
   width: 90%;
   max-width: 320px;
   border-radius: 6px;
   border: none;
-  margin-bottom: 10px;
+  margin-bottom: 12px;
 }
 
 button {
   background: gold;
   border: none;
-  padding: 10px 14px;
-  margin: 5px;
+  padding: 12px 16px;
+  margin: 6px;
   font-weight: bold;
   cursor: pointer;
-  border-radius: 6px;
+  border-radius: 8px;
 }
 
 button:disabled {
@@ -118,73 +77,31 @@ button:disabled {
 /* ===== SECTIONS ===== */
 .section {
   display: none;
-  opacity: 0;
-  transform: translateY(8px);
 }
 
 .section.active {
   display: block;
-  animation: sectionFade 0.45s ease forwards;
-}
-
-@keyframes sectionFade {
-  to { opacity: 1; transform: translateY(0); }
 }
 
 /* ===== CARDS ===== */
 .card {
   background: #1a1a1a;
-  padding: 16px;
-  border-radius: 14px;
-  margin-bottom: 16px;
-  box-shadow: 0 0 10px rgba(255,215,0,0.15);
-  animation: cardUp 0.5s ease;
-}
-
-.card:hover {
-  transform: scale(1.02);
-  box-shadow: 0 0 18px rgba(255,215,0,0.35);
-}
-
-@keyframes cardUp {
-  from { opacity: 0; transform: translateY(14px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-/* ===== BADGE ===== */
-.badge {
-  position: absolute;
-  top: -10px;
-  right: -10px;
-  background: gold;
-  color: #000;
-  border-radius: 50%;
-  padding: 8px;
-  font-size: 14px;
+  padding: 18px;
+  border-radius: 16px;
+  margin-bottom: 18px;
+  box-shadow: 0 0 14px rgba(255,215,0,0.2);
 }
 
 /* ===== LIVESTREAM ===== */
 .video-placeholder {
-  height: 180px;
+  height: 190px;
   background: #000;
-  border-radius: 10px;
+  border-radius: 12px;
   display: flex;
   align-items: center;
   justify-content: center;
   color: gold;
-  margin: 12px 0;
-  animation: pulse 1.8s infinite;
-}
-
-@keyframes pulse {
-  0% { box-shadow: 0 0 0 rgba(255,215,0,0.3); }
-  50% { box-shadow: 0 0 18px rgba(255,215,0,0.6); }
-  100% { box-shadow: 0 0 0 rgba(255,215,0,0.3); }
-}
-
-.stream-actions {
-  display: flex;
-  justify-content: space-around;
+  margin: 14px 0;
 }
 
 /* ===== SPINNER ===== */
@@ -197,11 +114,41 @@ button:disabled {
   border-top: 4px solid gold;
   border-radius: 50%;
   animation: spin 1s linear infinite;
-  box-shadow: 0 0 20px rgba(255,215,0,0.6);
 }
 
 @keyframes spin {
   to { transform: rotate(360deg); }
+}
+
+/* =================================================
+   🔥 FIXED BOTTOM NAV — FULL GOLD, BIG TEXT
+================================================= */
+.bottom-nav {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 90px;
+  background: gold;               /* FULL GOLD BAR */
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  z-index: 20;
+}
+
+.bottom-nav button {
+  background: transparent;
+  border: none;
+  color: #000;
+  font-size: 16px;                /* BIGGER TEXT */
+  font-weight: 900;
+  letter-spacing: 1px;
+  padding: 14px 10px;             /* MORE SPACE */
+  cursor: pointer;
+}
+
+.bottom-nav button:active {
+  transform: scale(0.92);
 }
 </style>
 </head>
@@ -241,7 +188,7 @@ button:disabled {
   <div class="card">
     <h3>🔴 Live Service (Demo)</h3>
     <div class="video-placeholder">LIVE STREAM</div>
-    <div class="stream-actions">
+    <div style="display:flex;justify-content:space-around">
       <button disabled>Facebook</button>
       <button disabled>YouTube</button>
       <button disabled>TikTok</button>
@@ -274,12 +221,13 @@ button:disabled {
 
 </main>
 
+<!-- ===== BOTTOM NAV ===== -->
 <nav class="bottom-nav">
-  <button onclick="showSection('home')">Home</button>
-  <button onclick="showSection('tasks')">Tasks</button>
-  <button onclick="showSection('rewards')">Rewards</button>
-  <button onclick="showSection('giving')">Donate</button>
-  <button onclick="showSection('profile')">Profile</button>
+  <button onclick="showSection('home')">HOME</button>
+  <button onclick="showSection('tasks')">TASKS</button>
+  <button onclick="showSection('rewards')">REWARDS</button>
+  <button onclick="showSection('giving')">DONATE</button>
+  <button onclick="showSection('profile')">PROFILE</button>
 </nav>
 
 </div>
@@ -316,7 +264,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   const app = initializeApp(firebaseConfig);
   const auth = getAuth(app);
 
-  const setLoading = (s, m="") => {
+  const setLoading = (s,m="") => {
     spinner.style.display = s ? "block" : "none";
     authMsg.innerText = m;
   };
@@ -336,7 +284,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   };
 
   resetBtn.onclick = async () => {
-    setLoading(true,"Sending reset email...");
+    setLoading(true,"Sending reset...");
     try { await sendPasswordResetEmail(auth,emailInput.value); authMsg.innerText="Reset sent"; }
     catch(e){ authMsg.innerText=e.message; }
     setLoading(false);
