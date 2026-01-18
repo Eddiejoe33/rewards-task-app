@@ -39,7 +39,6 @@ const authBox = document.getElementById("authBox");
 const appBox = document.getElementById("app");
 const navBar = document.querySelector(".bottom-nav");
 const profileEmail = document.getElementById("profileEmail");
-const loadingScreen = document.getElementById("loadingScreen");
 
 /* ================= UI HELPERS ================= */
 function hideAllSections() {
@@ -60,10 +59,10 @@ window.showSection = function (name, btn) {
 
 /* ================= SIGN UP ================= */
 document.getElementById("signupBtn").onclick = async () => {
-  authMsg.innerText = "";
+  authMsg.textContent = "";
 
   if (!emailInput.value || !passwordInput.value) {
-    authMsg.innerText = "Enter email & password";
+    authMsg.textContent = "Enter email & password";
     return;
   }
 
@@ -80,15 +79,20 @@ document.getElementById("signupBtn").onclick = async () => {
       createdAt: new Date()
     });
 
-    authMsg.innerText = "Account created ✅";
+    authMsg.textContent = "Account created ✅";
   } catch (err) {
-    authMsg.innerText = err.message;
+    authMsg.textContent = err.message;
   }
 };
 
 /* ================= LOGIN ================= */
 document.getElementById("loginBtn").onclick = async () => {
-  authMsg.innerText = "";
+  authMsg.textContent = "";
+
+  if (!emailInput.value || !passwordInput.value) {
+    authMsg.textContent = "Enter email & password";
+    return;
+  }
 
   try {
     await signInWithEmailAndPassword(
@@ -97,7 +101,7 @@ document.getElementById("loginBtn").onclick = async () => {
       passwordInput.value
     );
   } catch (err) {
-    authMsg.innerText = err.message;
+    authMsg.textContent = err.message;
   }
 };
 
@@ -111,23 +115,23 @@ async function loadXP(uid) {
   try {
     const snap = await getDoc(doc(db, "users", uid));
     xp = snap.exists() ? snap.data().xp || 0 : 0;
-  } catch {
+  } catch (e) {
     xp = 0;
   }
 }
 
 /* ================= AUTH STATE ================= */
 onAuthStateChanged(auth, async user => {
-  loadingScreen.style.display = "none";
-
   if (user) {
     authBox.style.display = "none";
     appBox.style.display = "flex";
     navBar.style.display = "flex";
 
-    profileEmail.textContent = user.email;
-    await loadXP(user.uid);
+    if (profileEmail) {
+      profileEmail.textContent = user.email;
+    }
 
+    await loadXP(user.uid);
     showSection("home");
   } else {
     authBox.style.display = "block";
@@ -135,4 +139,4 @@ onAuthStateChanged(auth, async user => {
     navBar.style.display = "none";
   }
 });
-  </script>
+</script>
