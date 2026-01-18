@@ -6,9 +6,83 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
   <style>
-    .section { display: none; }
-    .section.active { display: block; }
-    #navBar { display: none; gap: 10px; }
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #0b0b0b;
+      color: #f5f5f5;
+    }
+
+    h1, h2, h3 {
+      color: gold;
+    }
+
+    button {
+      background: gold;
+      border: none;
+      padding: 10px 14px;
+      margin: 5px;
+      font-weight: bold;
+      cursor: pointer;
+      border-radius: 6px;
+    }
+
+    input {
+      padding: 10px;
+      width: 90%;
+      max-width: 320px;
+      border-radius: 6px;
+      border: none;
+      margin-bottom: 10px;
+    }
+
+    #authBox {
+      padding: 25px;
+      text-align: center;
+    }
+
+    #navBar {
+      position: sticky;
+      top: 0;
+      background: #111;
+      padding: 10px;
+      display: none;
+      justify-content: space-around;
+      z-index: 10;
+    }
+
+    .section {
+      display: none;
+      padding: 20px;
+      min-height: 100vh;
+    }
+
+    .section.active {
+      display: block;
+    }
+
+    .card {
+      background: #1a1a1a;
+      padding: 15px;
+      border-radius: 12px;
+      margin-bottom: 15px;
+      box-shadow: 0 0 10px rgba(255, 215, 0, 0.15);
+    }
+
+    .scroll {
+      max-height: calc(100vh - 70px);
+      overflow-y: auto;
+    }
+
+    .socials span {
+      display: inline-block;
+      background: #222;
+      padding: 8px 14px;
+      border-radius: 20px;
+      margin: 6px 6px 0 0;
+      color: gold;
+      font-size: 14px;
+    }
   </style>
 </head>
 
@@ -18,12 +92,14 @@
   <div id="authBox">
     <h2>Login / Signup</h2>
 
-    <input id="email" type="email" placeholder="Email" /><br /><br />
-    <input id="password" type="password" placeholder="Password" /><br /><br />
+    <input id="email" type="email" placeholder="Email" />
+    <input id="password" type="password" placeholder="Password" />
 
-    <button id="signupBtn">Sign Up</button>
-    <button id="loginBtn">Login</button>
-    <button id="resetBtn">Reset Password</button>
+    <div>
+      <button id="signupBtn">Sign Up</button>
+      <button id="loginBtn">Login</button>
+      <button id="resetBtn">Reset Password</button>
+    </div>
 
     <p id="authMsg"></p>
   </div>
@@ -33,176 +109,158 @@
     <button onclick="showSection('home')">Home</button>
     <button onclick="showSection('tasks')">Tasks</button>
     <button onclick="showSection('rewards')">Rewards</button>
-    <button onclick="showSection('giving')">Giving</button>
+    <button onclick="showSection('giving')">Donations</button>
     <button onclick="showSection('profile')">Profile</button>
     <button onclick="logout()">Logout</button>
   </div>
 
   <!-- ================= SECTIONS ================= -->
-  <div id="homeSection" class="section">
-    <h3>Home</h3>
+
+  <div id="homeSection" class="section scroll">
+    <h2>Dashboard</h2>
+
+    <div class="card">
+      <h3>💰 Total Donations</h3>
+      <p>₦0.00 (placeholder)</p>
+    </div>
+
+    <div class="card">
+      <h3>🎯 Active Campaigns</h3>
+      <p>No campaigns yet</p>
+    </div>
+
+    <div class="card">
+      <h3>📊 Donation Analytics</h3>
+      <p>Chart placeholder</p>
+    </div>
   </div>
 
-  <div id="tasksSection" class="section">
-    <h3>Tasks</h3>
+  <div id="tasksSection" class="section scroll">
+    <h2>Tasks</h2>
+
+    <div class="card">Verify donor payments</div>
+    <div class="card">Approve withdrawals</div>
+    <div class="card">Review campaigns</div>
   </div>
 
-  <div id="rewardsSection" class="section">
-    <h3>Rewards</h3>
+  <div id="rewardsSection" class="section scroll">
+    <h2>Rewards</h2>
+
+    <div class="card">🥉 Bronze Supporter</div>
+    <div class="card">🥈 Gold Sponsor</div>
+    <div class="card">🥇 Platinum Donor</div>
   </div>
 
-  <div id="givingSection" class="section">
-    <h3>Giving</h3>
+  <div id="givingSection" class="section scroll">
+    <h2>Donations</h2>
+
+    <div class="card">
+      <h3>Donate Now</h3>
+      <p>Payment gateway placeholder</p>
+    </div>
+
+    <div class="card">
+      <h3>Recent Donations</h3>
+      <p>No donations yet</p>
+    </div>
   </div>
 
-  <div id="profileSection" class="section">
-    <h3>Profile</h3>
-    <p>Email: <span id="profileEmail"></span></p>
+  <div id="profileSection" class="section scroll">
+    <h2>Profile</h2>
+
+    <div class="card">
+      <p>Email: <span id="profileEmail"></span></p>
+    </div>
+
+    <div class="card socials">
+      <h3>🌐 Connected Social Media</h3>
+      <span>Facebook</span>
+      <span>TikTok</span>
+      <span>YouTube</span>
+      <span>Instagram</span>
+    </div>
+
+    <div class="card">
+      <h3>🎥 Livestream</h3>
+      <p>Live video embed placeholder</p>
+    </div>
   </div>
 
   <!-- ================= APP SCRIPT ================= -->
-  <!-- PASTE YOUR <script type="module"> CODE HERE -->
-<script type="module">
-/* =========================
-   SAFE FIREBASE BOOTSTRAP
-========================= */
+  <script type="module">
+    document.addEventListener("DOMContentLoaded", async () => {
 
-document.addEventListener("DOMContentLoaded", async () => {
+      const authBox = document.getElementById("authBox");
+      const navBar = document.getElementById("navBar");
+      const authMsg = document.getElementById("authMsg");
 
-  console.log("App starting...");
-
-  /* =========================
-     DOM ELEMENTS (SAFE)
-  ========================= */
-  const authBox = document.getElementById("authBox");
-  const navBar = document.getElementById("navBar");
-  const authMsg = document.getElementById("authMsg");
-
-  if (!authBox || !navBar || !authMsg) {
-    document.body.innerHTML = "<h2 style='color:red'>HTML not loaded properly</h2>";
-    throw new Error("Missing DOM elements");
-  }
-
-  // Default UI state
-  authBox.style.display = "block";
-  navBar.style.display = "none";
-
-  /* =========================
-     FIREBASE IMPORTS
-  ========================= */
-  const { initializeApp } = await import("https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js");
-  const {
-    getAuth,
-    createUserWithEmailAndPassword,
-    signInWithEmailAndPassword,
-    sendPasswordResetEmail,
-    onAuthStateChanged,
-    signOut
-  } = await import("https://www.gstatic.com/firebasejs/9.23.0/firebase-auth.js");
-
-  /* =========================
-     FIREBASE CONFIG
-  ========================= */
-  const firebaseConfig = {
-    apiKey: "REPLACE_ME",
-    authDomain: "REPLACE_ME",
-    projectId: "REPLACE_ME",
-    appId: "REPLACE_ME"
-  };
-
-  let auth;
-
-  try {
-    const app = initializeApp(firebaseConfig);
-    auth = getAuth(app);
-  } catch (e) {
-    authMsg.innerText = "Firebase config error";
-    console.error(e);
-    return;
-  }
-
-  /* =========================
-     FORM ELEMENTS
-  ========================= */
-  const emailInput = document.getElementById("email");
-  const passwordInput = document.getElementById("password");
-
-  document.getElementById("signupBtn").onclick = signup;
-  document.getElementById("loginBtn").onclick = login;
-  document.getElementById("resetBtn").onclick = resetPassword;
-
-  /* =========================
-     SECTIONS
-  ========================= */
-  const sections = {
-    home: document.getElementById("homeSection"),
-    tasks: document.getElementById("tasksSection"),
-    rewards: document.getElementById("rewardsSection"),
-    profile: document.getElementById("profileSection"),
-    giving: document.getElementById("givingSection")
-  };
-
-  window.showSection = (name) => {
-    Object.values(sections).forEach(s => s?.classList.remove("active"));
-    sections[name]?.classList.add("active");
-  };
-
-  /* =========================
-     AUTH STATE
-  ========================= */
-  onAuthStateChanged(auth, (user) => {
-    if (user) {
-      authBox.style.display = "none";
-      navBar.style.display = "flex";
-      document.getElementById("profileEmail").innerText = user.email;
-      showSection("home");
-    } else {
       authBox.style.display = "block";
       navBar.style.display = "none";
-    }
-  });
 
-  /* =========================
-     AUTH FUNCTIONS
-  ========================= */
-  async function signup() {
-    authMsg.innerText = "Creating account...";
-    try {
-      await createUserWithEmailAndPassword(auth, emailInput.value, passwordInput.value);
-      authMsg.innerText = "Account created 🎉";
-    } catch (e) {
-      authMsg.innerText = e.message;
-    }
-  }
+      const { initializeApp } = await import("https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js");
+      const {
+        getAuth,
+        createUserWithEmailAndPassword,
+        signInWithEmailAndPassword,
+        sendPasswordResetEmail,
+        onAuthStateChanged,
+        signOut
+      } = await import("https://www.gstatic.com/firebasejs/9.23.0/firebase-auth.js");
 
-  async function login() {
-    authMsg.innerText = "Logging in...";
-    try {
-      await signInWithEmailAndPassword(auth, emailInput.value, passwordInput.value);
-      authMsg.innerText = "Welcome back ✅";
-    } catch (e) {
-      authMsg.innerText = e.message;
-    }
-  }
+      const firebaseConfig = {
+        apiKey: "REPLACE_ME",
+        authDomain: "REPLACE_ME",
+        projectId: "REPLACE_ME",
+        appId: "REPLACE_ME"
+      };
 
-  async function resetPassword() {
-    if (!emailInput.value) {
-      authMsg.innerText = "Enter your email";
-      return;
-    }
-    try {
-      await sendPasswordResetEmail(auth, emailInput.value);
-      authMsg.innerText = "Reset email sent 📩";
-    } catch (e) {
-      authMsg.innerText = e.message;
-    }
-  }
+      const app = initializeApp(firebaseConfig);
+      const auth = getAuth(app);
 
-  window.logout = async () => {
-    await signOut(auth);
-  };
+      const emailInput = document.getElementById("email");
+      const passwordInput = document.getElementById("password");
 
-});
-                 </script>  
+      signupBtn.onclick = () =>
+        createUserWithEmailAndPassword(auth, emailInput.value, passwordInput.value)
+          .catch(e => authMsg.innerText = e.message);
+
+      loginBtn.onclick = () =>
+        signInWithEmailAndPassword(auth, emailInput.value, passwordInput.value)
+          .catch(e => authMsg.innerText = e.message);
+
+      resetBtn.onclick = () =>
+        sendPasswordResetEmail(auth, emailInput.value)
+          .then(() => authMsg.innerText = "Reset email sent")
+          .catch(e => authMsg.innerText = e.message);
+
+      const sections = {
+        home: homeSection,
+        tasks: tasksSection,
+        rewards: rewardsSection,
+        giving: givingSection,
+        profile: profileSection
+      };
+
+      window.showSection = name => {
+        Object.values(sections).forEach(s => s.classList.remove("active"));
+        sections[name].classList.add("active");
+      };
+
+      onAuthStateChanged(auth, user => {
+        if (user) {
+          authBox.style.display = "none";
+          navBar.style.display = "flex";
+          profileEmail.innerText = user.email;
+          showSection("home");
+        } else {
+          authBox.style.display = "block";
+          navBar.style.display = "none";
+        }
+      });
+
+      window.logout = () => signOut(auth);
+    });
+  </script>
+
 </body>
-   </html>
+  </html>
