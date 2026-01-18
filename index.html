@@ -6,10 +6,11 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
 <style>
+/* ===== GLOBAL FIXES ===== */
 html, body {
   height: 100%;
   margin: 0;
-  overflow: hidden;
+  overflow: auto; /* ✅ allow scrolling */
   font-family: Arial, sans-serif;
   background: #0b0b0b;
   color: #f5f5f5;
@@ -50,12 +51,18 @@ html, body {
 .main-content {
   flex: 1;
   overflow-y: auto;
-  padding: 20px 16px 130px;
+  padding: 20px 16px 160px; /* ✅ extra space for bottom nav */
+  -webkit-overflow-scrolling: touch; /* ✅ mobile smooth scroll */
 }
 
 /* ===== SECTIONS ===== */
-.section { display: none; }
-.section.active { display: block; }
+.section {
+  display: none;
+  min-height: 100%; /* ✅ prevents “empty” profile bug */
+}
+.section.active {
+  display: block;
+}
 
 /* ===== CARDS ===== */
 .card {
@@ -114,6 +121,7 @@ button {
   display: flex;
   justify-content: space-evenly;
   align-items: center;
+  z-index: 50;
 }
 
 .bottom-nav button {
@@ -123,17 +131,18 @@ button {
   font-weight: 900;
   color: #000;
   letter-spacing: 1px;
-  padding-bottom: 6px;
+  padding-bottom: 8px;
   cursor: pointer;
   position: relative;
 }
 
+/* ✅ ACTIVE TAB INDICATOR (clean & centered) */
 .bottom-nav button.active::after {
   content: "";
   position: absolute;
   bottom: 0;
-  left: 20%;
-  width: 60%;
+  left: 0;
+  width: 100%;
   height: 4px;
   background: #000;
   border-radius: 2px;
@@ -258,7 +267,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     btn.classList.add("active");
   };
 
-  document.getElementById("signupBtn").onclick = async () => {
+  signupBtn.onclick = async () => {
     try {
       await createUserWithEmailAndPassword(auth, email.value, password.value);
       authMsg.innerText = "Account created successfully";
@@ -267,7 +276,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     }
   };
 
-  document.getElementById("loginBtn").onclick = async () => {
+  loginBtn.onclick = async () => {
     try {
       await signInWithEmailAndPassword(auth, email.value, password.value);
     } catch (e) {
