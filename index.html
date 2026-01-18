@@ -1,138 +1,238 @@
-<script type="module">
-/* ================= FIREBASE IMPORTS ================= */
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-import {
-  getAuth,
-  createUserWithEmailAndPassword,
-  signInWithEmailAndPassword,
-  onAuthStateChanged,
-  signOut
-} from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
-import {
-  getFirestore,
-  doc,
-  setDoc,
-  getDoc,
-  updateDoc
-} from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Church Rewards App</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-/* ================= FIREBASE CONFIG ================= */
-const firebaseConfig = {
-  apiKey: "AIzaSyDImP8ODFS0lxWZ5AdTLi7jTxZzFo6JxeY",
-  authDomain: "rewards-task-mvp.firebaseapp.com",
-  projectId: "rewards-task-mvp",
-  storageBucket: "rewards-task-mvp.appspot.com",
-  messagingSenderId: "154842831298",
-  appId: "1:154842831298:web:9ff9e24acfaf346aa99e5b"
-};
+<style>
+* { box-sizing: border-box; }
 
-/* ================= INIT ================= */
-const app = initializeApp(firebaseConfig);
-const auth = getAuth(app);
-const db = getFirestore(app);
-
-/* ================= ELEMENTS ================= */
-const emailInput = document.getElementById("email");
-const passwordInput = document.getElementById("password");
-const authMsg = document.getElementById("authMsg");
-const authBox = document.getElementById("authBox");
-const appBox = document.getElementById("app");
-const navBar = document.querySelector(".bottom-nav");
-const profileEmail = document.getElementById("profileEmail");
-const loadingScreen = document.getElementById("loadingScreen");
-
-/* ================= UI HELPERS ================= */
-function hideAllSections() {
-  document.querySelectorAll(".section").forEach(s => {
-    s.classList.remove("active");
-  });
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  background: #0b0b0b;
+  color: #f5f5f5;
+  font-family: Arial, sans-serif;
+  overflow: hidden;
 }
 
-window.showSection = function (name, btn) {
-  hideAllSections();
-  document.getElementById(name + "Section")?.classList.add("active");
-
-  document.querySelectorAll(".bottom-nav button")
-    .forEach(b => b.classList.remove("active"));
-
-  if (btn) btn.classList.add("active");
-};
-
-/* ================= SIGN UP ================= */
-document.getElementById("signupBtn").onclick = async () => {
-  authMsg.innerText = "";
-
-  if (!emailInput.value || !passwordInput.value) {
-    authMsg.innerText = "Enter email & password";
-    return;
-  }
-
-  try {
-    const cred = await createUserWithEmailAndPassword(
-      auth,
-      emailInput.value.trim(),
-      passwordInput.value
-    );
-
-    await setDoc(doc(db, "users", cred.user.uid), {
-      email: cred.user.email,
-      xp: 0,
-      createdAt: new Date()
-    });
-
-    authMsg.innerText = "Account created ✅";
-  } catch (err) {
-    authMsg.innerText = err.message;
-  }
-};
-
-/* ================= LOGIN ================= */
-document.getElementById("loginBtn").onclick = async () => {
-  authMsg.innerText = "";
-
-  try {
-    await signInWithEmailAndPassword(
-      auth,
-      emailInput.value.trim(),
-      passwordInput.value
-    );
-  } catch (err) {
-    authMsg.innerText = err.message;
-  }
-};
-
-/* ================= LOGOUT ================= */
-window.logout = () => signOut(auth);
-
-/* ================= XP SYSTEM ================= */
-let xp = 0;
-
-async function loadXP(uid) {
-  try {
-    const snap = await getDoc(doc(db, "users", uid));
-    xp = snap.exists() ? snap.data().xp || 0 : 0;
-  } catch {
-    xp = 0;
-  }
+/* LOADING */
+#loadingScreen {
+  position: fixed;
+  inset: 0;
+  background: #000;
+  color: gold;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
 }
 
-/* ================= AUTH STATE ================= */
-onAuthStateChanged(auth, async user => {
-  loadingScreen.style.display = "none";
+/* APP LAYOUT */
+#app {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
 
-  if (user) {
-    authBox.style.display = "none";
-    appBox.style.display = "flex";
-    navBar.style.display = "flex";
+/* HEADER */
+.header {
+  height: 64px;
+  background: #111;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-bottom: 1px solid rgba(255,215,0,0.4);
+  flex-shrink: 0;
+}
 
-    profileEmail.textContent = user.email;
-    await loadXP(user.uid);
+.header h1 {
+  color: gold;
+  margin: 0;
+  font-weight: 900;
+}
 
-    showSection("home");
-  } else {
-    authBox.style.display = "block";
-    appBox.style.display = "none";
-    navBar.style.display = "none";
-  }
-});
-  </script>
+/* SCROLLABLE CONTENT */
+.main-content {
+  flex: 1;
+  overflow-y: auto;
+  padding: 16px;
+  padding-bottom: 190px; /* 🔥 critical fix */
+  -webkit-overflow-scrolling: touch;
+}
+
+/* SECTIONS */
+.section { display: none; }
+.section.active { display: block; }
+
+/* CARD */
+.card {
+  background: #1a1a1a;
+  padding: 16px;
+  border-radius: 14px;
+  margin-bottom: 16px;
+  box-shadow: 0 0 14px rgba(255,215,0,0.25);
+}
+
+/* BUTTONS */
+button {
+  background: gold;
+  border: none;
+  padding: 12px 18px;
+  font-weight: bold;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+button.completed {
+  background: #444;
+  color: gold;
+}
+
+/* AUTH */
+#authBox {
+  padding: 40px 20px;
+  text-align: center;
+}
+
+input {
+  width: 90%;
+  max-width: 320px;
+  padding: 12px;
+  margin-bottom: 12px;
+  border-radius: 6px;
+  border: none;
+}
+
+/* BOTTOM NAV — FIXED */
+.bottom-nav {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 90px;
+  background: gold;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  z-index: 1000;
+  padding-bottom: env(safe-area-inset-bottom);
+}
+
+.bottom-nav button {
+  background: none;
+  border: none;
+  font-weight: 900;
+  font-size: 16px;
+  color: #000;
+}
+
+.bottom-nav button.active {
+  text-decoration: underline;
+}
+</style>
+</head>
+
+<body>
+
+<div id="loadingScreen">Loading Church App…</div>
+
+<!-- AUTH -->
+<div id="authBox" style="display:none">
+  <h2 style="color:gold">Login / Signup</h2>
+  <input id="email" type="email" placeholder="Email">
+  <input id="password" type="password" placeholder="Password">
+  <div>
+    <button id="signupBtn">Sign Up</button>
+    <button id="loginBtn">Login</button>
+  </div>
+  <p id="authMsg"></p>
+</div>
+
+<!-- APP -->
+<div id="app" style="display:none">
+
+<header class="header">
+  <h1>CHURCH APP</h1>
+</header>
+
+<main class="main-content">
+
+<section id="homeSection" class="section active">
+  <h2 style="color:gold">Dashboard</h2>
+
+  <div class="card">🙏 Today’s Blessings — Stay Connected</div>
+  <div class="card">💰 Total Donations — ₦0 (demo)</div>
+
+  <div class="card">
+    🔴 <strong>Live Service</strong><br><br>
+    <div style="height:200px;background:#000;border-radius:12px;display:flex;align-items:center;justify-content:center;color:#aaa;text-align:center;">
+      Livestream activates automatically<br>during service time
+    </div>
+    <br>
+    <button>Live Soon</button>
+  </div>
+
+  <div class="card">📢 Church Announcement Area</div>
+</section>
+
+<section id="tasksSection" class="section">
+  <h2 style="color:gold">Church Tasks</h2>
+  <div class="card">📖 Read Bible Passage<br><br><button onclick="completeTask(this)">Mark as Done</button></div>
+  <div class="card">🙏 Prayer Task<br><br><button onclick="completeTask(this)">Mark as Done</button></div>
+  <div class="card">📢 Evangelism<br><br><button onclick="completeTask(this)">Mark as Done</button></div>
+</section>
+
+<section id="rewardsSection" class="section">
+  <h2 style="color:gold">Rewards</h2>
+  <div class="card">⭐ Reward Points: 120</div>
+  <div class="card">🏆 Faithful Member Badge</div>
+</section>
+
+<section id="givingSection" class="section">
+  <h2 style="color:gold">Donations</h2>
+  <div class="card">
+    Secure payment powered by Flutterwave<br><br>
+    <button>Donate</button>
+  </div>
+</section>
+
+<section id="profileSection" class="section">
+  <h2 style="color:gold">Profile</h2>
+  <div class="card">
+    <p id="profileEmail"></p>
+    <button onclick="logout()">Logout</button>
+  </div>
+</section>
+
+</main>
+
+<nav class="bottom-nav">
+  <button class="active" onclick="showSection('home',this)">HOME</button>
+  <button onclick="showSection('tasks',this)">TASKS</button>
+  <button onclick="showSection('rewards',this)">REWARDS</button>
+  <button onclick="showSection('giving',this)">DONATE</button>
+  <button onclick="showSection('profile',this)">PROFILE</button>
+</nav>
+
+</div>
+
+<script>
+function showSection(name, btn) {
+  document.querySelectorAll(".section").forEach(s => s.classList.remove("active"));
+  document.getElementById(name + "Section").classList.add("active");
+  document.querySelectorAll(".bottom-nav button").forEach(b => b.classList.remove("active"));
+  btn.classList.add("active");
+}
+
+function completeTask(btn) {
+  btn.textContent = "Completed ✓";
+  btn.classList.add("completed");
+  btn.disabled = true;
+}
+</script>
+
+</body>
+  </html>
