@@ -15,7 +15,19 @@ html, body {
   background: #0b0b0b;
   color: #f5f5f5;
   font-family: Arial, sans-serif;
-  overflow: hidden; /* prevent white screen */
+}
+
+/* LOADING */
+#loadingScreen {
+  position: fixed;
+  inset: 0;
+  background: #000;
+  color: gold;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  z-index: 9999;
 }
 
 /* HEADER */
@@ -36,7 +48,7 @@ html, body {
 
 /* MAIN SCROLL AREA */
 .main-content {
-  height: calc(100vh - 154px); /* header + bottom nav */
+  height: calc(100vh - 154px);
   overflow-y: auto;
   padding: 16px;
   padding-bottom: 40px;
@@ -62,7 +74,6 @@ button {
   padding: 12px 18px;
   font-weight: bold;
   border-radius: 8px;
-  cursor: pointer;
 }
 
 button.completed {
@@ -112,8 +123,10 @@ input {
 
 <body>
 
+<div id="loadingScreen">Loading Church App…</div>
+
 <!-- AUTH -->
-<div id="authBox">
+<div id="authBox" style="display:none">
   <h2 style="color:gold">Login / Signup</h2>
   <input id="email" type="email" placeholder="Email">
   <input id="password" type="password" placeholder="Password">
@@ -133,14 +146,12 @@ input {
 
 <main class="main-content">
 
-<!-- DASHBOARD -->
 <section id="homeSection" class="section active">
   <h2 style="color:gold">Dashboard</h2>
 
   <div class="card">🙏 Today’s Blessings — Stay Connected</div>
   <div class="card">💰 Total Donations — ₦0 (demo)</div>
 
-  <!-- LIVESTREAM PLACEHOLDER -->
   <div class="card">
     🔴 <strong>Live Service</strong><br><br>
     Facebook & TikTok Livestream will appear here during service time.
@@ -149,53 +160,41 @@ input {
   </div>
 </section>
 
-<!-- TASKS -->
 <section id="tasksSection" class="section">
   <h2 style="color:gold">Church Tasks</h2>
 
   <div class="card">
-    📖 <strong>Read Bible Passage</strong><br>
-    Matthew 5:1–12
-    <br><br>
+    📖 <strong>Read Bible Passage</strong><br>Matthew 5:1–12<br><br>
     <button onclick="completeTask(this)">Mark as Done</button>
   </div>
 
   <div class="card">
-    🙏 <strong>Prayer Task</strong><br>
-    Pray for church leaders & members
-    <br><br>
+    🙏 <strong>Prayer Task</strong><br>Pray for church leaders & members<br><br>
     <button onclick="completeTask(this)">Mark as Done</button>
   </div>
 
   <div class="card">
-    📢 <strong>Evangelism</strong><br>
-    Share Sunday service link with 3 people
-    <br><br>
+    📢 <strong>Evangelism</strong><br>Share Sunday service with 3 people<br><br>
     <button onclick="completeTask(this)">Mark as Done</button>
   </div>
 
   <div class="card">
-    ❤️ <strong>Service Task</strong><br>
-    Help someone in need today
-    <br><br>
+    ❤️ <strong>Service Task</strong><br>Help someone in need today<br><br>
     <button onclick="completeTask(this)">Mark as Done</button>
   </div>
 </section>
 
-<!-- REWARDS -->
 <section id="rewardsSection" class="section">
   <h2 style="color:gold">Rewards</h2>
   <div class="card">🥇 Faithful Member Badge</div>
   <div class="card">⭐ 120 Reward Points</div>
 </section>
 
-<!-- DONATIONS -->
 <section id="givingSection" class="section">
   <h2 style="color:gold">Donations</h2>
-  <div class="card">Secure payment gateway coming soon</div>
+  <div class="card">Secure payment coming soon</div>
 </section>
 
-<!-- PROFILE -->
 <section id="profileSection" class="section">
   <h2 style="color:gold">Profile</h2>
   <div class="card">
@@ -217,56 +216,63 @@ input {
 </div>
 
 <script type="module">
-import { initializeApp } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js";
-import {
-  getAuth,
-  onAuthStateChanged,
-  signOut,
-  signInWithEmailAndPassword,
-  createUserWithEmailAndPassword
-} from "https://www.gstatic.com/firebasejs/9.23.0/firebase-auth.js";
+function hideLoading() {
+  document.getElementById("loadingScreen").remove();
+}
 
-const firebaseConfig = {
-  apiKey: "AIzaSyDImP8ODFS0lxWZ5AdTLi7jTxZzFo6JxeY",
-  authDomain: "rewards-task-mvp.firebaseapp.com",
-  projectId: "rewards-task-mvp",
-  appId: "1:154842831298:web:9ff9e24acfaf346aa99e5b"
-};
+import("https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js").then(({ initializeApp }) => {
+  import("https://www.gstatic.com/firebasejs/9.23.0/firebase-auth.js").then(
+    ({ getAuth, onAuthStateChanged, signOut, signInWithEmailAndPassword, createUserWithEmailAndPassword }) => {
 
-const app = initializeApp(firebaseConfig);
-const auth = getAuth(app);
+      const firebaseConfig = {
+        apiKey: "AIzaSyDImP8ODFS0lxWZ5AdTLi7jTxZzFo6JxeY",
+        authDomain: "rewards-task-mvp.firebaseapp.com",
+        projectId: "rewards-task-mvp",
+        appId: "1:154842831298:web:9ff9e24acfaf346aa99e5b"
+      };
 
-signupBtn.onclick = () =>
-  createUserWithEmailAndPassword(auth, email.value, password.value)
-    .catch(e => authMsg.innerText = e.message);
+      const appFB = initializeApp(firebaseConfig);
+      const auth = getAuth(appFB);
 
-loginBtn.onclick = () =>
-  signInWithEmailAndPassword(auth, email.value, password.value)
-    .catch(e => authMsg.innerText = e.message);
+      signupBtn.onclick = () =>
+        createUserWithEmailAndPassword(auth, email.value, password.value)
+          .catch(e => authMsg.innerText = e.message);
 
-window.logout = () => signOut(auth);
+      loginBtn.onclick = () =>
+        signInWithEmailAndPassword(auth, email.value, password.value)
+          .catch(e => authMsg.innerText = e.message);
 
-onAuthStateChanged(auth, user => {
-  if (user) {
-    authBox.style.display = "none";
-    app.style.display = "block";
-    profileEmail.textContent = user.email;
-  }
+      window.logout = () => signOut(auth);
+
+      onAuthStateChanged(auth, user => {
+        hideLoading();
+        if (user) {
+          authBox.style.display = "none";
+          app.style.display = "block";
+          profileEmail.textContent = user.email;
+        } else {
+          authBox.style.display = "block";
+        }
+      });
+    }
+  );
 });
+</script>
 
-window.showSection = (name, btn) => {
+<script>
+function showSection(name, btn) {
   document.querySelectorAll(".section").forEach(s => s.classList.remove("active"));
   document.getElementById(name + "Section").classList.add("active");
   document.querySelectorAll(".bottom-nav button").forEach(b => b.classList.remove("active"));
   btn.classList.add("active");
-};
+}
 
-window.completeTask = (btn) => {
-  btn.innerText = "Completed ✓";
+function completeTask(btn) {
+  btn.textContent = "Completed ✓";
   btn.classList.add("completed");
   btn.disabled = true;
-};
+}
 </script>
 
 </body>
-                                   </html>
+  </html>
