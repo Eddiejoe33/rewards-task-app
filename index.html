@@ -14,7 +14,6 @@ html, body {
   background: #0b0b0b;
   color: #f5f5f5;
   font-family: Arial, sans-serif;
-  overflow-y: auto;
 }
 
 /* LOADING */
@@ -31,12 +30,15 @@ html, body {
 
 /* HEADER */
 .header {
+  position: sticky;
+  top: 0;
   height: 64px;
   background: #111;
   display: flex;
   align-items: center;
   justify-content: center;
   border-bottom: 1px solid rgba(255,215,0,0.4);
+  z-index: 100;
 }
 
 .header h1 {
@@ -45,10 +47,10 @@ html, body {
   font-weight: 900;
 }
 
-/* MAIN CONTENT (SCROLL FIX) */
+/* CONTENT */
 .main-content {
   padding: 16px;
-  padding-bottom: 140px; /* space for bottom nav */
+  padding-bottom: 130px; /* critical for bottom nav */
 }
 
 /* SECTIONS */
@@ -98,13 +100,14 @@ input {
 .bottom-nav {
   position: fixed;
   bottom: 0;
+  left: 0;
   width: 100%;
   height: 90px;
   background: gold;
   display: flex;
   justify-content: space-around;
   align-items: center;
-  z-index: 1000;
+  z-index: 200;
 }
 
 .bottom-nav button {
@@ -152,30 +155,27 @@ input {
   <div class="card">🙏 Today’s Blessings — Stay Connected</div>
   <div class="card">💰 Total Donations — ₦0 (demo)</div>
 
-  <!-- LIVESTREAM PLACEHOLDER (NO ERROR) -->
   <div class="card">
     🔴 <strong>Live Service</strong><br><br>
-
     <div style="
+      height:200px;
       background:#000;
       border-radius:12px;
-      height:200px;
       display:flex;
       align-items:center;
       justify-content:center;
-      color:#999;
       text-align:center;
-      padding:10px;
+      color:#aaa;
     ">
-      Live service will appear here<br>
-      during church service time
+      Livestream activates automatically<br>
+      during service time
     </div>
-
     <br>
-    <button onclick="alert('Livestream link will be enabled by admin')">
-      Open Live Stream
-    </button>
+    <button>Live Soon</button>
   </div>
+
+  <!-- extra filler to prove scroll works -->
+  <div class="card">📢 Church Announcement Area</div>
 </section>
 
 <!-- TASKS -->
@@ -183,26 +183,22 @@ input {
   <h2 style="color:gold">Church Tasks</h2>
 
   <div class="card">
-    📖 <strong>Read Bible Passage</strong><br>
-    Matthew 5:1–12<br><br>
+    📖 <strong>Read Bible Passage</strong><br>Matthew 5:1–12<br><br>
     <button onclick="completeTask(this)">Mark as Done</button>
   </div>
 
   <div class="card">
-    🙏 <strong>Prayer Task</strong><br>
-    Pray for church leaders & members<br><br>
+    🙏 <strong>Prayer Task</strong><br>Pray for church leaders<br><br>
     <button onclick="completeTask(this)">Mark as Done</button>
   </div>
 
   <div class="card">
-    📢 <strong>Evangelism</strong><br>
-    Share Sunday service with 3 people<br><br>
+    📢 <strong>Evangelism</strong><br>Invite 3 people to church<br><br>
     <button onclick="completeTask(this)">Mark as Done</button>
   </div>
 
   <div class="card">
-    ❤️ <strong>Service Task</strong><br>
-    Help someone in need today<br><br>
+    ❤️ <strong>Service Task</strong><br>Help someone today<br><br>
     <button onclick="completeTask(this)">Mark as Done</button>
   </div>
 </section>
@@ -210,19 +206,19 @@ input {
 <!-- REWARDS -->
 <section id="rewardsSection" class="section">
   <h2 style="color:gold">Rewards</h2>
-  <div class="card">🥇 Faithful Member Badge</div>
-  <div class="card">⭐ 120 Reward Points</div>
+  <div class="card">⭐ Reward Points: 120</div>
+  <div class="card">🏆 Faithful Member Badge</div>
 </section>
 
-<!-- DONATIONS (FLUTTERWAVE PLACEHOLDER) -->
+<!-- DONATE (FLUTTERWAVE PLACEHOLDER FIXED) -->
 <section id="givingSection" class="section">
   <h2 style="color:gold">Donations</h2>
 
   <div class="card">
     💳 <strong>Give Offering / Tithe</strong><br><br>
-    Powered by Flutterwave<br><br>
-    <button onclick="alert('Flutterwave payment will be enabled')">
-      Donate Now
+    Secure payment powered by Flutterwave<br><br>
+    <button onclick="alert('Flutterwave payment coming soon')">
+      Donate with Flutterwave
     </button>
   </div>
 </section>
@@ -230,10 +226,14 @@ input {
 <!-- PROFILE -->
 <section id="profileSection" class="section">
   <h2 style="color:gold">Profile</h2>
+
   <div class="card">
     <p id="profileEmail"></p>
     <button onclick="logout()">Logout</button>
   </div>
+
+  <!-- spacer to prove scroll -->
+  <div class="card">📄 Account Settings (coming soon)</div>
 </section>
 
 </main>
@@ -249,10 +249,6 @@ input {
 </div>
 
 <script type="module">
-function hideLoading() {
-  document.getElementById("loadingScreen").style.display = "none";
-}
-
 import("https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js").then(({ initializeApp }) => {
   import("https://www.gstatic.com/firebasejs/9.23.0/firebase-auth.js").then(
     ({ getAuth, onAuthStateChanged, signOut, signInWithEmailAndPassword, createUserWithEmailAndPassword }) => {
@@ -278,7 +274,7 @@ import("https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js").then(({ init
       window.logout = () => signOut(auth);
 
       onAuthStateChanged(auth, user => {
-        hideLoading();
+        document.getElementById("loadingScreen").style.display = "none";
         if (user) {
           authBox.style.display = "none";
           app.style.display = "block";
