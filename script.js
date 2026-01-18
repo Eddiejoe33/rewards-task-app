@@ -1,11 +1,11 @@
-
 /* ================= FIREBASE IMPORTS ================= */
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
 import {
   getAuth,
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
-  onAuthStateChanged
+  onAuthStateChanged,
+  signOut
 } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
 import {
   getFirestore,
@@ -16,14 +16,13 @@ import {
 } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
 /* ================= FIREBASE CONFIG ================= */
-/* 🔴 REPLACE ONLY THESE VALUES */
 const firebaseConfig = {
   apiKey: "AIzaSyDImP8ODFS0lxWZ5AdTLi7jTxZzFo6JxeY",
-  authDomain: "YOUR_PROJECT.firebaseapp.com",
-  projectId: "YOUR_PROJECT_ID",
-  storageBucket: "YOUR_PROJECT.appspot.com",
-  messagingSenderId: "YOUR_SENDER_ID",
-  appId: "YOUR_APP_ID"
+  authDomain: "rewards-task-mvp.firebaseapp.com",
+  projectId: "rewards-task-mvp",
+  storageBucket: "rewards-task-mvp.appspot.com",
+  messagingSenderId: "154842831298",
+  appId: "1:154842831298:web:9ff9e24acfaf346aa99e5b"
 };
 
 /* ================= INIT ================= */
@@ -36,9 +35,31 @@ const emailInput = document.getElementById("email");
 const passwordInput = document.getElementById("password");
 const authMsg = document.getElementById("authMsg");
 const authBox = document.getElementById("authBox");
+const appBox = document.getElementById("app");
+const navBar = document.querySelector(".bottom-nav");
+const profileEmail = document.getElementById("profileEmail");
+const loadingScreen = document.getElementById("loadingScreen");
+
+/* ================= UI HELPERS ================= */
+function hideAllSections() {
+  document.querySelectorAll(".section").forEach(s => {
+    s.classList.remove("active");
+  });
+}
+
+window.showSection = function (name, btn) {
+  hideAllSections();
+  document.getElementById(name + "Section")?.classList.add("active");
+
+  document
+    .querySelectorAll(".bottom-nav button")
+    .forEach(b => b.classList.remove("active"));
+
+  btn?.classList.add("active");
+};
 
 /* ================= SIGN UP ================= */
-document.getElementById("signupBtn").addEventListener("click", async () => {
+document.getElementById("signupBtn").onclick = async () => {
   if (!emailInput.value || !passwordInput.value) {
     authMsg.innerText = "Enter email & password";
     return;
@@ -61,36 +82,31 @@ document.getElementById("signupBtn").addEventListener("click", async () => {
   } catch (err) {
     authMsg.innerText = err.message;
   }
-});
+};
 
 /* ================= LOGIN ================= */
-document.getElementById("loginBtn").addEventListener("click", async () => {
-  if (!emailInput.value || !passwordInput.value) {
-    authMsg.innerText = "Enter email & password";
-    return;
-  }
-
+document.getElementById("loginBtn").onclick = async () => {
   try {
     await signInWithEmailAndPassword(
       auth,
       emailInput.value,
       passwordInput.value
     );
-    authMsg.innerText = "Logged in ✅";
   } catch (err) {
     authMsg.innerText = err.message;
   }
-});
+};
 
-/* ================= XP ================= */
+/* ================= LOGOUT ================= */
+window.logout = () => signOut(auth);
+
+/* ================= XP SYSTEM ================= */
 let xp = 0;
 
 async function loadXP(uid) {
   const ref = doc(db, "users", uid);
   const snap = await getDoc(ref);
-
   xp = snap.exists() ? snap.data().xp || 0 : 0;
-  updateXP();
 }
 
 async function saveXP(uid) {
@@ -98,61 +114,21 @@ async function saveXP(uid) {
   await updateDoc(doc(db, "users", uid), { xp });
 }
 
-function updateXP() {
-  const el = document.getElementById("xp");
-  if (el) el.innerText = xp + " XP";
-}
-
-/* ================= TASK BUTTONS ================= */
-document.getElementById("dailyTask")?.addEventListener("click", async () => {
-  if (!auth.currentUser) return;
-  xp += 20;
-  updateXP();
-  saveXP(auth.currentUser.uid);
-});
-
-document.getElementById("inviteTask")?.addEventListener("click", async () => {
-  if (!auth.currentUser) return;
-  xp += 50;
-  updateXP();
-  saveXP(auth.currentUser.uid);
-});
-
-document.getElementById("redeemBtn")?.addEventListener("click", async () => {
-  if (!auth.currentUser) return;
-
-  if (xp >= 200) {
-    xp -= 200;
-    updateXP();
-    saveXP(auth.currentUser.uid);
-    alert("Reward redeemed 🎉");
-  } else {
-    alert("Not enough XP");
-  }
-});
-
-/* ================= NAV ================= */
-window.showSection = function (name) {
-  ["home","tasks","rewards","profile","giving"].forEach(s => {
-    document.getElementById(s + "Section")?.classList.add("hidden");
-  });
-  document.getElementById(name + "Section")?.classList.remove("hidden");
-};
-
 /* ================= AUTH STATE ================= */
-onAuthStateChanged(auth, user => {
-  hideAllSections();
+onAuthStateChanged(auth, async user => {
+  loadingScreen.style.display = "none";
 
   if (user) {
     authBox.style.display = "none";
+    appBox.style.display = "flex";
     navBar.style.display = "flex";
 
-    showSection("home");
     profileEmail.innerText = user.email;
-    loadXP(user.uid);
+    await loadXP(user.uid);
+    showSection("home");
   } else {
     authBox.style.display = "block";
+    appBox.style.display = "none";
     navBar.style.display = "none";
   }
 });
-
