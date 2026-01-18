@@ -12,7 +12,8 @@ import {
   getFirestore,
   doc,
   setDoc,
-  getDoc
+  getDoc,
+  updateDoc
 } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
 /* ================= FIREBASE CONFIG ================= */
@@ -31,34 +32,33 @@ const auth = getAuth(app);
 const db = getFirestore(app);
 
 /* ================= ELEMENTS ================= */
-const emailInput   = document.getElementById("email");
-const passwordInput= document.getElementById("password");
-const authMsg      = document.getElementById("authMsg");
-const authBox      = document.getElementById("authBox");
-const appBox       = document.getElementById("app");
-const navBar       = document.querySelector(".bottom-nav");
+const emailInput = document.getElementById("email");
+const passwordInput = document.getElementById("password");
+const authMsg = document.getElementById("authMsg");
+const authBox = document.getElementById("authBox");
+const appBox = document.getElementById("app");
+const navBar = document.querySelector(".bottom-nav");
 const profileEmail = document.getElementById("profileEmail");
-const loader       = document.getElementById("loadingScreen");
 
-/* ================= FAIL-SAFE LOADER ================= */
-setTimeout(() => {
-  if (loader) loader.style.display = "none";
-}, 4000);
-
-/* ================= UI ================= */
+/* ================= UI HELPERS ================= */
 function hideAllSections() {
-  document.querySelectorAll(".section").forEach(s =>
-    s.classList.remove("active")
-  );
+  document.querySelectorAll(".section").forEach(s => {
+    s.classList.remove("active");
+  });
 }
 
-window.showSection = function (name) {
+window.showSection = function (name, btn) {
   hideAllSections();
   document.getElementById(name + "Section")?.classList.add("active");
+
+  document.querySelectorAll(".bottom-nav button")
+    .forEach(b => b.classList.remove("active"));
+
+  if (btn) btn.classList.add("active");
 };
 
 /* ================= SIGN UP ================= */
-document.getElementById("signupBtn")?.addEventListener("click", async () => {
+document.getElementById("signupBtn").onclick = async () => {
   authMsg.textContent = "";
 
   if (!emailInput.value || !passwordInput.value) {
@@ -83,10 +83,10 @@ document.getElementById("signupBtn")?.addEventListener("click", async () => {
   } catch (err) {
     authMsg.textContent = err.message;
   }
-});
+};
 
 /* ================= LOGIN ================= */
-document.getElementById("loginBtn")?.addEventListener("click", async () => {
+document.getElementById("loginBtn").onclick = async () => {
   authMsg.textContent = "";
 
   if (!emailInput.value || !passwordInput.value) {
@@ -103,15 +103,25 @@ document.getElementById("loginBtn")?.addEventListener("click", async () => {
   } catch (err) {
     authMsg.textContent = err.message;
   }
-});
+};
 
 /* ================= LOGOUT ================= */
 window.logout = () => signOut(auth);
 
-/* ================= AUTH STATE ================= */
-onAuthStateChanged(auth, user => {
-  if (loader) loader.style.display = "none";
+/* ================= XP SYSTEM ================= */
+let xp = 0;
 
+async function loadXP(uid) {
+  try {
+    const snap = await getDoc(doc(db, "users", uid));
+    xp = snap.exists() ? snap.data().xp || 0 : 0;
+  } catch (e) {
+    xp = 0;
+  }
+}
+
+/* ================= AUTH STATE ================= */
+onAuthStateChanged(auth, async user => {
   if (user) {
     authBox.style.display = "none";
     appBox.style.display = "flex";
@@ -121,6 +131,7 @@ onAuthStateChanged(auth, user => {
       profileEmail.textContent = user.email;
     }
 
+    await loadXP(user.uid);
     showSection("home");
   } else {
     authBox.style.display = "block";
