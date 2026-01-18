@@ -11,7 +11,6 @@
 html, body {
   margin: 0;
   padding: 0;
-  min-height: 100%;
   background: #0b0b0b;
   color: #f5f5f5;
   font-family: Arial, sans-serif;
@@ -27,7 +26,6 @@ html, body {
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 18px;
   z-index: 9999;
 }
 
@@ -47,11 +45,10 @@ html, body {
   font-weight: 900;
 }
 
-/* MAIN CONTENT */
+/* MAIN CONTENT (SCROLL FIX) */
 .main-content {
   padding: 16px;
-  padding-bottom: 130px; /* space for bottom nav */
-  overflow-y: auto;
+  padding-bottom: 140px; /* space for bottom nav */
 }
 
 /* SECTIONS */
@@ -101,7 +98,6 @@ input {
 .bottom-nav {
   position: fixed;
   bottom: 0;
-  left: 0;
   width: 100%;
   height: 90px;
   background: gold;
@@ -156,29 +152,29 @@ input {
   <div class="card">🙏 Today’s Blessings — Stay Connected</div>
   <div class="card">💰 Total Donations — ₦0 (demo)</div>
 
+  <!-- LIVESTREAM PLACEHOLDER (NO ERROR) -->
   <div class="card">
     🔴 <strong>Live Service</strong><br><br>
 
     <div style="
-      width:100%;
-      aspect-ratio:16/9;
       background:#000;
       border-radius:12px;
-      overflow:hidden;
-      margin-bottom:10px;
+      height:200px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      color:#999;
+      text-align:center;
+      padding:10px;
     ">
-      <iframe
-        src="https://www.youtube.com/embed/live_stream?channel=UC4R8DWoMoI7CAwX8_LjQHig"
-        width="100%"
-        height="100%"
-        frameborder="0"
-        allowfullscreen>
-      </iframe>
+      Live service will appear here<br>
+      during church service time
     </div>
 
-    <small style="opacity:0.8">
-      Livestream activates automatically during service time
-    </small>
+    <br>
+    <button onclick="alert('Livestream link will be enabled by admin')">
+      Open Live Stream
+    </button>
   </div>
 </section>
 
@@ -218,10 +214,17 @@ input {
   <div class="card">⭐ 120 Reward Points</div>
 </section>
 
-<!-- DONATIONS -->
+<!-- DONATIONS (FLUTTERWAVE PLACEHOLDER) -->
 <section id="givingSection" class="section">
   <h2 style="color:gold">Donations</h2>
-  <div class="card">Secure payment coming soon</div>
+
+  <div class="card">
+    💳 <strong>Give Offering / Tithe</strong><br><br>
+    Powered by Flutterwave<br><br>
+    <button onclick="alert('Flutterwave payment will be enabled')">
+      Donate Now
+    </button>
+  </div>
 </section>
 
 <!-- PROFILE -->
