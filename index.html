@@ -15,7 +15,7 @@ html, body {
   background: #0b0b0b;
   color: #f5f5f5;
   font-family: Arial, sans-serif;
-  overflow: hidden; /* IMPORTANT */
+  overflow: hidden;
 }
 
 /* LOADING */
@@ -28,6 +28,13 @@ html, body {
   align-items: center;
   justify-content: center;
   z-index: 9999;
+}
+
+/* APP LAYOUT */
+#app {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
 }
 
 /* HEADER */
@@ -47,19 +54,12 @@ html, body {
   font-weight: 900;
 }
 
-/* APP LAYOUT */
-#app {
-  height: 100vh;
-  display: flex;
-  flex-direction: column;
-}
-
 /* SCROLLABLE CONTENT */
 .main-content {
   flex: 1;
   overflow-y: auto;
   padding: 16px;
-  padding-bottom: 140px; /* space for bottom nav */
+  padding-bottom: 190px; /* 🔥 critical fix */
   -webkit-overflow-scrolling: touch;
 }
 
@@ -106,14 +106,19 @@ input {
   border: none;
 }
 
-/* BOTTOM NAV */
+/* BOTTOM NAV — FIXED */
 .bottom-nav {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
   height: 90px;
   background: gold;
   display: flex;
   justify-content: space-around;
   align-items: center;
-  flex-shrink: 0;
+  z-index: 1000;
+  padding-bottom: env(safe-area-inset-bottom);
 }
 
 .bottom-nav button {
@@ -121,6 +126,7 @@ input {
   border: none;
   font-weight: 900;
   font-size: 16px;
+  color: #000;
 }
 
 .bottom-nav button.active {
@@ -154,7 +160,6 @@ input {
 
 <main class="main-content">
 
-<!-- DASHBOARD -->
 <section id="homeSection" class="section active">
   <h2 style="color:gold">Dashboard</h2>
 
@@ -163,18 +168,8 @@ input {
 
   <div class="card">
     🔴 <strong>Live Service</strong><br><br>
-    <div style="
-      height:200px;
-      background:#000;
-      border-radius:12px;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      text-align:center;
-      color:#aaa;
-    ">
-      Livestream activates automatically<br>
-      during service time
+    <div style="height:200px;background:#000;border-radius:12px;display:flex;align-items:center;justify-content:center;color:#aaa;text-align:center;">
+      Livestream activates automatically<br>during service time
     </div>
     <br>
     <button>Live Soon</button>
@@ -183,61 +178,33 @@ input {
   <div class="card">📢 Church Announcement Area</div>
 </section>
 
-<!-- TASKS -->
 <section id="tasksSection" class="section">
   <h2 style="color:gold">Church Tasks</h2>
-
-  <div class="card">
-    📖 <strong>Read Bible Passage</strong><br>Matthew 5:1–12<br><br>
-    <button onclick="completeTask(this)">Mark as Done</button>
-  </div>
-
-  <div class="card">
-    🙏 <strong>Prayer Task</strong><br>Pray for church leaders<br><br>
-    <button onclick="completeTask(this)">Mark as Done</button>
-  </div>
-
-  <div class="card">
-    📢 <strong>Evangelism</strong><br>Invite 3 people to church<br><br>
-    <button onclick="completeTask(this)">Mark as Done</button>
-  </div>
-
-  <div class="card">
-    ❤️ <strong>Service Task</strong><br>Help someone today<br><br>
-    <button onclick="completeTask(this)">Mark as Done</button>
-  </div>
+  <div class="card">📖 Read Bible Passage<br><br><button onclick="completeTask(this)">Mark as Done</button></div>
+  <div class="card">🙏 Prayer Task<br><br><button onclick="completeTask(this)">Mark as Done</button></div>
+  <div class="card">📢 Evangelism<br><br><button onclick="completeTask(this)">Mark as Done</button></div>
 </section>
 
-<!-- REWARDS -->
 <section id="rewardsSection" class="section">
   <h2 style="color:gold">Rewards</h2>
   <div class="card">⭐ Reward Points: 120</div>
   <div class="card">🏆 Faithful Member Badge</div>
 </section>
 
-<!-- DONATE -->
 <section id="givingSection" class="section">
   <h2 style="color:gold">Donations</h2>
   <div class="card">
-    💳 <strong>Give Offering / Tithe</strong><br><br>
     Secure payment powered by Flutterwave<br><br>
-    <button onclick="alert('Flutterwave payment coming soon')">
-      Donate with Flutterwave
-    </button>
+    <button>Donate</button>
   </div>
 </section>
 
-<!-- PROFILE -->
 <section id="profileSection" class="section">
   <h2 style="color:gold">Profile</h2>
-
   <div class="card">
     <p id="profileEmail"></p>
     <button onclick="logout()">Logout</button>
   </div>
-
-  <div class="card">📄 Account Settings (coming soon)</div>
-  <div class="card">🔔 Notifications (coming soon)</div>
 </section>
 
 </main>
@@ -251,46 +218,6 @@ input {
 </nav>
 
 </div>
-
-<script type="module">
-import("https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js").then(({ initializeApp }) => {
-  import("https://www.gstatic.com/firebasejs/9.23.0/firebase-auth.js").then(
-    ({ getAuth, onAuthStateChanged, signOut, signInWithEmailAndPassword, createUserWithEmailAndPassword }) => {
-
-      const firebaseConfig = {
-        apiKey: "AIzaSyDImP8ODFS0lxWZ5AdTLi7jTxZzFo6JxeY",
-        authDomain: "rewards-task-mvp.firebaseapp.com",
-        projectId: "rewards-task-mvp",
-        appId: "1:154842831298:web:9ff9e24acfaf346aa99e5b"
-      };
-
-      const appFB = initializeApp(firebaseConfig);
-      const auth = getAuth(appFB);
-
-      signupBtn.onclick = () =>
-        createUserWithEmailAndPassword(auth, email.value, password.value)
-          .catch(e => authMsg.innerText = e.message);
-
-      loginBtn.onclick = () =>
-        signInWithEmailAndPassword(auth, email.value, password.value)
-          .catch(e => authMsg.innerText = e.message);
-
-      window.logout = () => signOut(auth);
-
-      onAuthStateChanged(auth, user => {
-        loadingScreen.style.display = "none";
-        if (user) {
-          authBox.style.display = "none";
-          app.style.display = "flex";
-          profileEmail.textContent = user.email;
-        } else {
-          authBox.style.display = "block";
-        }
-      });
-    }
-  );
-});
-</script>
 
 <script>
 function showSection(name, btn) {
