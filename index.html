@@ -128,11 +128,6 @@ button {
   position: relative;
 }
 
-/* 🔥 ACTIVE TAB INDICATOR */
-.bottom-nav button.active {
-  color: #000;
-}
-
 .bottom-nav button.active::after {
   content: "";
   position: absolute;
@@ -184,7 +179,6 @@ button {
   <div class="card">💰 Total Donations<br>₦0 (demo)</div>
   <div class="card">🎯 Active Campaigns<br>None yet</div>
   <div class="card">📊 Donation Analytics<br>Coming soon</div>
-
   <div class="card">
     🔴 Live Service (Demo)
     <div class="video-placeholder">LIVE STREAM</div>
@@ -233,10 +227,19 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   const authBox = document.getElementById("authBox");
   const appBox = document.getElementById("app");
+  const authMsg = document.getElementById("authMsg");
+  const email = document.getElementById("email");
+  const password = document.getElementById("password");
+  const profileEmail = document.getElementById("profileEmail");
 
   const { initializeApp } = await import("https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js");
-  const { getAuth, onAuthStateChanged, signOut } =
-    await import("https://www.gstatic.com/firebasejs/9.23.0/firebase-auth.js");
+  const {
+    getAuth,
+    onAuthStateChanged,
+    signOut,
+    signInWithEmailAndPassword,
+    createUserWithEmailAndPassword
+  } = await import("https://www.gstatic.com/firebasejs/9.23.0/firebase-auth.js");
 
   const firebaseConfig = {
     apiKey: "AIzaSyDImP8ODFS0lxWZ5AdTLi7jTxZzFo6JxeY",
@@ -251,12 +254,32 @@ document.addEventListener("DOMContentLoaded", async () => {
   window.showSection = (name, btn) => {
     document.querySelectorAll(".section").forEach(s => s.classList.remove("active"));
     document.getElementById(name + "Section").classList.add("active");
-
     document.querySelectorAll(".bottom-nav button").forEach(b => b.classList.remove("active"));
     btn.classList.add("active");
   };
 
-  window.logout = () => signOut(auth);
+  document.getElementById("signupBtn").onclick = async () => {
+    try {
+      await createUserWithEmailAndPassword(auth, email.value, password.value);
+      authMsg.innerText = "Account created successfully";
+    } catch (e) {
+      authMsg.innerText = e.message;
+    }
+  };
+
+  document.getElementById("loginBtn").onclick = async () => {
+    try {
+      await signInWithEmailAndPassword(auth, email.value, password.value);
+    } catch (e) {
+      authMsg.innerText = e.message;
+    }
+  };
+
+  window.logout = async () => {
+    await signOut(auth);
+    appBox.style.display = "none";
+    authBox.style.display = "block";
+  };
 
   onAuthStateChanged(auth, user => {
     if (user) {
