@@ -12,8 +12,7 @@ import {
   getFirestore,
   doc,
   setDoc,
-  getDoc,
-  updateDoc
+  getDoc
 } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
 /* ================= FIREBASE CONFIG ================= */
@@ -32,19 +31,26 @@ const auth = getAuth(app);
 const db = getFirestore(app);
 
 /* ================= ELEMENTS ================= */
-const emailInput = document.getElementById("email");
-const passwordInput = document.getElementById("password");
-const authMsg = document.getElementById("authMsg");
-const authBox = document.getElementById("authBox");
-const appBox = document.getElementById("app");
-const navBar = document.querySelector(".bottom-nav");
+const emailInput   = document.getElementById("email");
+const passwordInput= document.getElementById("password");
+const authMsg      = document.getElementById("authMsg");
+const authBox      = document.getElementById("authBox");
+const appBox       = document.getElementById("app");
+const navBar       = document.querySelector(".bottom-nav");
 const profileEmail = document.getElementById("profileEmail");
+const loader       = document.getElementById("loadingScreen");
+
+/* ================= HARD FAIL-SAFE ================= */
+setTimeout(() => {
+  if (loader) loader.style.display = "none";
+  if (authBox) authBox.style.display = "block";
+}, 3000);
 
 /* ================= UI HELPERS ================= */
 function hideAllSections() {
-  document.querySelectorAll(".section").forEach(s => {
-    s.classList.remove("active");
-  });
+  document.querySelectorAll(".section").forEach(s =>
+    s.classList.remove("active")
+  );
 }
 
 window.showSection = function (name, btn) {
@@ -54,14 +60,14 @@ window.showSection = function (name, btn) {
   document.querySelectorAll(".bottom-nav button")
     .forEach(b => b.classList.remove("active"));
 
-  if (btn) btn.classList.add("active");
+  btn?.classList.add("active");
 };
 
 /* ================= SIGN UP ================= */
-document.getElementById("signupBtn").onclick = async () => {
+document.getElementById("signupBtn")?.addEventListener("click", async () => {
   authMsg.textContent = "";
 
-  if (!emailInput.value || !passwordInput.value) {
+  if (!emailInput?.value || !passwordInput?.value) {
     authMsg.textContent = "Enter email & password";
     return;
   }
@@ -83,13 +89,13 @@ document.getElementById("signupBtn").onclick = async () => {
   } catch (err) {
     authMsg.textContent = err.message;
   }
-};
+});
 
 /* ================= LOGIN ================= */
-document.getElementById("loginBtn").onclick = async () => {
+document.getElementById("loginBtn")?.addEventListener("click", async () => {
   authMsg.textContent = "";
 
-  if (!emailInput.value || !passwordInput.value) {
+  if (!emailInput?.value || !passwordInput?.value) {
     authMsg.textContent = "Enter email & password";
     return;
   }
@@ -103,40 +109,27 @@ document.getElementById("loginBtn").onclick = async () => {
   } catch (err) {
     authMsg.textContent = err.message;
   }
-};
+});
 
 /* ================= LOGOUT ================= */
 window.logout = () => signOut(auth);
 
-/* ================= XP SYSTEM ================= */
-let xp = 0;
-
-async function loadXP(uid) {
-  try {
-    const snap = await getDoc(doc(db, "users", uid));
-    xp = snap.exists() ? snap.data().xp || 0 : 0;
-  } catch (e) {
-    xp = 0;
-  }
-}
-
 /* ================= AUTH STATE ================= */
 onAuthStateChanged(auth, async user => {
+  if (loader) loader.style.display = "none";
+
   if (user) {
-    authBox.style.display = "none";
-    appBox.style.display = "flex";
-    navBar.style.display = "flex";
+    authBox && (authBox.style.display = "none");
+    appBox && (appBox.style.display = "flex");
+    navBar && (navBar.style.display = "flex");
 
-    if (profileEmail) {
-      profileEmail.textContent = user.email;
-    }
+    if (profileEmail) profileEmail.textContent = user.email;
 
-    await loadXP(user.uid);
     showSection("home");
   } else {
-    authBox.style.display = "block";
-    appBox.style.display = "none";
-    navBar.style.display = "none";
+    authBox && (authBox.style.display = "block");
+    appBox && (appBox.style.display = "none");
+    navBar && (navBar.style.display = "none");
   }
 });
 </script>
