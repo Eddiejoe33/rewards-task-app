@@ -287,13 +287,14 @@ document.addEventListener("DOMContentLoaded", async () => {
   const { initializeApp } = await import("https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js");
   const { getAuth, onAuthStateChanged, signOut, signInWithEmailAndPassword, createUserWithEmailAndPassword }
     = await import("https://www.gstatic.com/firebasejs/9.23.0/firebase-auth.js");
+  apiKey: "AIzaSyDImP8ODFS0lxWZ5AdTLi7jTxZzFo6JxeY",
+  authDomain: "rewards-task-mvp.firebaseapp.com",
+  projectId: "rewards-task-mvp",
+  storageBucket: "YOUR_PROJECT.appspot.com",
+  messagingSenderId: "154842831298",
+  appId: "1:154842831298:web:9ff9e24acfaf346aa99e5b"
+};
 
-  const firebaseConfig = {
-    apiKey: "PASTE_YOUR_API_KEY",
-    authDomain: "YOUR_PROJECT.firebaseapp.com",
-    projectId: "YOUR_PROJECT_ID",
-    appId: "YOUR_APP_ID"
-  };
 
   const app = initializeApp(firebaseConfig);
   const auth = getAuth(app);
