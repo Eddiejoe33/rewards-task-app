@@ -24,7 +24,6 @@ html, body {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 10px;
   border-bottom: 1px solid rgba(255,215,0,0.4);
 }
 
@@ -34,10 +33,13 @@ html, body {
   font-weight: 900;
 }
 
-/* MAIN */
+/* MAIN – ✅ SCROLL FIX */
 .main-content {
+  flex: 1;
+  overflow-y: auto;
   padding: 16px;
-  padding-bottom: 120px;
+  padding-bottom: 130px;
+  -webkit-overflow-scrolling: touch;
 }
 
 /* SECTIONS */
@@ -116,7 +118,7 @@ button {
 </div>
 
 <!-- APP -->
-<div id="app" style="display:none">
+<div id="app" style="display:none; height:100vh; display:flex; flex-direction:column;">
 
 <header class="header">
   <h1>CHURCH APP</h1>
@@ -124,31 +126,52 @@ button {
 
 <main class="main-content">
 
+<!-- DASHBOARD -->
 <section id="homeSection" class="section active">
   <h2 style="color:gold">Dashboard</h2>
+
   <div class="card">💰 Total Donations — ₦0 (demo)</div>
   <div class="card">🎯 Active Campaigns — None</div>
+  <div class="card">📖 Daily Verse — “The Lord is my shepherd” (Psalm 23)</div>
+  <div class="card">📅 Upcoming Service — Sunday Worship</div>
 </section>
 
+<!-- TASKS – ✅ REAL CHURCH TASKS -->
 <section id="tasksSection" class="section">
-  <h2 style="color:gold">Tasks</h2>
+  <h2 style="color:gold">Church Tasks</h2>
 
   <div class="card">
-    Verify donor payments
+    📖 Read Bible Passage  
+    <br><small>Matthew 5:1–12</small>
     <br><br>
-    <button onclick="completeTask(this)">Complete</button>
+    <button onclick="completeTask(this)">Mark as Done</button>
   </div>
 
   <div class="card">
-    Share Sunday service
+    🙏 Prayer Task  
+    <br><small>Pray for church leaders & members</small>
     <br><br>
-    <button onclick="completeTask(this)">Complete</button>
+    <button onclick="completeTask(this)">Mark as Done</button>
+  </div>
+
+  <div class="card">
+    📢 Evangelism  
+    <br><small>Share Sunday service with 3 people</small>
+    <br><br>
+    <button onclick="completeTask(this)">Mark as Done</button>
+  </div>
+
+  <div class="card">
+    💝 Service Task  
+    <br><small>Help someone in need today</small>
+    <br><br>
+    <button onclick="completeTask(this)">Mark as Done</button>
   </div>
 </section>
 
 <section id="rewardsSection" class="section">
   <h2 style="color:gold">Rewards</h2>
-  <div class="card">🥇 Platinum Donor (demo)</div>
+  <div class="card">🥇 Faithful Member — Demo Badge</div>
 </section>
 
 <section id="givingSection" class="section">
@@ -176,7 +199,7 @@ button {
 
 </div>
 
-<!-- ✅ SCRIPT GOES AT THE BOTTOM -->
+<!-- SCRIPT -->
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js";
 import {
@@ -197,10 +220,6 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 
-const authBox = document.getElementById("authBox");
-const appBox = document.getElementById("app");
-const authMsg = document.getElementById("authMsg");
-
 signupBtn.onclick = () =>
   createUserWithEmailAndPassword(auth, email.value, password.value)
     .catch(e => authMsg.innerText = e.message);
@@ -214,7 +233,7 @@ window.logout = () => signOut(auth);
 onAuthStateChanged(auth, user => {
   if (user) {
     authBox.style.display = "none";
-    appBox.style.display = "block";
+    app.style.display = "flex";
     profileEmail.textContent = user.email;
   }
 });
@@ -228,6 +247,8 @@ window.showSection = (name, btn) => {
 
 window.completeTask = (btn) => {
   btn.innerText = "Completed ✓";
+  btn.style.background = "#444";
+  btn.style.color = "gold";
   btn.disabled = true;
 };
 </script>
