@@ -10,12 +10,12 @@
   box-sizing:border-box;
   margin:0;
   padding:0;
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial;
+  font-family:system-ui, Arial, sans-serif;
 }
 
 body{
   background:#0b0b0b;
-  color:#eaeaea;
+  color:#fff;
   min-height:100vh;
 }
 
@@ -28,49 +28,46 @@ body{
   align-items:center;
   justify-content:center;
   z-index:999;
-  color:#c9a227;
+  color:#aaa;
   font-size:16px;
 }
 
 /* ===== AUTH ===== */
 #authBox{
-  padding:40px 20px;
   max-width:420px;
-  margin:auto;
+  margin:60px auto;
+  padding:20px;
 }
 
 #authBox h2{
   text-align:center;
   margin-bottom:20px;
-  font-weight:600;
-  color:#c9a227;
 }
 
 #authBox input{
   width:100%;
   padding:14px;
   margin-bottom:12px;
-  border-radius:10px;
-  border:1px solid #222;
-  background:#111;
-  color:#fff;
+  border-radius:8px;
+  border:none;
+  outline:none;
 }
 
 #authBox button{
   width:100%;
   padding:14px;
   margin-top:10px;
-  border-radius:10px;
+  border-radius:8px;
   border:none;
-  background:#c9a227;
-  color:#000;
-  font-weight:600;
+  background:#1f1f1f;
+  color:#fff;
+  cursor:pointer;
 }
 
 #authMsg{
-  margin-top:12px;
+  margin-top:10px;
+  color:#ff8a8a;
   text-align:center;
-  color:#ff6b6b;
 }
 
 /* ===== APP ===== */
@@ -88,27 +85,32 @@ body{
 
 /* ===== CARDS ===== */
 .card{
-  background:#121212;
+  background:#141414;
   border-radius:14px;
-  padding:18px;
+  padding:16px;
   margin-bottom:14px;
-  border:1px solid #1f1f1f;
 }
 
 .card-title{
-  font-size:15px;
-  font-weight:500;
+  font-size:16px;
+  font-weight:600;
+  margin-bottom:6px;
+}
+
+.card small{
+  font-size:13px;
+  color:#aaa;
+  line-height:1.5;
 }
 
 .welcome{
   font-size:14px;
-  opacity:.85;
   word-break:break-word;
 }
 
 /* ===== SECTIONS ===== */
-.section{display:none;}
-.section.active{display:block;}
+.section{ display:none; }
+.section.active{ display:block; }
 
 /* ===== BOTTOM NAV ===== */
 .bottom-nav{
@@ -116,22 +118,24 @@ body{
   bottom:0;
   left:0;
   right:0;
-  background:#0f0f0f;
-  border-top:1px solid #1e1e1e;
+  background:#111;
   display:none;
   justify-content:space-around;
   padding:12px 0;
+  border-top:1px solid #222;
 }
 
 .bottom-nav button{
   background:none;
   border:none;
-  color:#c9a227;
-  font-size:13px;
-  font-weight:500;
+  color:#ccc;
+  font-size:14px;
+  cursor:pointer;
 }
 
-.logout{color:#ff6b6b;}
+.logout{
+  color:#ff8a8a;
+}
 </style>
 </head>
 
@@ -159,22 +163,47 @@ body{
 
     <div class="card">
       <div class="welcome">
-        Welcome: <span id="profileEmail"></span>
+        Welcome: <strong id="profileEmail"></strong>
       </div>
     </div>
 
-    <div class="card"><div class="card-title">Announcements</div></div>
-    <div class="card"><div class="card-title">Events</div></div>
-    <div class="card"><div class="card-title">Donations</div></div>
-    <div class="card"><div class="card-title">Sermons</div></div>
-    <div class="card"><div class="card-title">Live Stream (Coming Soon)</div></div>
+    <div class="card">
+      <div class="card-title">Announcements</div>
+      <small>Church updates and official notices</small>
+    </div>
+
+    <div class="card">
+      <div class="card-title">Events</div>
+      <small>Upcoming programs & schedules</small>
+    </div>
+
+    <div class="card">
+      <div class="card-title">Donations</div>
+      <small>
+        Flutterwave • Paystack • Bank Transfer<br>
+        <em>Payment integration ready</em>
+      </small>
+    </div>
+
+    <div class="card">
+      <div class="card-title">Sermons</div>
+      <small>Audio and video messages</small>
+    </div>
+
+    <div class="card">
+      <div class="card-title">Live Stream</div>
+      <small>
+        Facebook Live • YouTube Live • TikTok Live<br>
+        <em>Streaming integration coming soon</em>
+      </small>
+    </div>
   </div>
 
   <!-- PROFILE -->
   <div id="profileSection" class="section">
     <div class="header">Profile</div>
     <div class="card">
-      <p>Email</p>
+      <small>Email</small><br>
       <strong id="profileEmail2"></strong>
     </div>
   </div>
@@ -225,45 +254,41 @@ const appBox = document.getElementById("app");
 const navBar = document.querySelector(".bottom-nav");
 const loader = document.getElementById("loadingScreen");
 
-window.showSection = (name) => {
-  document.querySelectorAll(".section").forEach(s => s.classList.remove("active"));
-  document.getElementById(name + "Section").classList.add("active");
+window.showSection = (name)=>{
+  document.querySelectorAll(".section").forEach(s=>s.classList.remove("active"));
+  document.getElementById(name+"Section").classList.add("active");
 };
 
-document.getElementById("signupBtn").onclick = async () => {
-  try {
+document.getElementById("signupBtn").onclick = async ()=>{
+  try{
     const cred = await createUserWithEmailAndPassword(auth, emailInput.value, passwordInput.value);
-    await setDoc(doc(db, "users", cred.user.uid), {
-      email: cred.user.email,
-      createdAt: new Date()
+    await setDoc(doc(db,"users",cred.user.uid),{
+      email:cred.user.email,
+      createdAt:new Date()
     });
-  } catch (e) {
-    authMsg.textContent = e.message;
-  }
+  }catch(e){ authMsg.textContent = e.message; }
 };
 
-document.getElementById("loginBtn").onclick = async () => {
-  try {
+document.getElementById("loginBtn").onclick = async ()=>{
+  try{
     await signInWithEmailAndPassword(auth, emailInput.value, passwordInput.value);
-  } catch (e) {
-    authMsg.textContent = e.message;
-  }
+  }catch(e){ authMsg.textContent = e.message; }
 };
 
-window.logout = () => signOut(auth);
+window.logout = ()=>signOut(auth);
 
-onAuthStateChanged(auth, user => {
-  loader.style.display = "none";
-  if (user) {
-    authBox.style.display = "none";
-    appBox.style.display = "block";
-    navBar.style.display = "flex";
+onAuthStateChanged(auth,user=>{
+  loader.style.display="none";
+  if(user){
+    authBox.style.display="none";
+    appBox.style.display="block";
+    navBar.style.display="flex";
     profileEmail.textContent = user.email;
     profileEmail2.textContent = user.email;
-  } else {
-    authBox.style.display = "block";
-    appBox.style.display = "none";
-    navBar.style.display = "none";
+  }else{
+    authBox.style.display="block";
+    appBox.style.display="none";
+    navBar.style.display="none";
   }
 });
 </script>
