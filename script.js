@@ -1,7 +1,4 @@
 <script type="module">
-/* ================= WAIT FOR DOM ================= */
-document.addEventListener("DOMContentLoaded", async () => {
-
 /* ================= FIREBASE IMPORTS ================= */
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
 import {
@@ -33,7 +30,7 @@ const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
 
-/* ================= ELEMENTS (SAFE) ================= */
+/* ================= ELEMENTS ================= */
 const emailInput   = document.getElementById("email");
 const passwordInput= document.getElementById("password");
 const authMsg      = document.getElementById("authMsg");
@@ -43,26 +40,21 @@ const navBar       = document.querySelector(".bottom-nav");
 const profileEmail = document.getElementById("profileEmail");
 const loader       = document.getElementById("loadingScreen");
 
-/* ================= LOADER FAIL-SAFE ================= */
-if (loader) {
-  setTimeout(() => loader.style.display = "none", 3000);
-}
+/* ================= FAIL-SAFE LOADER ================= */
+setTimeout(() => {
+  if (loader) loader.style.display = "none";
+}, 4000);
 
-/* ================= UI HELPERS ================= */
+/* ================= UI ================= */
 function hideAllSections() {
   document.querySelectorAll(".section").forEach(s =>
     s.classList.remove("active")
   );
 }
 
-window.showSection = function (name, btn) {
+window.showSection = function (name) {
   hideAllSections();
   document.getElementById(name + "Section")?.classList.add("active");
-
-  document.querySelectorAll(".bottom-nav button")
-    .forEach(b => b.classList.remove("active"));
-
-  if (btn) btn.classList.add("active");
 };
 
 /* ================= SIGN UP ================= */
@@ -117,7 +109,7 @@ document.getElementById("loginBtn")?.addEventListener("click", async () => {
 window.logout = () => signOut(auth);
 
 /* ================= AUTH STATE ================= */
-onAuthStateChanged(auth, async user => {
+onAuthStateChanged(auth, user => {
   if (loader) loader.style.display = "none";
 
   if (user) {
@@ -135,7 +127,5 @@ onAuthStateChanged(auth, async user => {
     appBox.style.display = "none";
     navBar.style.display = "none";
   }
-});
-
 });
 </script>
