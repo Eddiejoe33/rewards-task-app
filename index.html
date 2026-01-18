@@ -233,6 +233,23 @@ function completeTask(btn) {
   btn.disabled = true;
 }
 </script>
+<script>
+/* SAFETY LOADER FIX */
+window.addEventListener("load", () => {
+  setTimeout(() => {
+    const loader = document.getElementById("loadingScreen");
+    if (loader) loader.style.display = "none";
 
+    // show login if app not authenticated
+    const authBox = document.getElementById("authBox");
+    const app = document.getElementById("app");
+
+    if (authBox && app) {
+      authBox.style.display = "block";
+      app.style.display = "none";
+    }
+  }, 1500); // 1.5 seconds fallback
+});
+</script>
 </body>
   </html>
