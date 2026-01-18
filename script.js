@@ -1,3 +1,4 @@
+<script type="module">
 /* ================= FIREBASE IMPORTS ================= */
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
 import {
@@ -51,15 +52,16 @@ window.showSection = function (name, btn) {
   hideAllSections();
   document.getElementById(name + "Section")?.classList.add("active");
 
-  document
-    .querySelectorAll(".bottom-nav button")
+  document.querySelectorAll(".bottom-nav button")
     .forEach(b => b.classList.remove("active"));
 
-  btn?.classList.add("active");
+  if (btn) btn.classList.add("active");
 };
 
 /* ================= SIGN UP ================= */
 document.getElementById("signupBtn").onclick = async () => {
+  authMsg.innerText = "";
+
   if (!emailInput.value || !passwordInput.value) {
     authMsg.innerText = "Enter email & password";
     return;
@@ -68,7 +70,7 @@ document.getElementById("signupBtn").onclick = async () => {
   try {
     const cred = await createUserWithEmailAndPassword(
       auth,
-      emailInput.value,
+      emailInput.value.trim(),
       passwordInput.value
     );
 
@@ -86,10 +88,12 @@ document.getElementById("signupBtn").onclick = async () => {
 
 /* ================= LOGIN ================= */
 document.getElementById("loginBtn").onclick = async () => {
+  authMsg.innerText = "";
+
   try {
     await signInWithEmailAndPassword(
       auth,
-      emailInput.value,
+      emailInput.value.trim(),
       passwordInput.value
     );
   } catch (err) {
@@ -104,14 +108,12 @@ window.logout = () => signOut(auth);
 let xp = 0;
 
 async function loadXP(uid) {
-  const ref = doc(db, "users", uid);
-  const snap = await getDoc(ref);
-  xp = snap.exists() ? snap.data().xp || 0 : 0;
-}
-
-async function saveXP(uid) {
-  if (!uid) return;
-  await updateDoc(doc(db, "users", uid), { xp });
+  try {
+    const snap = await getDoc(doc(db, "users", uid));
+    xp = snap.exists() ? snap.data().xp || 0 : 0;
+  } catch {
+    xp = 0;
+  }
 }
 
 /* ================= AUTH STATE ================= */
@@ -123,8 +125,9 @@ onAuthStateChanged(auth, async user => {
     appBox.style.display = "flex";
     navBar.style.display = "flex";
 
-    profileEmail.innerText = user.email;
+    profileEmail.textContent = user.email;
     await loadXP(user.uid);
+
     showSection("home");
   } else {
     authBox.style.display = "block";
@@ -132,3 +135,4 @@ onAuthStateChanged(auth, async user => {
     navBar.style.display = "none";
   }
 });
+  </script>
