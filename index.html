@@ -1,276 +1,272 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Dashboard</title>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Dashboard</title>
 
-  <style>
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-      font-family: Arial, Helvetica, sans-serif;
-    }
+<style>
+*{
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial;
+}
 
-    body {
-      background: #000;
-      color: #fff;
-      min-height: 100vh;
-    }
+body{
+  background:#0b0b0b;
+  color:#eaeaea;
+  min-height:100vh;
+}
 
-    /* ===== LOADER ===== */
-    #loadingScreen {
-      position: fixed;
-      inset: 0;
-      background: #000;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      z-index: 999;
-      color: gold;
-      font-size: 18px;
-    }
+/* ===== LOADER ===== */
+#loadingScreen{
+  position:fixed;
+  inset:0;
+  background:#0b0b0b;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  z-index:999;
+  color:#c9a227;
+  font-size:16px;
+}
 
-    /* ===== AUTH ===== */
-    #authBox {
-      padding: 40px 20px;
-      max-width: 420px;
-      margin: auto;
-    }
+/* ===== AUTH ===== */
+#authBox{
+  padding:40px 20px;
+  max-width:420px;
+  margin:auto;
+}
 
-    #authBox h2 {
-      text-align: center;
-      margin-bottom: 20px;
-      color: gold;
-    }
+#authBox h2{
+  text-align:center;
+  margin-bottom:20px;
+  font-weight:600;
+  color:#c9a227;
+}
 
-    #authBox input {
-      width: 100%;
-      padding: 14px;
-      margin-bottom: 12px;
-      border-radius: 8px;
-      border: none;
-      outline: none;
-    }
+#authBox input{
+  width:100%;
+  padding:14px;
+  margin-bottom:12px;
+  border-radius:10px;
+  border:1px solid #222;
+  background:#111;
+  color:#fff;
+}
 
-    #authBox button {
-      width: 100%;
-      padding: 14px;
-      margin-top: 10px;
-      border-radius: 8px;
-      border: none;
-      background: gold;
-      font-weight: bold;
-      cursor: pointer;
-    }
+#authBox button{
+  width:100%;
+  padding:14px;
+  margin-top:10px;
+  border-radius:10px;
+  border:none;
+  background:#c9a227;
+  color:#000;
+  font-weight:600;
+}
 
-    #authMsg {
-      margin-top: 12px;
-      text-align: center;
-      color: #ff8080;
-    }
+#authMsg{
+  margin-top:12px;
+  text-align:center;
+  color:#ff6b6b;
+}
 
-    /* ===== APP ===== */
-    #app {
-      display: none;
-      flex-direction: column;
-      padding: 20px;
-      padding-bottom: 90px;
-    }
+/* ===== APP ===== */
+#app{
+  display:none;
+  padding:20px;
+  padding-bottom:90px;
+}
 
-    .header {
-      font-size: 22px;
-      font-weight: bold;
-      color: gold;
-      margin-bottom: 20px;
-    }
+.header{
+  font-size:22px;
+  font-weight:600;
+  margin-bottom:16px;
+}
 
-    .card {
-      border: 1px solid gold;
-      border-radius: 16px;
-      padding: 18px;
-      margin-bottom: 16px;
-      background: linear-gradient(145deg, #0c0c0c, #1a1a1a);
-    }
+/* ===== CARDS ===== */
+.card{
+  background:#121212;
+  border-radius:14px;
+  padding:18px;
+  margin-bottom:14px;
+  border:1px solid #1f1f1f;
+}
 
-    .card-title {
-      font-size: 16px;
-      opacity: 0.9;
-    }
+.card-title{
+  font-size:15px;
+  font-weight:500;
+}
 
-    .welcome {
-      font-size: 15px;
-      word-break: break-word;
-    }
+.welcome{
+  font-size:14px;
+  opacity:.85;
+  word-break:break-word;
+}
 
-    /* ===== SECTIONS ===== */
-    .section {
-      display: none;
-    }
+/* ===== SECTIONS ===== */
+.section{display:none;}
+.section.active{display:block;}
 
-    .section.active {
-      display: block;
-    }
+/* ===== BOTTOM NAV ===== */
+.bottom-nav{
+  position:fixed;
+  bottom:0;
+  left:0;
+  right:0;
+  background:#0f0f0f;
+  border-top:1px solid #1e1e1e;
+  display:none;
+  justify-content:space-around;
+  padding:12px 0;
+}
 
-    /* ===== BOTTOM NAV ===== */
-    .bottom-nav {
-      position: fixed;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      background: #050505;
-      border-top: 1px solid #222;
-      display: none;
-      justify-content: space-around;
-      padding: 10px 0;
-    }
+.bottom-nav button{
+  background:none;
+  border:none;
+  color:#c9a227;
+  font-size:13px;
+  font-weight:500;
+}
 
-    .bottom-nav button {
-      background: none;
-      border: none;
-      color: gold;
-      font-size: 14px;
-      cursor: pointer;
-    }
-
-    .logout {
-      color: #ff7070;
-    }
-  </style>
+.logout{color:#ff6b6b;}
+</style>
 </head>
+
 <body>
 
-  <!-- ===== LOADING ===== -->
-  <div id="loadingScreen">Loading...</div>
+<!-- ===== LOADING ===== -->
+<div id="loadingScreen">Loading...</div>
 
-  <!-- ===== AUTH ===== -->
-  <div id="authBox">
-    <h2>Login / Sign Up</h2>
-    <input type="email" id="email" placeholder="Email" />
-    <input type="password" id="password" placeholder="Password" />
-    <button id="loginBtn">Login</button>
-    <button id="signupBtn">Sign Up</button>
-    <div id="authMsg"></div>
-  </div>
+<!-- ===== AUTH ===== -->
+<div id="authBox">
+  <h2>Login / Sign Up</h2>
+  <input type="email" id="email" placeholder="Email" />
+  <input type="password" id="password" placeholder="Password" />
+  <button id="loginBtn">Login</button>
+  <button id="signupBtn">Sign Up</button>
+  <div id="authMsg"></div>
+</div>
 
-  <!-- ===== APP ===== -->
-  <div id="app">
+<!-- ===== APP ===== -->
+<div id="app">
 
-    <!-- HOME -->
-    <div id="homeSection" class="section active">
-      <div class="header">Dashboard</div>
+  <!-- HOME -->
+  <div id="homeSection" class="section active">
+    <div class="header">Dashboard</div>
 
-      <div class="card">
-        <div class="welcome">
-          Welcome: <span id="profileEmail"></span>
-        </div>
-      </div>
-
-      <div class="card"><div class="card-title">Announcements</div></div>
-      <div class="card"><div class="card-title">Events</div></div>
-      <div class="card"><div class="card-title">Donations</div></div>
-      <div class="card"><div class="card-title">Sermons</div></div>
-      <div class="card"><div class="card-title">Live Stream (Coming Soon)</div></div>
-    </div>
-
-    <!-- PROFILE -->
-    <div id="profileSection" class="section">
-      <div class="header">Profile</div>
-      <div class="card">
-        <p>Email:</p>
-        <strong id="profileEmail2"></strong>
+    <div class="card">
+      <div class="welcome">
+        Welcome: <span id="profileEmail"></span>
       </div>
     </div>
 
+    <div class="card"><div class="card-title">Announcements</div></div>
+    <div class="card"><div class="card-title">Events</div></div>
+    <div class="card"><div class="card-title">Donations</div></div>
+    <div class="card"><div class="card-title">Sermons</div></div>
+    <div class="card"><div class="card-title">Live Stream (Coming Soon)</div></div>
   </div>
 
-  <!-- ===== NAV ===== -->
-  <div class="bottom-nav">
-    <button onclick="showSection('home')">Home</button>
-    <button onclick="showSection('profile')">Profile</button>
-    <button class="logout" onclick="logout()">Logout</button>
+  <!-- PROFILE -->
+  <div id="profileSection" class="section">
+    <div class="header">Profile</div>
+    <div class="card">
+      <p>Email</p>
+      <strong id="profileEmail2"></strong>
+    </div>
   </div>
 
-  <!-- ===== FIREBASE SCRIPT ===== -->
-  <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-    import {
-      getAuth,
-      createUserWithEmailAndPassword,
-      signInWithEmailAndPassword,
-      onAuthStateChanged,
-      signOut
-    } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
-    import {
-      getFirestore,
-      doc,
-      setDoc
-    } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+</div>
 
-    const firebaseConfig = {
-      apiKey: "AIzaSyDImP8ODFS0lxWZ5AdTLi7jTxZzFo6JxeY",
-      authDomain: "rewards-task-mvp.firebaseapp.com",
-      projectId: "rewards-task-mvp",
-      storageBucket: "rewards-task-mvp.appspot.com",
-      messagingSenderId: "154842831298",
-      appId: "1:154842831298:web:9ff9e24acfaf346aa99e5b"
-    };
+<!-- ===== NAV ===== -->
+<div class="bottom-nav">
+  <button onclick="showSection('home')">Home</button>
+  <button onclick="showSection('profile')">Profile</button>
+  <button class="logout" onclick="logout()">Logout</button>
+</div>
 
-    const app = initializeApp(firebaseConfig);
-    const auth = getAuth(app);
-    const db = getFirestore(app);
+<!-- ===== FIREBASE ===== -->
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+import {
+  getAuth,
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+  onAuthStateChanged,
+  signOut
+} from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+import {
+  getFirestore,
+  doc,
+  setDoc
+} from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
-    const emailInput = document.getElementById("email");
-    const passwordInput = document.getElementById("password");
-    const authMsg = document.getElementById("authMsg");
-    const authBox = document.getElementById("authBox");
-    const appBox = document.getElementById("app");
-    const navBar = document.querySelector(".bottom-nav");
-    const loader = document.getElementById("loadingScreen");
+const firebaseConfig = {
+  apiKey: "AIzaSyDImP8ODFS0lxWZ5AdTLi7jTxZzFo6JxeY",
+  authDomain: "rewards-task-mvp.firebaseapp.com",
+  projectId: "rewards-task-mvp",
+  storageBucket: "rewards-task-mvp.appspot.com",
+  messagingSenderId: "154842831298",
+  appId: "1:154842831298:web:9ff9e24acfaf346aa99e5b"
+};
 
-    window.showSection = (name) => {
-      document.querySelectorAll(".section").forEach(s => s.classList.remove("active"));
-      document.getElementById(name + "Section").classList.add("active");
-    };
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const db = getFirestore(app);
 
-    document.getElementById("signupBtn").onclick = async () => {
-      try {
-        const cred = await createUserWithEmailAndPassword(auth, emailInput.value, passwordInput.value);
-        await setDoc(doc(db, "users", cred.user.uid), {
-          email: cred.user.email,
-          createdAt: new Date()
-        });
-      } catch (e) {
-        authMsg.textContent = e.message;
-      }
-    };
+const emailInput = document.getElementById("email");
+const passwordInput = document.getElementById("password");
+const authMsg = document.getElementById("authMsg");
+const authBox = document.getElementById("authBox");
+const appBox = document.getElementById("app");
+const navBar = document.querySelector(".bottom-nav");
+const loader = document.getElementById("loadingScreen");
 
-    document.getElementById("loginBtn").onclick = async () => {
-      try {
-        await signInWithEmailAndPassword(auth, emailInput.value, passwordInput.value);
-      } catch (e) {
-        authMsg.textContent = e.message;
-      }
-    };
+window.showSection = (name) => {
+  document.querySelectorAll(".section").forEach(s => s.classList.remove("active"));
+  document.getElementById(name + "Section").classList.add("active");
+};
 
-    window.logout = () => signOut(auth);
-
-    onAuthStateChanged(auth, user => {
-      loader.style.display = "none";
-      if (user) {
-        authBox.style.display = "none";
-        appBox.style.display = "flex";
-        navBar.style.display = "flex";
-        document.getElementById("profileEmail").textContent = user.email;
-        document.getElementById("profileEmail2").textContent = user.email;
-      } else {
-        authBox.style.display = "block";
-        appBox.style.display = "none";
-        navBar.style.display = "none";
-      }
+document.getElementById("signupBtn").onclick = async () => {
+  try {
+    const cred = await createUserWithEmailAndPassword(auth, emailInput.value, passwordInput.value);
+    await setDoc(doc(db, "users", cred.user.uid), {
+      email: cred.user.email,
+      createdAt: new Date()
     });
-  </script>
+  } catch (e) {
+    authMsg.textContent = e.message;
+  }
+};
+
+document.getElementById("loginBtn").onclick = async () => {
+  try {
+    await signInWithEmailAndPassword(auth, emailInput.value, passwordInput.value);
+  } catch (e) {
+    authMsg.textContent = e.message;
+  }
+};
+
+window.logout = () => signOut(auth);
+
+onAuthStateChanged(auth, user => {
+  loader.style.display = "none";
+  if (user) {
+    authBox.style.display = "none";
+    appBox.style.display = "block";
+    navBar.style.display = "flex";
+    profileEmail.textContent = user.email;
+    profileEmail2.textContent = user.email;
+  } else {
+    authBox.style.display = "block";
+    appBox.style.display = "none";
+    navBar.style.display = "none";
+  }
+});
+</script>
 
 </body>
   </html>
