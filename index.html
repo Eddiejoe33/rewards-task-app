@@ -6,7 +6,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
 <style>
-/* ===== RESET ===== */
 html, body {
   height: 100%;
   margin: 0;
@@ -16,7 +15,7 @@ html, body {
   color: #f5f5f5;
 }
 
-/* ===== APP LAYOUT ===== */
+/* ===== APP ===== */
 #app {
   display: flex;
   flex-direction: column;
@@ -26,9 +25,18 @@ html, body {
 /* ===== HEADER ===== */
 .header {
   background: #111;
-  padding: 16px;
-  text-align: center;
-  border-bottom: 1px solid rgba(255,215,0,0.25);
+  padding: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  border-bottom: 1px solid rgba(255,215,0,0.3);
+}
+
+.header img {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
 }
 
 .header h1 {
@@ -38,11 +46,36 @@ html, body {
   letter-spacing: 2px;
 }
 
-/* ===== MAIN CONTENT ===== */
+/* ===== MAIN ===== */
 .main-content {
   flex: 1;
   overflow-y: auto;
-  padding: 20px 16px 130px; /* ✅ ensures profile is never hidden */
+  padding: 20px 16px 130px;
+}
+
+/* ===== SECTIONS ===== */
+.section { display: none; }
+.section.active { display: block; }
+
+/* ===== CARDS ===== */
+.card {
+  background: #1a1a1a;
+  padding: 18px;
+  border-radius: 16px;
+  margin-bottom: 18px;
+  box-shadow: 0 0 14px rgba(255,215,0,0.2);
+}
+
+/* ===== VIDEO ===== */
+.video-placeholder {
+  height: 180px;
+  background: #000;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: gold;
+  margin: 14px 0;
 }
 
 /* ===== AUTH ===== */
@@ -70,93 +103,61 @@ button {
   border-radius: 8px;
 }
 
-button:disabled {
-  opacity: 0.6;
-}
-
-/* ===== SECTIONS ===== */
-.section {
-  display: none;
-}
-
-.section.active {
-  display: block;
-}
-
-/* ===== CARDS (RED/GOLD GLOW FIXED) ===== */
-.card {
-  background: #1a1a1a;
-  padding: 18px;
-  border-radius: 16px;
-  margin-bottom: 18px;
-  box-shadow: 0 4px 12px rgba(255,215,0,0.22); /* ✅ reduced glow */
-}
-
-/* ===== LIVESTREAM ===== */
-.video-placeholder {
-  height: 190px;
-  background: #000;
-  border-radius: 12px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: gold;
-  margin: 14px 0;
-  letter-spacing: 1px;
-}
-
-/* ===== SPINNER ===== */
-#spinner {
-  display: none;
-  margin: 20px auto;
-  width: 40px;
-  height: 40px;
-  border: 4px solid #333;
-  border-top: 4px solid gold;
-  border-radius: 50%;
-  animation: spin 1s linear infinite;
-}
-
-@keyframes spin {
-  to { transform: rotate(360deg); }
-}
-
-/* =================================================
-   ✅ FIXED BOTTOM NAV — FULL GOLD, CLEANER
-================================================= */
+/* ===== BOTTOM NAV ===== */
 .bottom-nav {
   position: fixed;
   bottom: 0;
   left: 0;
   right: 0;
-  height: 78px;                 /* ✅ reduced from 90 */
+  height: 90px;
   background: gold;
   display: flex;
   justify-content: space-evenly;
   align-items: center;
-  z-index: 20;
 }
 
 .bottom-nav button {
-  background: transparent;
+  background: none;
   border: none;
+  font-size: 15px;
+  font-weight: 900;
   color: #000;
-  font-size: 15px;              /* balanced */
-  font-weight: 800;
-  letter-spacing: 0.8px;
-  padding: 10px 8px;
+  letter-spacing: 1px;
+  padding-bottom: 6px;
   cursor: pointer;
+  position: relative;
 }
 
-.bottom-nav button:active {
-  transform: scale(0.92);
+/* 🔥 ACTIVE TAB INDICATOR */
+.bottom-nav button.active {
+  color: #000;
+}
+
+.bottom-nav button.active::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 20%;
+  width: 60%;
+  height: 4px;
+  background: #000;
+  border-radius: 2px;
+}
+
+/* ===== PROFILE AVATAR ===== */
+.profile-avatar {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  margin-bottom: 10px;
+  border: 3px solid gold;
 }
 </style>
 </head>
 
 <body>
 
-<!-- ================= AUTH ================= -->
+<!-- AUTH -->
 <div id="authBox">
   <h2 style="color:gold">Login / Signup</h2>
   <input id="email" type="email" placeholder="Email" />
@@ -164,16 +165,15 @@ button:disabled {
   <div>
     <button id="signupBtn">Sign Up</button>
     <button id="loginBtn">Login</button>
-    <button id="resetBtn">Reset</button>
   </div>
-  <div id="spinner"></div>
   <p id="authMsg"></p>
 </div>
 
-<!-- ================= APP ================= -->
+<!-- APP -->
 <div id="app" style="display:none">
 
 <header class="header">
+  <img src="https://via.placeholder.com/100x100.png?text=LOGO" />
   <h1>CHURCH APP</h1>
 </header>
 
@@ -181,32 +181,24 @@ button:disabled {
 
 <section id="homeSection" class="section active">
   <h2 style="color:gold">Dashboard</h2>
-
-  <div class="card"><h3>💰 Total Donations</h3><p>₦0 (demo)</p></div>
-  <div class="card"><h3>🎯 Active Campaigns</h3><p>None yet</p></div>
-  <div class="card"><h3>📊 Donation Analytics</h3><p>Coming soon</p></div>
+  <div class="card">💰 Total Donations<br>₦0 (demo)</div>
+  <div class="card">🎯 Active Campaigns<br>None yet</div>
+  <div class="card">📊 Donation Analytics<br>Coming soon</div>
 
   <div class="card">
-    <h3>🔴 Live Service (Demo)</h3>
+    🔴 Live Service (Demo)
     <div class="video-placeholder">LIVE STREAM</div>
-    <div style="display:flex;justify-content:space-around">
-      <button disabled>Facebook</button>
-      <button disabled>YouTube</button>
-      <button disabled>TikTok</button>
-    </div>
   </div>
 </section>
 
 <section id="tasksSection" class="section">
   <h2 style="color:gold">Tasks</h2>
   <div class="card">Verify donor payments</div>
-  <div class="card">Approve withdrawals</div>
 </section>
 
 <section id="rewardsSection" class="section">
   <h2 style="color:gold">Rewards</h2>
   <div class="card">🥇 Platinum Donor</div>
-  <div class="card">🥈 Gold Sponsor</div>
 </section>
 
 <section id="givingSection" class="section">
@@ -216,44 +208,35 @@ button:disabled {
 
 <section id="profileSection" class="section">
   <h2 style="color:gold">Profile</h2>
-  <div class="card">Email: <span id="profileEmail"></span></div>
-  <button onclick="logout()">Logout</button>
+  <div class="card" style="text-align:center">
+    <img class="profile-avatar" src="https://via.placeholder.com/150.png?text=LOGO">
+    <div>Email: <span id="profileEmail"></span></div>
+    <br>
+    <button onclick="logout()">Logout</button>
+  </div>
 </section>
 
 </main>
 
-<!-- ===== BOTTOM NAV ===== -->
 <nav class="bottom-nav">
-  <button onclick="showSection('home')">HOME</button>
-  <button onclick="showSection('tasks')">TASKS</button>
-  <button onclick="showSection('rewards')">REWARDS</button>
-  <button onclick="showSection('giving')">DONATE</button>
-  <button onclick="showSection('profile')">PROFILE</button>
+  <button class="active" onclick="showSection('home', this)">HOME</button>
+  <button onclick="showSection('tasks', this)">TASKS</button>
+  <button onclick="showSection('rewards', this)">REWARDS</button>
+  <button onclick="showSection('giving', this)">DONATE</button>
+  <button onclick="showSection('profile', this)">PROFILE</button>
 </nav>
 
 </div>
 
-<!-- ================= SCRIPT ================= -->
 <script type="module">
 document.addEventListener("DOMContentLoaded", async () => {
 
   const authBox = document.getElementById("authBox");
   const appBox = document.getElementById("app");
-  const authMsg = document.getElementById("authMsg");
-  const spinner = document.getElementById("spinner");
-
-  const emailInput = document.getElementById("email");
-  const passwordInput = document.getElementById("password");
 
   const { initializeApp } = await import("https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js");
-  const {
-    getAuth,
-    createUserWithEmailAndPassword,
-    signInWithEmailAndPassword,
-    sendPasswordResetEmail,
-    onAuthStateChanged,
-    signOut
-  } = await import("https://www.gstatic.com/firebasejs/9.23.0/firebase-auth.js");
+  const { getAuth, onAuthStateChanged, signOut } =
+    await import("https://www.gstatic.com/firebasejs/9.23.0/firebase-auth.js");
 
   const firebaseConfig = {
     apiKey: "AIzaSyDImP8ODFS0lxWZ5AdTLi7jTxZzFo6JxeY",
@@ -265,47 +248,21 @@ document.addEventListener("DOMContentLoaded", async () => {
   const app = initializeApp(firebaseConfig);
   const auth = getAuth(app);
 
-  const setLoading = (s,m="") => {
-    spinner.style.display = s ? "block" : "none";
-    authMsg.innerText = m;
-  };
+  window.showSection = (name, btn) => {
+    document.querySelectorAll(".section").forEach(s => s.classList.remove("active"));
+    document.getElementById(name + "Section").classList.add("active");
 
-  signupBtn.onclick = async () => {
-    setLoading(true,"Creating account...");
-    try { await createUserWithEmailAndPassword(auth,emailInput.value,passwordInput.value); }
-    catch(e){ authMsg.innerText=e.message; }
-    setLoading(false);
-  };
-
-  loginBtn.onclick = async () => {
-    setLoading(true,"Logging in...");
-    try { await signInWithEmailAndPassword(auth,emailInput.value,passwordInput.value); }
-    catch(e){ authMsg.innerText=e.message; }
-    setLoading(false);
-  };
-
-  resetBtn.onclick = async () => {
-    setLoading(true,"Sending reset...");
-    try { await sendPasswordResetEmail(auth,emailInput.value); authMsg.innerText="Reset sent"; }
-    catch(e){ authMsg.innerText=e.message; }
-    setLoading(false);
-  };
-
-  window.showSection = n => {
-    document.querySelectorAll(".section").forEach(s=>s.classList.remove("active"));
-    document.getElementById(n+"Section").classList.add("active");
+    document.querySelectorAll(".bottom-nav button").forEach(b => b.classList.remove("active"));
+    btn.classList.add("active");
   };
 
   window.logout = () => signOut(auth);
 
   onAuthStateChanged(auth, user => {
-    if(user){
-      authBox.style.display="none";
-      appBox.style.display="flex";
-      profileEmail.innerText=user.email;
-    } else {
-      authBox.style.display="block";
-      appBox.style.display="none";
+    if (user) {
+      authBox.style.display = "none";
+      appBox.style.display = "flex";
+      profileEmail.innerText = user.email;
     }
   });
 });
