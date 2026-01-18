@@ -1,266 +1,214 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <title>Rewards App</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta charset="UTF-8" />
+<title>Rewards App</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <style>
-    body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-      background: #0b0b0b;
-      color: #f5f5f5;
-    }
+<style>
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: #0b0b0b;
+  color: #f5f5f5;
+}
 
-    h1, h2, h3 {
-      color: gold;
-    }
+h1, h2, h3 { color: gold; }
 
-    button {
-      background: gold;
-      border: none;
-      padding: 10px 14px;
-      margin: 5px;
-      font-weight: bold;
-      cursor: pointer;
-      border-radius: 6px;
-    }
+button {
+  background: gold;
+  border: none;
+  padding: 10px 14px;
+  margin: 5px;
+  font-weight: bold;
+  cursor: pointer;
+  border-radius: 6px;
+}
 
-    input {
-      padding: 10px;
-      width: 90%;
-      max-width: 320px;
-      border-radius: 6px;
-      border: none;
-      margin-bottom: 10px;
-    }
+button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
 
-    #authBox {
-      padding: 25px;
-      text-align: center;
-    }
+input {
+  padding: 10px;
+  width: 90%;
+  max-width: 320px;
+  border-radius: 6px;
+  border: none;
+  margin-bottom: 10px;
+}
 
-    #navBar {
-      position: sticky;
-      top: 0;
-      background: #111;
-      padding: 10px;
-      display: none;
-      justify-content: space-around;
-      z-index: 10;
-    }
+#authBox { padding: 25px; text-align: center; }
+#navBar {
+  position: sticky;
+  top: 0;
+  background: #111;
+  padding: 10px;
+  display: none;
+  justify-content: space-around;
+}
 
-    .section {
-      display: none;
-      padding: 20px;
-      min-height: 100vh;
-    }
+.section { display: none; padding: 20px; min-height: 100vh; }
+.section.active { display: block; }
 
-    .section.active {
-      display: block;
-    }
+.card {
+  background: #1a1a1a;
+  padding: 15px;
+  border-radius: 12px;
+  margin-bottom: 15px;
+}
 
-    .card {
-      background: #1a1a1a;
-      padding: 15px;
-      border-radius: 12px;
-      margin-bottom: 15px;
-      box-shadow: 0 0 10px rgba(255, 215, 0, 0.15);
-    }
-
-    .scroll {
-      max-height: calc(100vh - 70px);
-      overflow-y: auto;
-    }
-
-    .socials span {
-      display: inline-block;
-      background: #222;
-      padding: 8px 14px;
-      border-radius: 20px;
-      margin: 6px 6px 0 0;
-      color: gold;
-      font-size: 14px;
-    }
-  </style>
+/* 🔄 SPINNER */
+#spinner {
+  display: none;
+  margin: 15px auto;
+  width: 40px;
+  height: 40px;
+  border: 4px solid #333;
+  border-top: 4px solid gold;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+</style>
 </head>
 
 <body>
 
-  <!-- ================= AUTH BOX ================= -->
-  <div id="authBox">
-    <h2>Login / Signup</h2>
+<div id="authBox">
+  <h2>Login / Signup</h2>
 
-    <input id="email" type="email" placeholder="Email" />
-    <input id="password" type="password" placeholder="Password" />
+  <input id="email" type="email" placeholder="Email" />
+  <input id="password" type="password" placeholder="Password" />
 
-    <div>
-      <button id="signupBtn">Sign Up</button>
-      <button id="loginBtn">Login</button>
-      <button id="resetBtn">Reset Password</button>
-    </div>
-
-    <p id="authMsg"></p>
+  <div>
+    <button id="signupBtn">Sign Up</button>
+    <button id="loginBtn">Login</button>
+    <button id="resetBtn">Reset Password</button>
   </div>
 
-  <!-- ================= NAV BAR ================= -->
-  <div id="navBar">
-    <button onclick="showSection('home')">Home</button>
-    <button onclick="showSection('tasks')">Tasks</button>
-    <button onclick="showSection('rewards')">Rewards</button>
-    <button onclick="showSection('giving')">Donations</button>
-    <button onclick="showSection('profile')">Profile</button>
-    <button onclick="logout()">Logout</button>
-  </div>
+  <div id="spinner"></div>
+  <p id="authMsg"></p>
+</div>
 
-  <!-- ================= SECTIONS ================= -->
+<div id="navBar">
+  <button onclick="showSection('home')">Home</button>
+  <button onclick="showSection('tasks')">Tasks</button>
+  <button onclick="showSection('rewards')">Rewards</button>
+  <button onclick="showSection('giving')">Donations</button>
+  <button onclick="showSection('profile')">Profile</button>
+  <button onclick="logout()">Logout</button>
+</div>
 
-  <div id="homeSection" class="section scroll">
-    <h2>Dashboard</h2>
+<div id="homeSection" class="section"><h2>Dashboard</h2></div>
+<div id="tasksSection" class="section"><h2>Tasks</h2></div>
+<div id="rewardsSection" class="section"><h2>Rewards</h2></div>
+<div id="givingSection" class="section"><h2>Donations</h2></div>
+<div id="profileSection" class="section">
+  <h2>Profile</h2>
+  <p>Email: <span id="profileEmail"></span></p>
+</div>
 
-    <div class="card">
-      <h3>💰 Total Donations</h3>
-      <p>₦0.00 (placeholder)</p>
-    </div>
+<script type="module">
+document.addEventListener("DOMContentLoaded", async () => {
 
-    <div class="card">
-      <h3>🎯 Active Campaigns</h3>
-      <p>No campaigns yet</p>
-    </div>
+  const authBox = document.getElementById("authBox");
+  const navBar = document.getElementById("navBar");
+  const authMsg = document.getElementById("authMsg");
+  const spinner = document.getElementById("spinner");
 
-    <div class="card">
-      <h3>📊 Donation Analytics</h3>
-      <p>Chart placeholder</p>
-    </div>
-  </div>
+  const emailInput = document.getElementById("email");
+  const passwordInput = document.getElementById("password");
+  const signupBtn = document.getElementById("signupBtn");
+  const loginBtn = document.getElementById("loginBtn");
+  const resetBtn = document.getElementById("resetBtn");
 
-  <div id="tasksSection" class="section scroll">
-    <h2>Tasks</h2>
+  const sections = {
+    home: document.getElementById("homeSection"),
+    tasks: document.getElementById("tasksSection"),
+    rewards: document.getElementById("rewardsSection"),
+    giving: document.getElementById("givingSection"),
+    profile: document.getElementById("profileSection")
+  };
 
-    <div class="card">Verify donor payments</div>
-    <div class="card">Approve withdrawals</div>
-    <div class="card">Review campaigns</div>
-  </div>
+  const { initializeApp } = await import("https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js");
+  const {
+    getAuth,
+    createUserWithEmailAndPassword,
+    signInWithEmailAndPassword,
+    sendPasswordResetEmail,
+    onAuthStateChanged,
+    signOut
+  } = await import("https://www.gstatic.com/firebasejs/9.23.0/firebase-auth.js");
 
-  <div id="rewardsSection" class="section scroll">
-    <h2>Rewards</h2>
+  const firebaseConfig = {
+    apiKey: "AIzaSyDImP8ODFS0lxWZ5AdTLi7jTxZzFo6JxeY",
+    authDomain: "rewards-task-mvp.firebaseapp.com",
+    projectId: "rewards-task-mvp",
+    appId: "1:154842831298:web:9ff9e24acfaf346aa99e5b"
+  };
 
-    <div class="card">🥉 Bronze Supporter</div>
-    <div class="card">🥈 Gold Sponsor</div>
-    <div class="card">🥇 Platinum Donor</div>
-  </div>
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
 
-  <div id="givingSection" class="section scroll">
-    <h2>Donations</h2>
+  const setLoading = (state, msg="") => {
+    spinner.style.display = state ? "block" : "none";
+    signupBtn.disabled = loginBtn.disabled = resetBtn.disabled = state;
+    authMsg.innerText = msg;
+  };
 
-    <div class="card">
-      <h3>Donate Now</h3>
-      <p>Payment gateway placeholder</p>
-    </div>
+  signupBtn.onclick = async () => {
+    setLoading(true, "Creating account...");
+    try {
+      await createUserWithEmailAndPassword(auth, emailInput.value, passwordInput.value);
+    } catch (e) {
+      authMsg.innerText = e.message;
+    }
+    setLoading(false);
+  };
 
-    <div class="card">
-      <h3>Recent Donations</h3>
-      <p>No donations yet</p>
-    </div>
-  </div>
+  loginBtn.onclick = async () => {
+    setLoading(true, "Logging in...");
+    try {
+      await signInWithEmailAndPassword(auth, emailInput.value, passwordInput.value);
+    } catch (e) {
+      authMsg.innerText = e.message;
+    }
+    setLoading(false);
+  };
 
-  <div id="profileSection" class="section scroll">
-    <h2>Profile</h2>
+  resetBtn.onclick = async () => {
+    setLoading(true, "Sending reset email...");
+    try {
+      await sendPasswordResetEmail(auth, emailInput.value);
+      authMsg.innerText = "Reset email sent 📩";
+    } catch (e) {
+      authMsg.innerText = e.message;
+    }
+    setLoading(false);
+  };
 
-    <div class="card">
-      <p>Email: <span id="profileEmail"></span></p>
-    </div>
+  window.showSection = name => {
+    Object.values(sections).forEach(s => s.classList.remove("active"));
+    sections[name].classList.add("active");
+  };
 
-    <div class="card socials">
-      <h3>🌐 Connected Social Media</h3>
-      <span>Facebook</span>
-      <span>TikTok</span>
-      <span>YouTube</span>
-      <span>Instagram</span>
-    </div>
-
-    <div class="card">
-      <h3>🎥 Livestream</h3>
-      <p>Live video embed placeholder</p>
-    </div>
-  </div>
-
-  <!-- ================= APP SCRIPT ================= -->
-  <script type="module">
-    document.addEventListener("DOMContentLoaded", async () => {
-
-      const authBox = document.getElementById("authBox");
-      const navBar = document.getElementById("navBar");
-      const authMsg = document.getElementById("authMsg");
-
+  onAuthStateChanged(auth, user => {
+    if (user) {
+      authBox.style.display = "none";
+      navBar.style.display = "flex";
+      document.getElementById("profileEmail").innerText = user.email;
+      showSection("home");
+    } else {
       authBox.style.display = "block";
       navBar.style.display = "none";
+    }
+  });
 
-      const { initializeApp } = await import("https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js");
-      const {
-        getAuth,
-        createUserWithEmailAndPassword,
-        signInWithEmailAndPassword,
-        sendPasswordResetEmail,
-        onAuthStateChanged,
-        signOut
-      } = await import("https://www.gstatic.com/firebasejs/9.23.0/firebase-auth.js");
-
-      const firebaseConfig = {
-        apiKey: "REPLACE_ME",
-        authDomain: "REPLACE_ME",
-        projectId: "REPLACE_ME",
-        appId: "REPLACE_ME"
-      };
-
-      const app = initializeApp(firebaseConfig);
-      const auth = getAuth(app);
-
-      const emailInput = document.getElementById("email");
-      const passwordInput = document.getElementById("password");
-
-      signupBtn.onclick = () =>
-        createUserWithEmailAndPassword(auth, emailInput.value, passwordInput.value)
-          .catch(e => authMsg.innerText = e.message);
-
-      loginBtn.onclick = () =>
-        signInWithEmailAndPassword(auth, emailInput.value, passwordInput.value)
-          .catch(e => authMsg.innerText = e.message);
-
-      resetBtn.onclick = () =>
-        sendPasswordResetEmail(auth, emailInput.value)
-          .then(() => authMsg.innerText = "Reset email sent")
-          .catch(e => authMsg.innerText = e.message);
-
-      const sections = {
-        home: homeSection,
-        tasks: tasksSection,
-        rewards: rewardsSection,
-        giving: givingSection,
-        profile: profileSection
-      };
-
-      window.showSection = name => {
-        Object.values(sections).forEach(s => s.classList.remove("active"));
-        sections[name].classList.add("active");
-      };
-
-      onAuthStateChanged(auth, user => {
-        if (user) {
-          authBox.style.display = "none";
-          navBar.style.display = "flex";
-          profileEmail.innerText = user.email;
-          showSection("home");
-        } else {
-          authBox.style.display = "block";
-          navBar.style.display = "none";
-        }
-      });
-
-      window.logout = () => signOut(auth);
-    });
-  </script>
+  window.logout = () => signOut(auth);
+});
+</script>
 
 </body>
   </html>
