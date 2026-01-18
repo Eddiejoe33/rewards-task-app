@@ -17,14 +17,13 @@ html, body {
   font-family: Arial, sans-serif;
 }
 
-/* ================= APP ================= */
 #app {
-  min-height: 100vh; /* ✅ FIX */
+  min-height: 100vh;
   display: flex;
   flex-direction: column;
 }
 
-/* ================= HEADER ================= */
+/* HEADER */
 .header {
   height: 64px;
   background: #111;
@@ -49,20 +48,20 @@ html, body {
   letter-spacing: 2px;
 }
 
-/* ================= MAIN ================= */
+/* MAIN */
 .main-content {
   flex: 1;
   overflow-y: auto;
   padding: 16px;
-  padding-bottom: 100px; /* ✅ EXACT NAV HEIGHT */
+  padding-bottom: 140px;
   -webkit-overflow-scrolling: touch;
 }
 
-/* ================= SECTIONS ================= */
+/* SECTIONS */
 .section { display: none; }
 .section.active { display: block; }
 
-/* ================= CARD ================= */
+/* CARD */
 .card {
   background: #1a1a1a;
   padding: 18px;
@@ -71,7 +70,7 @@ html, body {
   box-shadow: 0 0 14px rgba(255,215,0,0.25);
 }
 
-/* ================= LIVE ================= */
+/* LIVE */
 .video-placeholder {
   height: 220px;
   background: linear-gradient(180deg, #000, #111);
@@ -89,7 +88,7 @@ html, body {
   opacity: 0.8;
 }
 
-/* ================= SOCIAL ================= */
+/* SOCIAL */
 .social-box {
   display: flex;
   justify-content: space-around;
@@ -109,7 +108,7 @@ html, body {
   border: 1px solid rgba(255,215,0,0.4);
 }
 
-/* ================= AUTH ================= */
+/* AUTH */
 #authBox {
   padding: 40px 20px;
   text-align: center;
@@ -134,9 +133,18 @@ button {
   border-radius: 8px;
 }
 
-/* ================= BOTTOM NAV ================= */
+/* FORGOT PASSWORD */
+.forgot {
+  color: gold;
+  font-size: 13px;
+  cursor: pointer;
+  margin-top: 6px;
+  display: inline-block;
+}
+
+/* BOTTOM NAV */
 .bottom-nav {
-  position: fixed;            /* ✅ FIX */
+  position: fixed;
   bottom: 0;
   left: 0;
   width: 100%;
@@ -169,7 +177,7 @@ button {
   background: #000;
 }
 
-/* ================= PROFILE ================= */
+/* PROFILE */
 .profile-avatar {
   width: 90px;
   height: 90px;
@@ -182,7 +190,7 @@ button {
 
 <body>
 
-<!-- ================= AUTH ================= -->
+<!-- AUTH -->
 <div id="authBox">
   <h2 style="color:gold">Login / Signup</h2>
   <input id="email" type="email" placeholder="Email">
@@ -191,10 +199,11 @@ button {
     <button id="signupBtn">Sign Up</button>
     <button id="loginBtn">Login</button>
   </div>
+  <div class="forgot" id="forgotBtn">Forgot password?</div>
   <p id="authMsg"></p>
 </div>
 
-<!-- ================= APP ================= -->
+<!-- APP -->
 <div id="app" style="display:none">
 
 <header class="header">
@@ -210,6 +219,8 @@ button {
   <div class="card">💰 Total Donations<br>₦0 (demo)</div>
   <div class="card">🎯 Active Campaigns<br>None yet</div>
   <div class="card">📊 Donation Analytics<br>Coming soon</div>
+  <div class="card">👥 Total Members<br>0 (demo)</div>
+  <div class="card">📅 Upcoming Events<br>No events</div>
 
   <div class="card">
     🔴 Live Service (Demo)
@@ -217,13 +228,15 @@ button {
       LIVE STREAM
       <span>Facebook • YouTube • TikTok</span>
     </div>
-
     <div class="social-box">
       <div>📘</div>
       <div>▶️</div>
       <div>🎵</div>
     </div>
   </div>
+
+  <div class="card">📌 Announcements<br>None yet</div>
+  <div class="card">🙏 Prayer Requests<br>Coming soon</div>
 </section>
 
 <section id="tasksSection" class="section">
@@ -262,7 +275,6 @@ button {
 
 </div>
 
-<!-- ================= SCRIPT ================= -->
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js";
 import {
@@ -270,7 +282,8 @@ import {
   onAuthStateChanged,
   signOut,
   signInWithEmailAndPassword,
-  createUserWithEmailAndPassword
+  createUserWithEmailAndPassword,
+  sendPasswordResetEmail
 } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-auth.js";
 
 const firebaseConfig = {
@@ -305,6 +318,11 @@ signupBtn.onclick = () =>
 
 loginBtn.onclick = () =>
   signInWithEmailAndPassword(auth, email.value, password.value)
+    .catch(e => authMsg.innerText = e.message);
+
+forgotBtn.onclick = () =>
+  sendPasswordResetEmail(auth, email.value)
+    .then(() => authMsg.innerText = "Password reset email sent")
     .catch(e => authMsg.innerText = e.message);
 
 window.logout = () => signOut(auth);
