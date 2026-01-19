@@ -20,35 +20,48 @@ body{
   background:var(--bg);
   color:var(--text);
   min-height:100vh;
-  padding-bottom:90px;
+  padding-bottom:100px;
 }
 
 /* HEADER */
 .header{
   text-align:center;
-  padding:24px 16px;
+  padding:28px 16px;
 }
-.header h1{color:var(--gold);font-size:26px}
-.header p{color:var(--muted);font-size:14px}
+.header h1{
+  color:var(--gold);
+  font-size:30px; /* BIGGER */
+}
+.header p{
+  color:var(--muted);
+  font-size:16px; /* BIGGER */
+}
 
 /* CARD */
 .card{
   background:var(--card);
-  margin:14px 16px;
-  padding:18px;
-  border-radius:18px;
+  margin:16px;
+  padding:22px;
+  border-radius:20px;
 }
-.card h3{margin-bottom:12px}
+.card h3{
+  margin-bottom:14px;
+  font-size:22px; /* BIGGER */
+}
 
 /* DASHBOARD */
-.dashboard p{margin:6px 0}
+.dashboard p{
+  margin:8px 0;
+  font-size:17px; /* BIGGER */
+}
 
 /* LIST */
 .list-item{
   display:flex;
   justify-content:space-between;
-  padding:10px 0;
+  padding:12px 0;
   border-bottom:1px solid #222;
+  font-size:16px; /* BIGGER */
 }
 .list-item:last-child{border-bottom:none}
 
@@ -57,31 +70,34 @@ body{
   display:flex;
   justify-content:space-between;
   align-items:center;
-  padding:12px 0;
+  padding:14px 0;
   border-bottom:1px solid #222;
+  font-size:16px; /* BIGGER */
 }
 .task:last-child{border-bottom:none}
 
 .btn{
   background:var(--gold);
   border:none;
-  padding:8px 14px;
-  border-radius:20px;
+  padding:10px 18px;
+  border-radius:22px;
   font-weight:bold;
+  font-size:15px; /* BIGGER */
   cursor:pointer;
 }
 
 /* LIVESTREAM */
 .video-box{
   background:#000;
-  height:180px;
-  border-radius:14px;
+  height:200px;
+  border-radius:16px;
   display:flex;
   align-items:center;
   justify-content:center;
   color:#777;
   text-align:center;
-  padding:10px;
+  padding:14px;
+  font-size:16px; /* BIGGER */
 }
 
 /* BOTTOM NAV */
@@ -91,14 +107,15 @@ body{
   background:#101010;
   display:flex;
   justify-content:space-around;
-  padding:14px 0;
+  padding:18px 0; /* BIGGER */
   border-top:1px solid #222;
 }
 .bottom-nav button{
   background:none;
   border:none;
   color:var(--gold);
-  font-size:14px;
+  font-size:17px; /* BIGGER */
+  font-weight:bold;
   cursor:pointer;
 }
 
@@ -166,7 +183,7 @@ body{
 <!-- LIVE -->
 <div id="live" class="section">
   <div class="card">
-    <h3>Live Stream</h3>
+    <h3>YouTube Live</h3>
     <div class="video-box">
       YouTube Live Stream<br>Placeholder
     </div>
@@ -184,7 +201,7 @@ body{
 <div id="tasks" class="section">
   <div class="card">
     <h3>All Tasks</h3>
-    <p>Task system coming soon</p>
+    <p style="font-size:16px">Task system coming soon</p>
   </div>
 </div>
 
@@ -192,8 +209,8 @@ body{
 <div id="profile" class="section">
   <div class="card">
     <h3>Profile</h3>
-    <p>Demo User</p>
-    <p>Email: demo@engagementapp.com</p>
+    <p style="font-size:16px">Demo User</p>
+    <p style="font-size:16px">Email: demo@engagementapp.com</p>
   </div>
 </div>
 
@@ -213,4 +230,4 @@ function show(section){
 </script>
 
 </body>
-  </html>
+                               </html>
