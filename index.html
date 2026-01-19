@@ -13,7 +13,7 @@ body {
   font-family: Arial, sans-serif;
   background: #000;
   color: #fff;
-  padding-bottom: 120px;
+  padding-bottom: 90px; /* space for bottom nav */
 }
 
 h1 {
@@ -48,12 +48,17 @@ h1 {
 .btn {
   background: #ffd400;
   border: none;
-  padding: 6px 14px;
+  padding: 6px 16px;
   border-radius: 20px;
   font-weight: bold;
   cursor: pointer;
 }
 
+.btn:active {
+  transform: scale(0.95);
+}
+
+/* VIDEO */
 .video-box {
   border: 2px solid #ffd400;
   border-radius: 12px;
@@ -64,12 +69,13 @@ iframe {
   width: 100%;
   height: 220px;
   border: none;
+  pointer-events: auto;
 }
 
-/* ===== BOTTOM NAV ===== */
+/* ===== BOTTOM NAV (FIXED & CLICKABLE) ===== */
 .bottom-nav {
   position: fixed;
-  bottom: env(safe-area-inset-bottom);
+  bottom: 0;
   left: 0;
   right: 0;
   height: 64px;
@@ -77,7 +83,7 @@ iframe {
   display: flex;
   justify-content: space-around;
   align-items: center;
-  z-index: 9999;
+  z-index: 99999;
 }
 
 .nav-btn {
@@ -86,6 +92,11 @@ iframe {
   font-weight: bold;
   font-size: 14px;
   color: #000;
+  cursor: pointer;
+}
+
+.nav-btn:active {
+  transform: scale(0.9);
 }
 </style>
 </head>
@@ -112,17 +123,17 @@ iframe {
 
   <div class="row">
     <span>Watch Live Stream</span>
-    <button class="btn">Complete</button>
+    <button class="btn" onclick="taskDone()">Complete</button>
   </div>
 
   <div class="row">
     <span>Share App</span>
-    <button class="btn">Complete</button>
+    <button class="btn" onclick="taskDone()">Complete</button>
   </div>
 
   <div class="row">
     <span>Invite Friend</span>
-    <button class="btn">Complete</button>
+    <button class="btn" onclick="taskDone()">Complete</button>
   </div>
 </div>
 
@@ -131,28 +142,27 @@ iframe {
 
   <div class="row">
     <span>Frontend Developer</span>
-    <button class="btn">Apply</button>
+    <button class="btn" onclick="applyJob()">Apply</button>
   </div>
 
   <div class="row">
     <span>QA Engineer</span>
-    <button class="btn">Apply</button>
+    <button class="btn" onclick="applyJob()">Apply</button>
   </div>
 
   <div class="row">
     <span>Community Manager</span>
-    <button class="btn">Apply</button>
+    <button class="btn" onclick="applyJob()">Apply</button>
   </div>
 </div>
 
-<!-- ✅ REAL PLAYING VIDEO -->
 <div class="section">
   <div class="section-title">🔴 Live Service (Demo)</div>
 
   <div class="video-box">
-    <!-- Public YouTube LIVE / Demo video -->
-    <iframe 
-      src="https://www.youtube.com/embed/5qap5aO4i9A?autoplay=1&mute=1"
+    <!-- STABLE DEMO VIDEO -->
+    <iframe
+      src="https://www.youtube.com/embed/jfKfPfyJRdk?autoplay=1&mute=1"
       allow="autoplay; encrypted-media"
       allowfullscreen>
     </iframe>
@@ -165,11 +175,25 @@ iframe {
 
 <!-- ===== BOTTOM NAV ===== -->
 <div class="bottom-nav">
-  <button class="nav-btn">HOME</button>
-  <button class="nav-btn">TASKS</button>
-  <button class="nav-btn">REWARDS</button>
-  <button class="nav-btn">DONATE</button>
+  <button class="nav-btn" onclick="nav('Home')">HOME</button>
+  <button class="nav-btn" onclick="nav('Tasks')">TASKS</button>
+  <button class="nav-btn" onclick="nav('Rewards')">REWARDS</button>
+  <button class="nav-btn" onclick="nav('Donate')">DONATE</button>
 </div>
 
+<script>
+function nav(page) {
+  alert(page + " page (demo)");
+}
+
+function taskDone() {
+  alert("Task completed +10 XP (demo)");
+}
+
+function applyJob() {
+  alert("Application submitted (demo)");
+}
+</script>
+
 </body>
-                              </html>
+    </html>
