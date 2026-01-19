@@ -6,16 +6,13 @@
 <title>Church App</title>
 
 <style>
-* {
-  box-sizing: border-box;
-  font-family: Arial, sans-serif;
-}
+* { box-sizing: border-box; font-family: Arial, sans-serif; }
 
 body {
   margin: 0;
   background: #000;
   color: #fff;
-  padding-bottom: 80px;
+  padding-bottom: 90px;
 }
 
 /* Header */
@@ -42,7 +39,6 @@ header {
   font-weight: bold;
 }
 
-/* Rows */
 .row {
   display: flex;
   justify-content: space-between;
@@ -50,12 +46,8 @@ header {
   padding: 10px 0;
   border-bottom: 1px solid #222;
 }
+.row:last-child { border-bottom: none; }
 
-.row:last-child {
-  border-bottom: none;
-}
-
-/* Buttons */
 .btn {
   background: #f5c400;
   border: none;
@@ -65,21 +57,15 @@ header {
   cursor: pointer;
 }
 
-.btn:active {
-  transform: scale(0.96);
-}
-
-/* Live box */
 .live-box {
   border: 2px solid #f5c400;
   border-radius: 12px;
   padding: 20px;
   text-align: center;
-  margin-top: 10px;
   background: #222;
 }
 
-/* Bottom Navigation */
+/* Bottom Nav */
 nav {
   position: fixed;
   bottom: 0;
@@ -88,12 +74,52 @@ nav {
   display: flex;
   justify-content: space-around;
   padding: 15px 0;
-  z-index: 999;
+  z-index: 1000;
 }
 
 nav div {
   color: #000;
   font-weight: bold;
+  cursor: pointer;
+}
+
+/* Donate Modal */
+.modal {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.8);
+  z-index: 2000;
+  align-items: center;
+  justify-content: center;
+}
+
+.modal-content {
+  background: #111;
+  padding: 20px;
+  width: 90%;
+  max-width: 400px;
+  border-radius: 15px;
+  box-shadow: 0 0 15px rgba(245,196,0,0.3);
+}
+
+.modal h2 {
+  text-align: center;
+  color: #f5c400;
+}
+
+.modal input {
+  width: 100%;
+  padding: 10px;
+  margin: 10px 0;
+  border-radius: 10px;
+  border: none;
+}
+
+.close {
+  text-align: center;
+  margin-top: 10px;
+  color: #aaa;
   cursor: pointer;
 }
 </style>
@@ -118,103 +144,18 @@ nav div {
 
 <div class="section">
   <div class="section-title">📝 Tasks</div>
-
-  <div class="row">
-    <span>Watch Live Stream</span>
-    <button class="btn" onclick="addXP()">Complete</button>
-  </div>
-
-  <div class="row">
-    <span>Share App</span>
-    <button class="btn" onclick="addXP()">Complete</button>
-  </div>
-
-  <div class="row">
-    <span>Invite Friend</span>
-    <button class="btn" onclick="addXP()">Complete</button>
-  </div>
+  <div class="row"><span>Watch Live Stream</span><button class="btn" onclick="addXP()">Complete</button></div>
+  <div class="row"><span>Share App</span><button class="btn" onclick="addXP()">Complete</button></div>
+  <div class="row"><span>Invite Friend</span><button class="btn" onclick="addXP()">Complete</button></div>
 </div>
 
 <div class="section">
   <div class="section-title">💼 Remote Jobs</div>
-
-  <div class="row">
-    <span>Frontend Developer</span>
-    <button class="btn" onclick="demo()">Apply</button>
-  </div>
-
-  <div class="row">
-    <span>QA Engineer</span>
-    <button class="btn" onclick="demo()">Apply</button>
-  </div>
-
-  <div class="row">
-    <span>Community Manager</span>
-    <button class="btn" onclick="demo()">Apply</button>
-  </div>
+  <div class="row"><span>Frontend Developer</span><button class="btn" onclick="demo()">Apply</button></div>
+  <div class="row"><span>QA Engineer</span><button class="btn" onclick="demo()">Apply</button></div>
+  <div class="row"><span>Community Manager</span><button class="btn" onclick="demo()">Apply</button></div>
 </div>
 
 <div class="section">
-  <div class="section-title">🩺 Christian Health Support (Placeholder)</div>
-
-  <div class="row">
-    <span>Medical Prayer Request</span>
-    <button class="btn" onclick="healthDemo()">Submit</button>
-  </div>
-
-  <div class="row">
-    <span>Christian Medical Assistance</span>
-    <button class="btn" onclick="healthDemo()">Request</button>
-  </div>
-
-  <div class="row">
-    <span>Confidential Health Complaint</span>
-    <button class="btn" onclick="healthDemo()">Report</button>
-  </div>
-
-  <p style="font-size:12px;color:#aaa;margin-top:10px;">
-    *Feature will connect members to trusted Christian health professionals and prayer teams.
-  </p>
-</div>
-
-<div class="section">
-  <div class="section-title">🔴 Live Service (Demo)</div>
-
-  <div class="live-box">
-    <p>We're processing this video.</p>
-    <p>Check back later.</p>
-    <p style="color:#f5c400;margin-top:10px;">Live Broadcast Demo</p>
-  </div>
-</div>
-
-<nav>
-  <div onclick="navClick('Home')">HOME</div>
-  <div onclick="navClick('Tasks')">TASKS</div>
-  <div onclick="navClick('Rewards')">REWARDS</div>
-  <div onclick="navClick('Donate')">DONATE</div>
-</nav>
-
-<script>
-let xp = 0;
-
-function addXP() {
-  xp += 10;
-  document.getElementById("xp").innerText = xp;
-  alert("Task completed! +10 XP");
-}
-
-function demo() {
-  alert("Feature coming soon (demo)");
-}
-
-function healthDemo() {
-  alert("Health support feature coming soon (demo)");
-}
-
-function navClick(tab) {
-  alert(tab + " page coming soon");
-}
-</script>
-
-</body>
-  </html>
+  <div class="section-title">🩺 Christian Health Support</div>
+  <div class="row"><span>Medical Prayer
