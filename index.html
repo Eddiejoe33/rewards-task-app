@@ -14,7 +14,7 @@ body {
     font-family: Arial, sans-serif;
     background: #000;
     color: #fff;
-    padding-bottom: 90px; /* FIX: space for bottom nav */
+    padding-bottom: 110px; /* space for bottom nav */
 }
 
 .container {
@@ -56,24 +56,27 @@ iframe {
     border: none;
 }
 
-/* FIXED Bottom Navigation */
+/* ✅ FIXED & CLICKABLE Bottom Nav */
 .bottom-nav {
     position: fixed;
     bottom: 0;
     left: 0;
     right: 0;
-    height: 70px;
+    height: 80px;
     background: #000;
     display: flex;
     justify-content: space-around;
     align-items: center;
     border-top: 1px solid #222;
-    z-index: 999;
+    z-index: 1000;
 }
 
-.bottom-nav span {
-    font-size: 22px;
-    opacity: 0.85;
+.bottom-nav button {
+    background: none;
+    border: none;
+    color: #fff;
+    font-size: 24px;
+    cursor: pointer;
 }
 </style>
 </head>
@@ -90,18 +93,7 @@ iframe {
         <button id="installBtn" style="display:none;">Install App</button>
     </div>
 
-    <!-- Live Stream -->
-    <div class="card">
-        <h2>📺 Live Stream</h2>
-        <iframe
-            src="https://www.youtube.com/embed/5qap5aO4i9A"
-            allow="autoplay; encrypted-media"
-            allowfullscreen>
-        </iframe>
-        <p style="opacity:.6;">Live placeholder – connects to social platforms later</p>
-    </div>
-
-    <!-- Tasks -->
+    <!-- Tasks FIRST -->
     <div class="card">
         <h2>📝 Tasks</h2>
 
@@ -121,7 +113,18 @@ iframe {
         </div>
     </div>
 
-    <!-- Medical / Health Section (FIXED & VISIBLE) -->
+    <!-- ✅ Live Stream MOVED DOWN -->
+    <div class="card">
+        <h2>📺 Live Stream</h2>
+        <iframe
+            src="https://www.youtube.com/embed/5qap5aO4i9A"
+            allow="autoplay; encrypted-media"
+            allowfullscreen>
+        </iframe>
+        <p style="opacity:.6;">Live placeholder – connects to social platforms later</p>
+    </div>
+
+    <!-- Medical -->
     <div class="card">
         <h2>🩺 Medical & Wellness</h2>
 
@@ -141,7 +144,7 @@ iframe {
         </div>
 
         <p style="opacity:.5;font-size:13px;">
-            Placeholder content – real medical services connect later
+            Placeholder content – connects later
         </p>
     </div>
 
@@ -167,20 +170,25 @@ iframe {
 
 </div>
 
-<!-- Bottom Navigation FIXED -->
+<!-- ✅ WORKING Bottom Navigation -->
 <div class="bottom-nav">
-    <span>🏠</span>
-    <span>📺</span>
-    <span>📝</span>
-    <span>👤</span>
+    <button onclick="scrollToTop()">🏠</button>
+    <button onclick="alert('Live section')">📺</button>
+    <button onclick="alert('Tasks section')">📝</button>
+    <button onclick="alert('Profile section')">👤</button>
 </div>
 
 <script>
-/* XP System */
+/* XP */
 let xp = 0;
 function addXP() {
     xp += 10;
     document.getElementById("xp").innerText = xp;
+}
+
+/* Bottom Nav Home */
+function scrollToTop() {
+    window.scrollTo({ top: 0, behavior: "smooth" });
 }
 
 /* PWA Install */
@@ -206,4 +214,4 @@ if ("serviceWorker" in navigator) {
 </script>
 
 </body>
-    </html>
+            </html>
