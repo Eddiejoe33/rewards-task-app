@@ -15,7 +15,7 @@
       font-family: Arial, sans-serif;
       background: #000;
       color: #fff;
-      padding-bottom: 80px;
+      padding-bottom: 90px;
     }
 
     .card {
@@ -29,10 +29,12 @@
       margin-top: 0;
     }
 
-    .task {
+    .task,
+    .job {
       display: flex;
       justify-content: space-between;
-      margin: 10px 0;
+      align-items: center;
+      margin: 12px 0;
       border-bottom: 1px solid #222;
       padding-bottom: 10px;
     }
@@ -86,6 +88,7 @@
       border-radius: 20px;
       font-weight: bold;
       display: none;
+      z-index: 999;
     }
   </style>
 </head>
@@ -94,14 +97,16 @@
 
 <button class="install-btn" id="installBtn">Install App</button>
 
+<!-- Dashboard -->
 <div class="card">
   <h2>Dashboard</h2>
   <p>Email: joeledward949@gmail.com</p>
   <p>XP: 0</p>
 </div>
 
+<!-- Tasks -->
 <div class="card">
-  <h2>Tasks</h2>
+  <h2>📝 Tasks</h2>
 
   <div class="task">
     <span>Watch Live Stream</span>
@@ -119,6 +124,7 @@
   </div>
 </div>
 
+<!-- Live Stream -->
 <div class="card">
   <h2>📺 Live Stream</h2>
 
@@ -131,23 +137,51 @@
   <p style="opacity:.6">Live placeholder – connects to social platforms later</p>
 </div>
 
+<!-- Medical & Wellness -->
+<div class="card">
+  <h2>🩺 Medical & Wellness</h2>
+  <p style="opacity:.7">
+    Health tips, medical support, and wellness resources will appear here.
+  </p>
+</div>
+
+<!-- Remote Jobs -->
+<div class="card">
+  <h2>💼 Remote Jobs</h2>
+
+  <div class="job">
+    <span>Frontend Developer</span>
+    <button class="btn">Apply</button>
+  </div>
+
+  <div class="job">
+    <span>QA Engineer</span>
+    <button class="btn">Apply</button>
+  </div>
+
+  <div class="job">
+    <span>Community Manager</span>
+    <button class="btn">Apply</button>
+  </div>
+</div>
+
 <!-- Bottom Navigation -->
 <nav class="bottom-nav">
-  <button data-nav="home">Home</button>
-  <button data-nav="live">Live</button>
-  <button data-nav="tasks">Tasks</button>
-  <button data-nav="profile">Profile</button>
+  <button>Home</button>
+  <button>Live</button>
+  <button>Tasks</button>
+  <button>Profile</button>
 </nav>
 
 <script>
-  // Bottom-nav behavior (ALL same as Profile)
+  // Bottom-nav: ALL behave same
   document.querySelectorAll(".bottom-nav button").forEach(btn => {
     btn.addEventListener("click", () => {
       alert(btn.textContent + " coming soon");
     });
   });
 
-  // PWA install
+  // PWA Install
   let deferredPrompt;
   const installBtn = document.getElementById("installBtn");
 
@@ -171,4 +205,4 @@
 </script>
 
 </body>
-    </html>
+</html>
