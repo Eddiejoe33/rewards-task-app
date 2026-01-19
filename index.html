@@ -5,13 +5,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Engagement App</title>
 
-<!-- PWA -->
-<link rel="manifest" href="manifest.json">
-<meta name="theme-color" content="#0b0b0b">
-
 <style>
 :root{
-  --gold:#c9b26b;
+  --gold:#d4b86a;
   --bg:#0b0b0b;
   --card:#151515;
   --text:#f5f5f5;
@@ -30,7 +26,7 @@ body{
   min-height:100vh;
 }
 
-/* LOADER */
+/* ===== LOADER ===== */
 #loadingScreen{
   position:fixed;
   inset:0;
@@ -38,17 +34,15 @@ body{
   display:flex;
   align-items:center;
   justify-content:center;
-  flex-direction:column;
-  color:var(--gold);
   z-index:999;
+  color:var(--gold);
 }
 
-/* AUTH */
+/* ===== AUTH ===== */
 #authBox{
   max-width:420px;
   margin:auto;
-  padding:40px 20px;
-  display:none;
+  padding:60px 20px;
 }
 
 #authBox h2{
@@ -66,7 +60,7 @@ body{
 #authBox input{
   width:100%;
   padding:14px;
-  border-radius:10px;
+  border-radius:12px;
   border:none;
   margin-bottom:12px;
 }
@@ -75,7 +69,7 @@ body{
   width:100%;
   padding:14px;
   border:none;
-  border-radius:10px;
+  border-radius:12px;
   background:var(--gold);
   font-weight:bold;
   cursor:pointer;
@@ -88,74 +82,67 @@ body{
   color:#ff8a8a;
 }
 
-/* APP */
+/* ===== APP ===== */
 #app{
   display:none;
   padding:20px;
-  padding-bottom:120px;
+  padding-bottom:100px;
 }
 
 .app-title{
   text-align:center;
-  margin-bottom:24px;
-}
-
-.app-title h1{
+  font-size:26px;
   color:var(--gold);
+  margin-bottom:4px;
 }
 
-.app-title p{
+.app-sub{
+  text-align:center;
   color:#aaa;
-  font-size:14px;
+  margin-bottom:20px;
 }
 
-.header{
-  font-size:18px;
-  margin-bottom:12px;
-  color:#fff;
-}
-
-/* CARDS */
+/* ===== CARDS ===== */
 .card{
   background:var(--card);
-  border-radius:16px;
+  border-radius:18px;
   padding:18px;
   margin-bottom:16px;
 }
 
-.card-title{
+.card h3{
   color:var(--gold);
-  margin-bottom:8px;
+  margin-bottom:10px;
 }
 
-/* VIDEO */
+/* ===== SECTIONS ===== */
+.section{display:none}
+.section.active{display:block}
+
+/* ===== VIDEO ===== */
 .video-box{
   height:180px;
+  border-radius:14px;
   background:#000;
-  border-radius:12px;
   display:flex;
   align-items:center;
   justify-content:center;
   color:#777;
 }
 
-/* BUTTON */
+/* ===== BUTTON ===== */
 .action-btn{
   width:100%;
   padding:14px;
   border:none;
-  border-radius:12px;
+  border-radius:14px;
   background:var(--gold);
   font-weight:bold;
   cursor:pointer;
-  margin-top:10px;
+  margin-top:12px;
 }
 
-/* SECTIONS */
-.section{display:none;}
-.section.active{display:block;}
-
-/* NAV */
+/* ===== NAV ===== */
 .bottom-nav{
   position:fixed;
   bottom:0;
@@ -179,18 +166,17 @@ body{
   color:#fff;
 }
 
-.logout{color:#ff8a8a;}
+.logout{
+  color:#ff8a8a;
+}
 </style>
 </head>
 
 <body>
 
-<div id="loadingScreen">
-  Loading…
-  <small style="color:#777;margin-top:6px">Please wait</small>
-</div>
+<div id="loadingScreen">Loading…</div>
 
-<!-- AUTH -->
+<!-- ===== AUTH ===== -->
 <div id="authBox">
   <h2>Engagement App</h2>
   <p>Church Engagement Platform</p>
@@ -201,80 +187,64 @@ body{
   <div id="authMsg"></div>
 </div>
 
-<!-- APP -->
+<!-- ===== APP ===== -->
 <div id="app">
 
-  <div class="app-title">
-    <h1>Engagement App</h1>
-    <p>Church Engagement Platform</p>
-  </div>
+  <div class="app-title">Engagement App</div>
+  <div class="app-sub">Church Engagement Platform</div>
 
   <!-- HOME -->
   <div id="homeSection" class="section active">
-    <div class="header">Dashboard</div>
 
     <div class="card">
-      Email: <span id="profileEmail"></span><br>
-      XP: 0
+      <h3>Dashboard</h3>
+      <p>Email: <span id="profileEmail"></span></p>
+      <p>XP: 0</p>
     </div>
 
     <div class="card">
-      <div class="card-title">Live Stream</div>
+      <h3>Live Stream</h3>
       <div class="video-box">Live video will appear here</div>
     </div>
 
     <div class="card">
-      <div class="card-title">Christian Medical Support</div>
+      <h3>Christian Medical Support</h3>
       <p>Request prayer, medical help & spiritual care.</p>
     </div>
 
     <div class="card">
-      <div class="card-title">Remote Church Jobs</div>
+      <h3>Remote Church Jobs</h3>
       <p>Media, Admin, Outreach & Volunteer roles.</p>
       <button class="action-btn">Apply</button>
     </div>
 
-    <div class="card">
-      <div class="card-title">Install App</div>
-      <button id="installBtn" class="action-btn" style="display:none">Install Engagement App</button>
-      <p id="iosHint" style="display:none;color:#aaa;font-size:14px;margin-top:8px">
-        iPhone: Share → Add to Home Screen
-      </p>
-    </div>
   </div>
 
   <!-- TASKS -->
   <div id="tasksSection" class="section">
-    <div class="header">Tasks</div>
-
     <div class="card">
-      Watch Live Stream
-      <button class="action-btn">Complete</button>
-    </div>
-
-    <div class="card">
-      Share App
-      <button class="action-btn">Complete</button>
-    </div>
-
-    <div class="card">
-      Invite Friend
+      <h3>Tasks</h3>
+      <p>Attend Sunday Service (+20 XP)</p>
       <button class="action-btn">Complete</button>
     </div>
   </div>
 
   <!-- REWARDS -->
   <div id="rewardsSection" class="section">
-    <div class="header">Rewards</div>
-    <div class="card">Coming soon</div>
+    <div class="card">
+      <h3>Rewards</h3>
+      <p>Redeem Prayer Badge (200 XP)</p>
+      <button class="action-btn">Redeem</button>
+    </div>
   </div>
 
   <!-- PROFILE -->
   <div id="profileSection" class="section">
-    <div class="header">Profile</div>
-    <div class="card">Email: <span id="profileEmail2"></span></div>
     <div class="card">
-      <button class="action-btn" onclick="logout()">Logout</button>
+      <h3>Profile</h3>
+      <p>Email:</p>
+      <strong id="profileEmail2"></strong>
+      <button class="action-btn logout" onclick="logout()">Logout</button>
     </div>
   </div>
 
@@ -286,71 +256,70 @@ body{
   <button onclick="showSection('tasks')">Tasks</button>
   <button onclick="showSection('rewards')">Rewards</button>
   <button onclick="showSection('profile')">Profile</button>
-  <button class="logout" onclick="logout()">Logout</button>
 </div>
 
-<!-- FIREBASE -->
+<!-- ===== FIREBASE ===== -->
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+import {
+  getAuth,
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+  onAuthStateChanged,
+  signOut
+} from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
 
 const firebaseConfig={
   apiKey:"AIzaSyDImP8ODFS0lxWZ5AdTLi7jTxZzFo6JxeY",
   authDomain:"rewards-task-mvp.firebaseapp.com",
   projectId:"rewards-task-mvp",
-  appId:"1:154842831298:web:9ff9e24acfaf346aa99e5b"
 };
 
 const app=initializeApp(firebaseConfig);
 const auth=getAuth(app);
+
+const email=document.getElementById("email");
+const password=document.getElementById("password");
+const authMsg=document.getElementById("authMsg");
+const authBox=document.getElementById("authBox");
+const appBox=document.getElementById("app");
+const nav=document.querySelector(".bottom-nav");
+const loader=document.getElementById("loadingScreen");
 
 window.showSection=name=>{
   document.querySelectorAll(".section").forEach(s=>s.classList.remove("active"));
   document.getElementById(name+"Section").classList.add("active");
 };
 
-signupBtn.onclick=()=>createUserWithEmailAndPassword(auth,email.value,password.value).catch(e=>authMsg.textContent=e.message);
-loginBtn.onclick=()=>signInWithEmailAndPassword(auth,email.value,password.value).catch(e=>authMsg.textContent=e.message);
+signupBtn.onclick=async()=>{
+  try{
+    await createUserWithEmailAndPassword(auth,email.value,password.value);
+  }catch(e){authMsg.textContent=e.message}
+};
+
+loginBtn.onclick=async()=>{
+  try{
+    await signInWithEmailAndPassword(auth,email.value,password.value);
+  }catch(e){authMsg.textContent=e.message}
+};
+
 window.logout=()=>signOut(auth);
 
 onAuthStateChanged(auth,user=>{
-  loadingScreen.style.display="none";
+  loader.style.display="none";
   if(user){
     authBox.style.display="none";
-    app.style.display="block";
-    document.querySelector(".bottom-nav").style.display="flex";
+    appBox.style.display="block";
+    nav.style.display="flex";
     profileEmail.textContent=user.email;
     profileEmail2.textContent=user.email;
   }else{
     authBox.style.display="block";
+    appBox.style.display="none";
+    nav.style.display="none";
   }
 });
-</script>
-
-<!-- INSTALL -->
-<script>
-let deferredPrompt;
-const installBtn=document.getElementById("installBtn");
-const iosHint=document.getElementById("iosHint");
-const isIOS=/iphone|ipad|ipod/i.test(navigator.userAgent);
-
-window.addEventListener("beforeinstallprompt",e=>{
-  e.preventDefault();
-  deferredPrompt=e;
-  installBtn.style.display="block";
-});
-
-installBtn.onclick=()=>{deferredPrompt.prompt();};
-if(isIOS) iosHint.style.display="block";
-
-/* SAFETY FALLBACK */
-setTimeout(()=>{
-  if(loadingScreen.style.display!=="none"){
-    loadingScreen.style.display="none";
-    authBox.style.display="block";
-  }
-},4000);
 </script>
 
 </body>
-    </html>
+  </html>
