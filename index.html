@@ -6,7 +6,6 @@
 <title>Church App Dashboard</title>
 
 <style>
-/* RESET */
 * {
   margin: 0;
   padding: 0;
@@ -14,7 +13,6 @@
   font-family: Arial, sans-serif;
 }
 
-/* BODY */
 body {
   background: #000;
   color: #fff;
@@ -23,8 +21,8 @@ body {
 
 /* HEADER */
 .header {
-  text-align: center;
   padding: 20px;
+  text-align: center;
   border-bottom: 1px solid #222;
 }
 
@@ -37,22 +35,22 @@ body {
 /* CONTENT */
 .container {
   padding: 15px;
-  padding-bottom: 90px;
+  padding-bottom: 120px; /* IMPORTANT FIX */
 }
 
 .section-title {
   color: #ffd400;
   font-size: 22px;
-  margin: 15px 0;
+  margin-bottom: 15px;
 }
 
-/* CARDS */
+/* CARD */
 .card {
   background: #111;
-  border-radius: 15px;
+  border-radius: 18px;
   padding: 18px;
-  margin-bottom: 15px;
-  box-shadow: 0 0 10px rgba(255,212,0,0.15);
+  margin-bottom: 16px;
+  box-shadow: 0 0 15px rgba(255,212,0,0.15);
 }
 
 .card h3 {
@@ -62,15 +60,31 @@ body {
 
 .card p {
   font-size: 14px;
-  opacity: 0.8;
+  opacity: 0.85;
 }
 
-/* LIVE SERVICE */
-.live {
+/* LIVE STREAM */
+.live-box {
+  margin-top: 10px;
   background: #000;
-  border: 1px solid #222;
-  height: 120px;
+  border: 1px dashed #333;
+  height: 140px;
   border-radius: 15px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: #aaa;
+}
+
+.live-box span {
+  font-size: 14px;
+}
+
+.play {
+  font-size: 40px;
+  color: #ffd400;
+  margin-bottom: 8px;
 }
 
 /* BOTTOM NAV */
@@ -82,22 +96,25 @@ body {
   background: #ffd400;
   display: flex;
   justify-content: space-around;
-  padding: 12px 0;
+  padding: 14px 0;
+  z-index: 9999; /* IMPORTANT FIX */
 }
 
-.bottom-nav a {
-  text-decoration: none;
-  color: #000;
+.bottom-nav button {
+  background: none;
+  border: none;
   font-weight: bold;
   font-size: 14px;
+  cursor: pointer;
+  color: #000;
 }
 
-.bottom-nav a.active {
+.bottom-nav button.active {
   border-bottom: 3px solid #000;
   padding-bottom: 4px;
 }
 
-/* LOADER FIX */
+/* LOADER */
 #loader {
   position: fixed;
   inset: 0;
@@ -105,7 +122,7 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  z-index: 999;
+  z-index: 10000;
 }
 
 .spinner {
@@ -166,23 +183,30 @@ body {
 
   <div class="card">
     <h3>🔴 Live Service (Demo)</h3>
-    <div class="live"></div>
+    <div class="live-box">
+      <div class="play">▶</div>
+      <span>Live on Facebook / YouTube</span>
+      <span>No stream active</span>
+    </div>
   </div>
 </div>
 
 <!-- BOTTOM NAV -->
 <div class="bottom-nav">
-  <a href="#" class="active">HOME</a>
-  <a href="#">TASKS</a>
-  <a href="#">REWARDS</a>
-  <a href="#">DONATE</a>
+  <button class="active" onclick="nav('Home')">HOME</button>
+  <button onclick="nav('Tasks')">TASKS</button>
+  <button onclick="nav('Rewards')">REWARDS</button>
+  <button onclick="nav('Donate')">DONATE</button>
 </div>
 
 <script>
-/* REMOVE LOADER */
-window.addEventListener("load", function () {
+window.onload = () => {
   document.getElementById("loader").style.display = "none";
-});
+};
+
+function nav(page) {
+  alert(page + " page coming soon");
+}
 </script>
 
 </body>
