@@ -1,161 +1,193 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Church App</title>
 
 <style>
-* { box-sizing: border-box; font-family: Arial, sans-serif; }
-
 body {
   margin: 0;
+  font-family: Arial, sans-serif;
   background: #000;
   color: #fff;
-  padding-bottom: 90px;
+  padding-bottom: 90px; /* SPACE FOR BOTTOM NAV */
 }
 
-/* Header */
-header {
+h1 {
   text-align: center;
-  padding: 20px;
-  font-size: 28px;
-  font-weight: bold;
-  color: #f5c400;
+  color: #ffd400;
+  margin: 15px 0;
 }
 
-/* Sections */
-.section {
+.card {
   background: #111;
-  margin: 15px;
+  margin: 12px;
   padding: 15px;
-  border-radius: 15px;
-  box-shadow: 0 0 10px rgba(245,196,0,0.15);
+  border-radius: 14px;
+  box-shadow: 0 0 10px rgba(255,212,0,0.15);
 }
 
-.section-title {
-  font-size: 18px;
-  margin-bottom: 10px;
-  font-weight: bold;
+.card h3 {
+  margin-top: 0;
 }
 
-.row {
+.list-item {
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 10px 0;
   border-bottom: 1px solid #222;
 }
-.row:last-child { border-bottom: none; }
 
-.btn {
-  background: #f5c400;
+.list-item:last-child {
+  border-bottom: none;
+}
+
+button {
+  background: #ffd400;
   border: none;
-  padding: 8px 14px;
+  padding: 8px 16px;
   border-radius: 20px;
   font-weight: bold;
   cursor: pointer;
 }
 
-.live-box {
-  border: 2px solid #f5c400;
-  border-radius: 12px;
-  padding: 20px;
-  text-align: center;
-  background: #222;
+button:active {
+  opacity: 0.8;
 }
 
-/* Bottom Nav */
-nav {
+/* Bottom Navigation */
+.bottom-nav {
   position: fixed;
   bottom: 0;
-  width: 100%;
-  background: #f5c400;
+  left: 0;
+  right: 0;
+  height: 70px;
+  background: #ffd400;
   display: flex;
   justify-content: space-around;
-  padding: 15px 0;
-  z-index: 1000;
+  align-items: center;
+  z-index: 9999;
 }
 
-nav div {
+.bottom-nav div {
   color: #000;
   font-weight: bold;
   cursor: pointer;
 }
 
-/* Donate Modal */
+/* Modal */
 .modal {
-  display: none;
   position: fixed;
   inset: 0;
   background: rgba(0,0,0,0.8);
-  z-index: 2000;
+  display: none;
   align-items: center;
   justify-content: center;
+  z-index: 10000;
 }
 
 .modal-content {
   background: #111;
   padding: 20px;
+  border-radius: 12px;
   width: 90%;
   max-width: 400px;
-  border-radius: 15px;
-  box-shadow: 0 0 15px rgba(245,196,0,0.3);
-}
-
-.modal h2 {
-  text-align: center;
-  color: #f5c400;
-}
-
-.modal input {
-  width: 100%;
-  padding: 10px;
-  margin: 10px 0;
-  border-radius: 10px;
-  border: none;
-}
-
-.close {
-  text-align: center;
-  margin-top: 10px;
-  color: #aaa;
-  cursor: pointer;
 }
 </style>
 </head>
 
 <body>
 
-<header>Church App</header>
+<h1>Church App</h1>
 
-<div class="section">
-  <div class="section-title">Dashboard</div>
+<div class="card">
+  <h3>Dashboard</h3>
   <p>Email: joeledward949@gmail.com</p>
-  <p>XP: <span id="xp">0</span></p>
+  <p>XP: 0</p>
 </div>
 
-<div class="section">
-  <div class="section-title">📺 Live Streams</div>
+<div class="card">
+  <h3>📺 Live Streams</h3>
   <p>Facebook Live – Sunday Service</p>
   <p>YouTube Live – Bible Teaching</p>
   <p>TikTok Live – Community Chat</p>
 </div>
 
-<div class="section">
-  <div class="section-title">📝 Tasks</div>
-  <div class="row"><span>Watch Live Stream</span><button class="btn" onclick="addXP()">Complete</button></div>
-  <div class="row"><span>Share App</span><button class="btn" onclick="addXP()">Complete</button></div>
-  <div class="row"><span>Invite Friend</span><button class="btn" onclick="addXP()">Complete</button></div>
+<div class="card">
+  <h3>📝 Tasks</h3>
+  <div class="list-item">
+    <span>Watch Live Stream</span>
+    <button>Complete</button>
+  </div>
+  <div class="list-item">
+    <span>Share App</span>
+    <button>Complete</button>
+  </div>
+  <div class="list-item">
+    <span>Invite Friend</span>
+    <button>Complete</button>
+  </div>
 </div>
 
-<div class="section">
-  <div class="section-title">💼 Remote Jobs</div>
-  <div class="row"><span>Frontend Developer</span><button class="btn" onclick="demo()">Apply</button></div>
-  <div class="row"><span>QA Engineer</span><button class="btn" onclick="demo()">Apply</button></div>
-  <div class="row"><span>Community Manager</span><button class="btn" onclick="demo()">Apply</button></div>
+<div class="card">
+  <h3>💼 Remote Jobs</h3>
+  <div class="list-item">
+    <span>Frontend Developer</span>
+    <button>Apply</button>
+  </div>
+  <div class="list-item">
+    <span>QA Engineer</span>
+    <button>Apply</button>
+  </div>
+  <div class="list-item">
+    <span>Community Manager</span>
+    <button>Apply</button>
+  </div>
 </div>
 
-<div class="section">
-  <div class="section-title">🩺 Christian Health Support</div>
-  <div class="row"><span>Medical Prayer
+<div class="card">
+  <h3>❤️ Christian Health & Medical Help</h3>
+  <p>• Request prayer for health</p>
+  <p>• Get Christian medical assistance (Coming Soon)</p>
+  <p>• Talk to a counselor or church support</p>
+</div>
+
+<!-- DONATE MODAL -->
+<div class="modal" id="donateModal">
+  <div class="modal-content">
+    <h3>Donate</h3>
+    <p>This will support church activities.</p>
+    <button onclick="closeDonate()">Close</button>
+  </div>
+</div>
+
+<!-- BOTTOM NAV -->
+<div class="bottom-nav">
+  <div onclick="scrollToTop()">HOME</div>
+  <div onclick="scrollToTasks()">TASKS</div>
+  <div onclick="alert('Rewards coming soon')">REWARDS</div>
+  <div onclick="openDonate()">DONATE</div>
+</div>
+
+<script>
+function openDonate() {
+  document.getElementById('donateModal').style.display = 'flex';
+}
+
+function closeDonate() {
+  document.getElementById('donateModal').style.display = 'none';
+}
+
+function scrollToTop() {
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function scrollToTasks() {
+  document.querySelector('.card:nth-of-type(4)').scrollIntoView({ behavior: 'smooth' });
+}
+</script>
+
+</body>
+  </html>
