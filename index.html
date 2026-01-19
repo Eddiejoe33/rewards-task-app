@@ -1,191 +1,179 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Church App</title>
+
+<!-- PWA Manifest -->
+<link rel="manifest" href="manifest.json">
+
+<meta name="theme-color" content="#000000">
 
 <style>
 body {
-  margin: 0;
-  font-family: Arial, sans-serif;
-  background: #000;
-  color: #fff;
-  padding-bottom: 90px; /* SPACE FOR BOTTOM NAV */
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: #000;
+    color: #fff;
 }
 
-h1 {
-  text-align: center;
-  color: #ffd400;
-  margin: 15px 0;
+.container {
+    padding: 16px;
 }
 
 .card {
-  background: #111;
-  margin: 12px;
-  padding: 15px;
-  border-radius: 14px;
-  box-shadow: 0 0 10px rgba(255,212,0,0.15);
+    background: #111;
+    border-radius: 16px;
+    padding: 16px;
+    margin-bottom: 16px;
 }
 
-.card h3 {
-  margin-top: 0;
-}
-
-.list-item {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 10px 0;
-  border-bottom: 1px solid #222;
-}
-
-.list-item:last-child {
-  border-bottom: none;
+h2 {
+    margin-top: 0;
 }
 
 button {
-  background: #ffd400;
-  border: none;
-  padding: 8px 16px;
-  border-radius: 20px;
-  font-weight: bold;
-  cursor: pointer;
+    background: #f5c400;
+    border: none;
+    padding: 10px 18px;
+    border-radius: 20px;
+    font-weight: bold;
+    cursor: pointer;
 }
 
-button:active {
-  opacity: 0.8;
+.task, .job {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 0;
+    border-bottom: 1px solid #222;
 }
 
-/* Bottom Navigation */
+iframe {
+    width: 100%;
+    height: 200px;
+    border-radius: 12px;
+    border: none;
+}
+
+/* Bottom Nav */
 .bottom-nav {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  height: 70px;
-  background: #ffd400;
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
-  z-index: 9999;
-}
-
-.bottom-nav div {
-  color: #000;
-  font-weight: bold;
-  cursor: pointer;
-}
-
-/* Modal */
-.modal {
-  position: fixed;
-  inset: 0;
-  background: rgba(0,0,0,0.8);
-  display: none;
-  align-items: center;
-  justify-content: center;
-  z-index: 10000;
-}
-
-.modal-content {
-  background: #111;
-  padding: 20px;
-  border-radius: 12px;
-  width: 90%;
-  max-width: 400px;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: #000;
+    display: flex;
+    justify-content: space-around;
+    padding: 10px 0;
+    border-top: 1px solid #222;
 }
 </style>
 </head>
 
 <body>
 
-<h1>Church App</h1>
+<div class="container">
 
-<div class="card">
-  <h3>Dashboard</h3>
-  <p>Email: joeledward949@gmail.com</p>
-  <p>XP: 0</p>
+    <!-- Dashboard -->
+    <div class="card">
+        <h2>Dashboard</h2>
+        <p>Email: joeledward949@gmail.com</p>
+        <p>XP: <span id="xp">0</span></p>
+        <button id="installBtn" style="display:none;">Install App</button>
+    </div>
+
+    <!-- Live Video (FIXED) -->
+    <div class="card">
+        <h2>📺 Live Stream</h2>
+        <iframe 
+          src="https://www.youtube.com/embed/5qap5aO4i9A"
+          allow="autoplay; encrypted-media"
+          allowfullscreen>
+        </iframe>
+        <p style="opacity:0.6;">Live placeholder – connects to social platforms later</p>
+    </div>
+
+    <!-- Tasks -->
+    <div class="card">
+        <h2>📝 Tasks</h2>
+
+        <div class="task">
+            <span>Watch Live Stream</span>
+            <button onclick="addXP()">Complete</button>
+        </div>
+
+        <div class="task">
+            <span>Share App</span>
+            <button onclick="addXP()">Complete</button>
+        </div>
+
+        <div class="task">
+            <span>Invite Friend</span>
+            <button onclick="addXP()">Complete</button>
+        </div>
+    </div>
+
+    <!-- Remote Jobs -->
+    <div class="card">
+        <h2>💼 Remote Jobs</h2>
+
+        <div class="job">
+            <span>Frontend Developer</span>
+            <button>Apply</button>
+        </div>
+
+        <div class="job">
+            <span>QA Engineer</span>
+            <button>Apply</button>
+        </div>
+
+        <div class="job">
+            <span>Community Manager</span>
+            <button>Apply</button>
+        </div>
+    </div>
+
 </div>
 
-<div class="card">
-  <h3>📺 Live Streams</h3>
-  <p>Facebook Live – Sunday Service</p>
-  <p>YouTube Live – Bible Teaching</p>
-  <p>TikTok Live – Community Chat</p>
-</div>
-
-<div class="card">
-  <h3>📝 Tasks</h3>
-  <div class="list-item">
-    <span>Watch Live Stream</span>
-    <button>Complete</button>
-  </div>
-  <div class="list-item">
-    <span>Share App</span>
-    <button>Complete</button>
-  </div>
-  <div class="list-item">
-    <span>Invite Friend</span>
-    <button>Complete</button>
-  </div>
-</div>
-
-<div class="card">
-  <h3>💼 Remote Jobs</h3>
-  <div class="list-item">
-    <span>Frontend Developer</span>
-    <button>Apply</button>
-  </div>
-  <div class="list-item">
-    <span>QA Engineer</span>
-    <button>Apply</button>
-  </div>
-  <div class="list-item">
-    <span>Community Manager</span>
-    <button>Apply</button>
-  </div>
-</div>
-
-<div class="card">
-  <h3>❤️ Christian Health & Medical Help</h3>
-  <p>• Request prayer for health</p>
-  <p>• Get Christian medical assistance (Coming Soon)</p>
-  <p>• Talk to a counselor or church support</p>
-</div>
-
-<!-- DONATE MODAL -->
-<div class="modal" id="donateModal">
-  <div class="modal-content">
-    <h3>Donate</h3>
-    <p>This will support church activities.</p>
-    <button onclick="closeDonate()">Close</button>
-  </div>
-</div>
-
-<!-- BOTTOM NAV -->
+<!-- Bottom Navigation -->
 <div class="bottom-nav">
-  <div onclick="scrollToTop()">HOME</div>
-  <div onclick="scrollToTasks()">TASKS</div>
-  <div onclick="alert('Rewards coming soon')">REWARDS</div>
-  <div onclick="openDonate()">DONATE</div>
+    <span>🏠</span>
+    <span>📺</span>
+    <span>📝</span>
+    <span>👤</span>
 </div>
 
 <script>
-function openDonate() {
-  document.getElementById('donateModal').style.display = 'flex';
+/* XP Logic */
+let xp = 0;
+function addXP() {
+    xp += 10;
+    document.getElementById("xp").innerText = xp;
 }
 
-function closeDonate() {
-  document.getElementById('donateModal').style.display = 'none';
-}
+/* PWA Install */
+let deferredPrompt;
+const installBtn = document.getElementById("installBtn");
 
-function scrollToTop() {
-  window.scrollTo({ top: 0, behavior: 'smooth' });
-}
+window.addEventListener("beforeinstallprompt", (e) => {
+    e.preventDefault();
+    deferredPrompt = e;
+    installBtn.style.display = "inline-block";
+});
 
-function scrollToTasks() {
-  document.querySelector('.card:nth-of-type(4)').scrollIntoView({ behavior: 'smooth' });
+installBtn.addEventListener("click", () => {
+    deferredPrompt.prompt();
+    deferredPrompt.userChoice.then(() => {
+        deferredPrompt = null;
+        installBtn.style.display = "none";
+    });
+});
+
+/* Service Worker */
+if ("serviceWorker" in navigator) {
+    navigator.serviceWorker.register("service-worker.js");
 }
 </script>
 
