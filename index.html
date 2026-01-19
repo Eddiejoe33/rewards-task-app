@@ -1,179 +1,198 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Church App</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Church App</title>
 
-<style>
-* {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-    font-family: Arial, sans-serif;
-}
+  <!-- PWA -->
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#f5c400">
 
-body {
-    background: #0b0b0b;
-    color: #fff;
-    padding-bottom: 90px;
-}
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #000;
+      color: #fff;
+      padding-bottom: 90px;
+    }
 
-/* CARD STYLE */
-.card {
-    background: linear-gradient(145deg, #111, #1a1a1a);
-    border-radius: 18px;
-    padding: 18px;
-    margin: 16px;
-}
+    .container {
+      padding: 16px;
+    }
 
-/* HEADINGS */
-h2 {
-    font-size: 22px;
-    margin-bottom: 10px;
-}
+    .card {
+      background: #111;
+      border-radius: 16px;
+      padding: 16px;
+      margin-bottom: 16px;
+    }
 
-/* DASHBOARD */
-.dashboard p {
-    margin-top: 8px;
-    color: #ccc;
-}
+    h2 {
+      margin: 0 0 10px;
+    }
 
-/* TASKS */
-.task {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin: 12px 0;
-    border-bottom: 1px solid #222;
-    padding-bottom: 10px;
-}
+    .task {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px 0;
+      border-bottom: 1px solid #222;
+    }
 
-.task button {
-    background: #f5c400;
-    border: none;
-    padding: 8px 16px;
-    border-radius: 20px;
-    font-weight: bold;
-    cursor: pointer;
-}
+    .task:last-child {
+      border-bottom: none;
+    }
 
-/* LIVE VIDEO */
-.video-wrapper {
-    position: relative;
-    padding-bottom: 56.25%;
-    height: 0;
-    border-radius: 14px;
-    overflow: hidden;
-}
+    button {
+      background: #f5c400;
+      color: #000;
+      border: none;
+      border-radius: 20px;
+      padding: 8px 18px;
+      font-weight: bold;
+      cursor: pointer;
+    }
 
-.video-wrapper iframe {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    border: 0;
-}
+    iframe {
+      width: 100%;
+      height: 200px;
+      border-radius: 12px;
+      border: none;
+    }
 
-/* SECTION ANCHORS */
-.section {
-    scroll-margin-top: 20px;
-}
+    /* Install Button */
+    #installBtn {
+      display: none;
+      width: 100%;
+      margin-top: 10px;
+    }
 
-/* BOTTOM NAV */
-.bottom-nav {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    height: 80px;
-    background: #000;
-    border-top: 1px solid #222;
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-    z-index: 99999;
-}
+    /* Bottom Nav */
+    .bottom-nav {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: #000;
+      border-top: 1px solid #222;
+      display: flex;
+      justify-content: space-around;
+      padding: 16px 0;
+    }
 
-.bottom-nav button {
-    background: none;
-    border: none;
-    color: #f5c400;
-    font-size: 18px;
-    font-weight: bold;
-    cursor: pointer;
-}
-</style>
+    .bottom-nav div {
+      color: #f5c400;
+      font-size: 18px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+  </style>
 </head>
 
-<body id="top">
+<body>
 
-<!-- DASHBOARD -->
-<div class="card dashboard section" id="home">
+<div class="container">
+
+  <!-- DASHBOARD -->
+  <div class="card">
     <h2>Dashboard</h2>
-    <p>Email: example@email.com</p>
-    <p>XP: 0</p>
-</div>
+    <p>Email: joeledward949@gmail.com</p>
+    <p>XP: <span id="xp">0</span></p>
 
-<!-- TASKS -->
-<div class="card section" id="tasks">
+    <!-- INSTALL BUTTON -->
+    <button id="installBtn">Install App</button>
+  </div>
+
+  <!-- TASKS -->
+  <div class="card">
     <h2>📝 Tasks</h2>
 
     <div class="task">
-        <span>Watch Live Stream</span>
-        <button>Complete</button>
+      <span>Watch Live Stream</span>
+      <button onclick="completeTask(this)">Complete</button>
     </div>
 
     <div class="task">
-        <span>Share App</span>
-        <button>Complete</button>
+      <span>Share App</span>
+      <button onclick="completeTask(this)">Complete</button>
     </div>
 
     <div class="task">
-        <span>Invite Friend</span>
-        <button>Complete</button>
+      <span>Invite Friend</span>
+      <button onclick="completeTask(this)">Complete</button>
     </div>
-</div>
+  </div>
 
-<!-- LIVE STREAM -->
-<div class="card section" id="live">
+  <!-- LIVE STREAM -->
+  <div class="card">
     <h2>📺 Live Stream</h2>
 
-    <div class="video-wrapper">
-        <iframe 
-            src="https://www.youtube.com/embed/jfKfPfyJRdk?autoplay=0&mute=0"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-            allowfullscreen>
-        </iframe>
-    </div>
+    <iframe
+      src="https://www.youtube.com/embed/jfKfPfyJRdk?autoplay=0&mute=1"
+      allow="autoplay; encrypted-media"
+      allowfullscreen>
+    </iframe>
 
-    <p style="margin-top:10px;color:#aaa;">
-        Live placeholder – connects to social platforms later
+    <p style="opacity:0.6;margin-top:8px;">
+      Live placeholder – connects to social platforms later
     </p>
-</div>
+  </div>
 
-<!-- MEDICAL & WELLNESS -->
-<div class="card section" id="medical">
-    <h2>🩺 Medical & Wellness</h2>
-    <p style="color:#ccc;">
-        Health tips, prayer requests, wellness tracking coming soon.
-    </p>
 </div>
 
 <!-- BOTTOM NAV -->
 <div class="bottom-nav">
-    <button onclick="scrollToSection('home')">Home</button>
-    <button onclick="scrollToSection('live')">Live</button>
-    <button onclick="scrollToSection('tasks')">Tasks</button>
-    <button onclick="scrollToSection('medical')">Profile</button>
+  <div onclick="scrollToTop()">Home</div>
+  <div onclick="scrollToLive()">Live</div>
+  <div onclick="scrollToTasks()">Tasks</div>
+  <div onclick="alert('Profile coming soon')">Profile</div>
 </div>
 
 <script>
-function scrollToSection(id) {
-    const el = document.getElementById(id);
-    if (el) {
-        el.scrollIntoView({ behavior: 'smooth' });
-    }
-}
+  let xp = 0;
+  let deferredPrompt;
+
+  function completeTask(btn) {
+    if (btn.innerText === "Completed") return;
+    xp += 10;
+    document.getElementById("xp").innerText = xp;
+    btn.innerText = "Completed";
+    btn.disabled = true;
+  }
+
+  function scrollToTop() {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  function scrollToTasks() {
+    document.querySelectorAll('.card')[1].scrollIntoView({ behavior: 'smooth' });
+  }
+
+  function scrollToLive() {
+    document.querySelectorAll('.card')[2].scrollIntoView({ behavior: 'smooth' });
+  }
+
+  /* INSTALL APP LOGIC */
+  window.addEventListener('beforeinstallprompt', (e) => {
+    e.preventDefault();
+    deferredPrompt = e;
+    document.getElementById('installBtn').style.display = 'block';
+  });
+
+  document.getElementById('installBtn').addEventListener('click', async () => {
+    if (!deferredPrompt) return;
+    deferredPrompt.prompt();
+    await deferredPrompt.userChoice;
+    deferredPrompt = null;
+    document.getElementById('installBtn').style.display = 'none';
+  });
+
+  /* SERVICE WORKER */
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('service-worker.js');
+  }
 </script>
 
 </body>
