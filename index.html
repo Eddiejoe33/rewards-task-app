@@ -1,204 +1,148 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>Church Rewards</title>
 
 <style>
-*{box-sizing:border-box;margin:0;padding:0;font-family:Arial,Helvetica,sans-serif}
-body{background:#000;color:#fff;min-height:100vh}
-
-/* Loader */
-#loadingScreen{
-position:fixed;inset:0;background:#000;
-display:flex;align-items:center;justify-content:center;
-z-index:999;color:gold;font-size:18px}
-
-/* Auth */
-#authBox{max-width:400px;margin:auto;padding:40px 20px}
-#authBox h2{text-align:center;color:gold;margin-bottom:20px}
-#authBox input{
-width:100%;padding:14px;margin-bottom:12px;
-border-radius:12px;border:none}
-#authBox button{
-width:100%;padding:14px;border:none;
-border-radius:12px;background:gold;font-weight:bold;margin-bottom:10px}
-#authMsg{text-align:center;color:#ff8080}
-
-/* App */
-#app{display:none;flex-direction:column;padding:18px;padding-bottom:90px}
-
-/* Sphere cards */
-.card{
-background:radial-gradient(circle at top,#1a1a1a,#0c0c0c);
-border-radius:22px;
-padding:18px;
-margin-bottom:18px;
-box-shadow:0 10px 25px rgba(0,0,0,.7),
-inset 0 1px 1px rgba(255,255,255,.05)
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: #000;
+  color: #fff;
 }
 
-.header{font-size:22px;color:gold;margin-bottom:16px}
-
-/* Items */
-.item{
-display:flex;justify-content:space-between;
-align-items:center;
-border-top:1px solid #222;
-padding:12px 0
+header {
+  text-align: center;
+  padding: 16px;
+  font-size: 22px;
+  font-weight: bold;
+  color: #ffd700;
 }
-.item:first-child{border-top:none}
-.item button{
-background:gold;border:none;
-padding:6px 16px;border-radius:999px;
-font-weight:bold}
 
-/* Sections */
-.section{display:none}
-.section.active{display:block}
+.container {
+  padding: 16px;
+}
 
-/* Bottom nav (UNCHANGED behavior) */
-.bottom-nav{
-position:fixed;bottom:0;left:0;right:0;
-background:#050505;border-top:1px solid #222;
-display:none;justify-content:space-around;padding:10px 0}
-.bottom-nav button{
-background:none;border:none;color:gold;font-size:14px}
-.logout{color:#ff7070}
+.card {
+  background: #111;
+  border-radius: 14px;
+  padding: 16px;
+  margin-bottom: 14px;
+  box-shadow: 0 0 10px rgba(255,215,0,0.15);
+}
+
+.card h3 {
+  margin: 0 0 10px;
+  font-size: 18px;
+}
+
+.row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 0;
+  border-bottom: 1px solid #222;
+}
+
+.row:last-child {
+  border-bottom: none;
+}
+
+button {
+  background: #ffd700;
+  color: #000;
+  border: none;
+  padding: 6px 14px;
+  border-radius: 8px;
+  font-weight: bold;
+}
+
+.footer {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: #ffd700;
+  display: flex;
+  justify-content: space-around;
+  padding: 12px 0;
+  color: #000;
+  font-weight: bold;
+}
 </style>
 </head>
 
 <body>
 
-<div id="loadingScreen">Loading…</div>
+<header>Church Rewards</header>
 
-<!-- AUTH -->
-<div id="authBox">
-<h2>Login / Sign Up</h2>
-<input id="email" type="email" placeholder="Email">
-<input id="password" type="password" placeholder="Password">
-<button id="loginBtn">Login</button>
-<button id="signupBtn">Sign Up</button>
-<div id="authMsg"></div>
-</div>
+<div class="container">
 
-<!-- APP -->
-<div id="app">
+  <!-- USER -->
+  <div class="card">
+    <h3>Welcome</h3>
+    <p>Email: joeledward949@gmail.com</p>
+    <p>XP: <strong>0</strong></p>
+  </div>
 
-<!-- DASHBOARD -->
-<div id="homeSection" class="section active">
-<div class="header">Dashboard</div>
+  <!-- LIVE STREAMS -->
+  <div class="card">
+    <h3>📺 Live Streams</h3>
+    <div class="row">Facebook Live – Sunday Service</div>
+    <div class="row">YouTube Live – Bible Teaching</div>
+    <div class="row">TikTok Live – Community Chat</div>
+  </div>
 
-<div class="card">
-Welcome: <strong id="profileEmail"></strong><br>
-XP: <strong id="xp">0</strong>
-</div>
+  <!-- TASKS -->
+  <div class="card">
+    <h3>📝 Tasks</h3>
 
-<div class="card">
-📺 <strong>Live Streams</strong>
-<div class="item">Facebook Live — Sunday Service</div>
-<div class="item">YouTube Live — Teaching Session</div>
-<div class="item">TikTok Live — Community Chat</div>
-</div>
+    <div class="row">
+      <span>Watch Live Stream</span>
+      <button>Complete</button>
+    </div>
 
-<div class="card">
-📝 <strong>Tasks</strong>
-<div class="item">Watch Live Stream<button onclick="addXP(5)">Complete</button></div>
-<div class="item">Share App<button onclick="addXP(3)">Complete</button></div>
-<div class="item">Invite Friend<button onclick="addXP(10)">Complete</button></div>
-</div>
+    <div class="row">
+      <span>Share App</span>
+      <button>Complete</button>
+    </div>
 
-<div class="card">
-💼 <strong>Remote Jobs</strong>
-<div class="item">Frontend Developer<button onclick="addXP(10)">Apply</button></div>
-<div class="item">QA Engineer<button onclick="addXP(10)">Apply</button></div>
-<div class="item">Community Manager<button onclick="addXP(10)">Apply</button></div>
-</div>
+    <div class="row">
+      <span>Invite Friend</span>
+      <button>Complete</button>
+    </div>
+  </div>
 
-<div class="card">
-💳 <strong>Payments</strong><br>
-Flutterwave integration in progress
-</div>
+  <!-- REMOTE JOBS -->
+  <div class="card">
+    <h3>💼 Remote Jobs</h3>
 
-</div>
+    <div class="row">
+      <span>Frontend Developer</span>
+      <button>Apply</button>
+    </div>
 
-<!-- PROFILE -->
-<div id="profileSection" class="section">
-<div class="header">Profile</div>
-<div class="card">
-Email: <strong id="profileEmail2"></strong><br>
-Total XP: <strong id="xp2">0</strong>
-</div>
-</div>
+    <div class="row">
+      <span>QA Engineer</span>
+      <button>Apply</button>
+    </div>
+
+    <div class="row">
+      <span>Community Manager</span>
+      <button>Apply</button>
+    </div>
+  </div>
 
 </div>
 
-<!-- NAV -->
-<div class="bottom-nav">
-<button onclick="showSection('home')">Home</button>
-<button onclick="showSection('profile')">Profile</button>
-<button class="logout" onclick="logout()">Logout</button>
+<!-- FOOTER -->
+<div class="footer">
+  <div>Home</div>
+  <div>Profile</div>
+  <div>Logout</div>
 </div>
-
-<!-- FIREBASE -->
-<script type="module">
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
-import { getFirestore, doc, setDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
-
-const firebaseConfig={
-apiKey:"AIzaSyDImP8ODFS0lxWZ5AdTLi7jTxZzFo6JxeY",
-authDomain:"rewards-task-mvp.firebaseapp.com",
-projectId:"rewards-task-mvp",
-storageBucket:"rewards-task-mvp.appspot.com",
-messagingSenderId:"154842831298",
-appId:"1:154842831298:web:9ff9e24acfaf346aa99e5b"};
-
-const app=initializeApp(firebaseConfig);
-const auth=getAuth(app);
-const db=getFirestore(app);
-
-let xp=0;
-window.addXP=n=>{
-xp+=n;
-document.getElementById("xp").textContent=xp;
-document.getElementById("xp2").textContent=xp;
-};
-
-window.showSection=s=>{
-document.querySelectorAll(".section").forEach(x=>x.classList.remove("active"));
-document.getElementById(s+"Section").classList.add("active");
-};
-
-document.getElementById("signupBtn").onclick=async()=>{
-try{
-const c=await createUserWithEmailAndPassword(auth,email.value,password.value);
-await setDoc(doc(db,"users",c.user.uid),{email:c.user.email});
-}catch(e){authMsg.textContent=e.message}
-};
-
-document.getElementById("loginBtn").onclick=async()=>{
-try{await signInWithEmailAndPassword(auth,email.value,password.value)}
-catch(e){authMsg.textContent=e.message}
-};
-
-window.logout=()=>signOut(auth);
-
-onAuthStateChanged(auth,u=>{
-loadingScreen.style.display="none";
-if(u){
-authBox.style.display="none";
-app.style.display="flex";
-document.querySelector(".bottom-nav").style.display="flex";
-profileEmail.textContent=u.email;
-profileEmail2.textContent=u.email;
-}else{
-authBox.style.display="block";
-app.style.display="none";
-}
-});
-</script>
 
 </body>
   </html>
