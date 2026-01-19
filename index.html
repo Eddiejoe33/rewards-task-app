@@ -5,19 +5,24 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Engagement App</title>
 
+<!-- PWA -->
 <link rel="manifest" href="manifest.json">
 <meta name="theme-color" content="#0b0b0b">
 
 <style>
 :root{
-  --gold:#d4b76a;
+  --gold:#c9b26b;
   --bg:#0b0b0b;
-  --card:#141414;
-  --text:#f3f3f3;
-  --muted:#9a9a9a;
+  --card:#151515;
+  --text:#f5f5f5;
 }
 
-*{margin:0;padding:0;box-sizing:border-box;font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto}
+*{
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
+  font-family:Arial,Helvetica,sans-serif;
+}
 
 body{
   background:var(--bg);
@@ -25,7 +30,7 @@ body{
   min-height:100vh;
 }
 
-/* ===== LOADER ===== */
+/* LOADER */
 #loadingScreen{
   position:fixed;
   inset:0;
@@ -33,34 +38,35 @@ body{
   display:flex;
   align-items:center;
   justify-content:center;
+  flex-direction:column;
   color:var(--gold);
   z-index:999;
 }
 
-/* ===== AUTH ===== */
+/* AUTH */
 #authBox{
   max-width:420px;
   margin:auto;
-  padding:60px 20px;
+  padding:40px 20px;
+  display:none;
 }
 
 #authBox h2{
   text-align:center;
   color:var(--gold);
-  font-size:28px;
-  margin-bottom:8px;
+  margin-bottom:10px;
 }
 
 #authBox p{
   text-align:center;
-  color:var(--muted);
-  margin-bottom:30px;
+  color:#aaa;
+  margin-bottom:20px;
 }
 
 #authBox input{
   width:100%;
   padding:14px;
-  border-radius:14px;
+  border-radius:10px;
   border:none;
   margin-bottom:12px;
 }
@@ -69,9 +75,10 @@ body{
   width:100%;
   padding:14px;
   border:none;
-  border-radius:14px;
+  border-radius:10px;
   background:var(--gold);
-  font-weight:600;
+  font-weight:bold;
+  cursor:pointer;
   margin-top:10px;
 }
 
@@ -81,109 +88,80 @@ body{
   color:#ff8a8a;
 }
 
-/* ===== APP ===== */
+/* APP */
 #app{
   display:none;
   padding:20px;
   padding-bottom:120px;
 }
 
-/* ===== HEADER ===== */
 .app-title{
   text-align:center;
-  margin-bottom:26px;
+  margin-bottom:24px;
 }
 
 .app-title h1{
   color:var(--gold);
-  font-size:30px;
-  font-weight:700;
 }
 
 .app-title p{
-  color:var(--muted);
+  color:#aaa;
   font-size:14px;
-  margin-top:4px;
 }
 
-/* ===== CARDS ===== */
-.card{
-  background:linear-gradient(180deg,#1a1a1a,#121212);
-  border-radius:22px;
-  padding:20px;
-  margin-bottom:18px;
-}
-
-.card h3{
+.header{
+  font-size:18px;
+  margin-bottom:12px;
   color:#fff;
-  margin-bottom:10px;
+}
+
+/* CARDS */
+.card{
+  background:var(--card);
+  border-radius:16px;
+  padding:18px;
+  margin-bottom:16px;
 }
 
 .card-title{
   color:var(--gold);
-  font-weight:600;
-  margin-bottom:12px;
+  margin-bottom:8px;
 }
 
-/* ===== DASH ===== */
-.kv{
-  color:var(--muted);
-  margin-top:8px;
-}
-
-/* ===== LIST ===== */
-.list{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  padding:10px 0;
-  border-bottom:1px solid #222;
-}
-
-.list:last-child{border-bottom:none}
-
-/* ===== TASK BTN ===== */
-.task-btn{
-  background:var(--gold);
-  border:none;
-  border-radius:20px;
-  padding:8px 18px;
-  font-weight:600;
-}
-
-/* ===== VIDEO ===== */
+/* VIDEO */
 .video-box{
+  height:180px;
   background:#000;
-  height:190px;
-  border-radius:18px;
+  border-radius:12px;
   display:flex;
   align-items:center;
   justify-content:center;
   color:#777;
 }
 
-/* ===== ACTION ===== */
+/* BUTTON */
 .action-btn{
   width:100%;
   padding:14px;
-  border-radius:16px;
   border:none;
+  border-radius:12px;
   background:var(--gold);
-  font-weight:600;
-  margin-top:12px;
+  font-weight:bold;
+  cursor:pointer;
+  margin-top:10px;
 }
 
-/* ===== SECTIONS ===== */
-.section{display:none}
-.section.active{display:block}
+/* SECTIONS */
+.section{display:none;}
+.section.active{display:block;}
 
-/* ===== NAV ===== */
+/* NAV */
 .bottom-nav{
   position:fixed;
   bottom:0;
   left:0;
   right:0;
-  background:#0f0f0f;
+  background:#101010;
   border-top:1px solid #222;
   display:none;
   justify-content:space-around;
@@ -197,13 +175,20 @@ body{
   font-size:15px;
 }
 
-.logout{color:#ff8a8a}
+.bottom-nav button.active{
+  color:#fff;
+}
+
+.logout{color:#ff8a8a;}
 </style>
 </head>
 
 <body>
 
-<div id="loadingScreen">Loading…</div>
+<div id="loadingScreen">
+  Loading…
+  <small style="color:#777;margin-top:6px">Please wait</small>
+</div>
 
 <!-- AUTH -->
 <div id="authBox">
@@ -219,55 +204,79 @@ body{
 <!-- APP -->
 <div id="app">
 
-<div class="app-title">
-  <h1>Engagement App</h1>
-  <p>Church Engagement Platform</p>
-</div>
-
-<!-- HOME -->
-<div id="homeSection" class="section active">
-
-  <div class="card">
-    <h3>Dashboard</h3>
-    <div class="kv">Email: <span id="profileEmail"></span></div>
-    <div class="kv">XP: 0</div>
+  <div class="app-title">
+    <h1>Engagement App</h1>
+    <p>Church Engagement Platform</p>
   </div>
 
-  <div class="card">
-    <div class="card-title">Church Overview</div>
-    <div class="list"><span>👥 Total Members</span><span class="muted">0 (demo)</span></div>
-    <div class="list"><span>🎁 Rewards</span><span class="muted">Coming soon</span></div>
-    <div class="list"><span>💊 Medical & Wellness</span><span class="muted">Placeholder</span></div>
-    <div class="list"><span>💼 Job Opportunities</span><span class="muted">Placeholder</span></div>
+  <!-- HOME -->
+  <div id="homeSection" class="section active">
+    <div class="header">Dashboard</div>
+
+    <div class="card">
+      Email: <span id="profileEmail"></span><br>
+      XP: 0
+    </div>
+
+    <div class="card">
+      <div class="card-title">Live Stream</div>
+      <div class="video-box">Live video will appear here</div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">Christian Medical Support</div>
+      <p>Request prayer, medical help & spiritual care.</p>
+    </div>
+
+    <div class="card">
+      <div class="card-title">Remote Church Jobs</div>
+      <p>Media, Admin, Outreach & Volunteer roles.</p>
+      <button class="action-btn">Apply</button>
+    </div>
+
+    <div class="card">
+      <div class="card-title">Install App</div>
+      <button id="installBtn" class="action-btn" style="display:none">Install Engagement App</button>
+      <p id="iosHint" style="display:none;color:#aaa;font-size:14px;margin-top:8px">
+        iPhone: Share → Add to Home Screen
+      </p>
+    </div>
   </div>
 
-  <div class="card">
-    <div class="card-title">Tasks</div>
-    <div class="list"><span>Watch Live Stream</span><button class="task-btn">Complete</button></div>
-    <div class="list"><span>Share App</span><button class="task-btn">Complete</button></div>
-    <div class="list"><span>Invite Friend</span><button class="task-btn">Complete</button></div>
+  <!-- TASKS -->
+  <div id="tasksSection" class="section">
+    <div class="header">Tasks</div>
+
+    <div class="card">
+      Watch Live Stream
+      <button class="action-btn">Complete</button>
+    </div>
+
+    <div class="card">
+      Share App
+      <button class="action-btn">Complete</button>
+    </div>
+
+    <div class="card">
+      Invite Friend
+      <button class="action-btn">Complete</button>
+    </div>
   </div>
 
-</div>
-
-<!-- TASKS -->
-<div id="tasksSection" class="section">
-  <div class="card"><h3>Tasks</h3></div>
-</div>
-
-<!-- REWARDS -->
-<div id="rewardsSection" class="section">
-  <div class="card"><h3>Rewards</h3></div>
-</div>
-
-<!-- PROFILE -->
-<div id="profileSection" class="section">
-  <div class="card">
-    <h3>Profile</h3>
-    <p id="profileEmail2"></p>
-    <button class="action-btn" onclick="logout()">Logout</button>
+  <!-- REWARDS -->
+  <div id="rewardsSection" class="section">
+    <div class="header">Rewards</div>
+    <div class="card">Coming soon</div>
   </div>
-</div>
+
+  <!-- PROFILE -->
+  <div id="profileSection" class="section">
+    <div class="header">Profile</div>
+    <div class="card">Email: <span id="profileEmail2"></span></div>
+    <div class="card">
+      <button class="action-btn" onclick="logout()">Logout</button>
+    </div>
+  </div>
 
 </div>
 
@@ -277,12 +286,13 @@ body{
   <button onclick="showSection('tasks')">Tasks</button>
   <button onclick="showSection('rewards')">Rewards</button>
   <button onclick="showSection('profile')">Profile</button>
+  <button class="logout" onclick="logout()">Logout</button>
 </div>
 
 <!-- FIREBASE -->
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-import { getAuth,createUserWithEmailAndPassword,signInWithEmailAndPassword,onAuthStateChanged,signOut } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
 
 const firebaseConfig={
   apiKey:"AIzaSyDImP8ODFS0lxWZ5AdTLi7jTxZzFo6JxeY",
@@ -311,9 +321,36 @@ onAuthStateChanged(auth,user=>{
     document.querySelector(".bottom-nav").style.display="flex";
     profileEmail.textContent=user.email;
     profileEmail2.textContent=user.email;
+  }else{
+    authBox.style.display="block";
   }
 });
 </script>
 
+<!-- INSTALL -->
+<script>
+let deferredPrompt;
+const installBtn=document.getElementById("installBtn");
+const iosHint=document.getElementById("iosHint");
+const isIOS=/iphone|ipad|ipod/i.test(navigator.userAgent);
+
+window.addEventListener("beforeinstallprompt",e=>{
+  e.preventDefault();
+  deferredPrompt=e;
+  installBtn.style.display="block";
+});
+
+installBtn.onclick=()=>{deferredPrompt.prompt();};
+if(isIOS) iosHint.style.display="block";
+
+/* SAFETY FALLBACK */
+setTimeout(()=>{
+  if(loadingScreen.style.display!=="none"){
+    loadingScreen.style.display="none";
+    authBox.style.display="block";
+  }
+},4000);
+</script>
+
 </body>
-  </html>
+    </html>
