@@ -5,8 +5,12 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Engagement App</title>
 
+<!-- PWA META (SAFE) -->
+<meta name="theme-color" content="#0b0b0b">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
 <style>
-/* ================= ROOT ================= */
 :root{
   --gold:#f2c94c;
   --bg:#0b0b0b;
@@ -15,14 +19,8 @@
   --muted:#aaaaaa;
 }
 
-*{
-  margin:0;
-  padding:0;
-  box-sizing:border-box;
-  font-family:Arial, Helvetica, sans-serif;
-}
+*{margin:0;padding:0;box-sizing:border-box;font-family:Arial,Helvetica,sans-serif}
 
-/* ================= GLOBAL FIXES ================= */
 html, body {
   height: 100%;
   overflow-x: hidden;
@@ -35,48 +33,30 @@ body{
   padding-bottom:90px;
 }
 
-/* Prevent bottom nav overlap */
 .section{
   padding-bottom:80px;
   display:none;
 }
-.section.active{
-  display:block;
-}
+.section.active{display:block}
 
-/* ================= HEADER ================= */
-.header{
-  text-align:center;
-  padding:28px 16px;
-}
-.header h1{
-  color:var(--gold);
-  font-size:30px;
-}
-.header p{
-  color:var(--muted);
-  font-size:16px;
-}
+/* HEADER */
+.header{text-align:center;padding:28px 16px}
+.header h1{color:var(--gold);font-size:30px}
+.header p{color:var(--muted);font-size:16px}
 
-/* ================= CARD ================= */
+/* CARD */
 .card{
   background:var(--card);
   margin:16px;
   padding:22px;
   border-radius:20px;
 }
-.card h3{
-  margin-bottom:14px;
-  font-size:22px;
-}
+.card h3{margin-bottom:14px;font-size:22px}
 
-/* ================= DASHBOARD ================= */
-.dashboard p{
-  margin:8px 0;
-  font-size:17px;
-}
+/* DASHBOARD */
+.dashboard p{margin:8px 0;font-size:17px}
 
-/* ================= LIST ================= */
+/* LIST */
 .list-item{
   display:flex;
   justify-content:space-between;
@@ -84,11 +64,9 @@ body{
   border-bottom:1px solid #222;
   font-size:16px;
 }
-.list-item:last-child{
-  border-bottom:none;
-}
+.list-item:last-child{border-bottom:none}
 
-/* ================= TASKS ================= */
+/* TASK */
 .task{
   display:flex;
   justify-content:space-between;
@@ -97,9 +75,7 @@ body{
   border-bottom:1px solid #222;
   font-size:16px;
 }
-.task:last-child{
-  border-bottom:none;
-}
+.task:last-child{border-bottom:none}
 
 .btn{
   background:var(--gold);
@@ -107,11 +83,10 @@ body{
   padding:10px 18px;
   border-radius:22px;
   font-weight:bold;
-  font-size:15px;
   cursor:pointer;
 }
 
-/* ================= LIVESTREAM ================= */
+/* LIVESTREAM */
 .video-box{
   background:#000;
   height:200px;
@@ -121,11 +96,9 @@ body{
   justify-content:center;
   color:#777;
   text-align:center;
-  padding:14px;
-  font-size:16px;
 }
 
-/* ================= BOTTOM NAV (FIXED) ================= */
+/* BOTTOM NAV */
 .bottom-nav{
   position:fixed;
   bottom:0;
@@ -134,36 +107,45 @@ body{
   height:65px;
   background:#101010;
   border-top:1px solid #222;
-
   display:flex;
   justify-content:space-around;
   align-items:center;
-
   z-index:9999;
-  transform:translateZ(0);
-  will-change:transform;
 }
-
 .bottom-nav button{
   background:none;
   border:none;
   color:var(--gold);
   font-size:17px;
   font-weight:bold;
+}
+
+/* POWER INSTALL BUTTON */
+#installBtn{
+  position:fixed;
+  bottom:90px;
+  right:20px;
+  background:var(--gold);
+  color:#000;
+  border:none;
+  padding:14px 16px;
+  border-radius:50%;
+  font-size:18px;
+  font-weight:bold;
   cursor:pointer;
+  display:none;
+  z-index:9999;
 }
 </style>
 </head>
 
 <body>
 
-<!-- HEADER -->
 <div class="header">
   <h1>Engagement App</h1>
   <p>Church Engagement Platform</p>
 </div>
 
-<!-- HOME -->
 <div id="home" class="section active">
   <div class="card dashboard">
     <h3>Dashboard</h3>
@@ -174,72 +156,33 @@ body{
 
   <div class="card">
     <h3>Church Overview</h3>
-    <div class="list-item">
-      <span>👥 Total Members</span>
-      <span>0 (demo)</span>
-    </div>
-    <div class="list-item">
-      <span>🎁 Rewards</span>
-      <span>Coming soon</span>
-    </div>
-    <div class="list-item">
-      <span>💊 Medical & Wellness</span>
-      <span>Placeholder</span>
-    </div>
-    <div class="list-item">
-      <span>💼 Job Opportunities</span>
-      <span>Placeholder</span>
-    </div>
+    <div class="list-item"><span>👥 Total Members</span><span>0 (demo)</span></div>
+    <div class="list-item"><span>🎁 Rewards</span><span>Coming soon</span></div>
+    <div class="list-item"><span>💊 Medical</span><span>Placeholder</span></div>
+    <div class="list-item"><span>💼 Jobs</span><span>Placeholder</span></div>
   </div>
 
   <div class="card">
     <h3>Tasks</h3>
-    <div class="task">
-      <span>Watch Live Stream</span>
-      <button class="btn">Complete</button>
-    </div>
-    <div class="task">
-      <span>Share App</span>
-      <button class="btn">Complete</button>
-    </div>
-    <div class="task">
-      <span>Invite Friend</span>
-      <button class="btn">Complete</button>
-    </div>
+    <div class="task"><span>Watch Live Stream</span><button class="btn">Complete</button></div>
+    <div class="task"><span>Share App</span><button class="btn">Complete</button></div>
+    <div class="task"><span>Invite Friend</span><button class="btn">Complete</button></div>
   </div>
 </div>
 
-<!-- LIVE -->
 <div id="live" class="section">
-  <div class="card">
-    <h3>YouTube Live</h3>
-    <div class="video-box">YouTube Live Stream<br>Placeholder</div>
-  </div>
-
-  <div class="card">
-    <h3>Facebook Live</h3>
-    <div class="video-box">Facebook Live Stream<br>Placeholder</div>
-  </div>
+  <div class="card"><h3>YouTube Live</h3><div class="video-box">YouTube Placeholder</div></div>
+  <div class="card"><h3>Facebook Live</h3><div class="video-box">Facebook Placeholder</div></div>
 </div>
 
-<!-- TASKS -->
 <div id="tasks" class="section">
-  <div class="card">
-    <h3>All Tasks</h3>
-    <p style="font-size:16px">Task system coming soon</p>
-  </div>
+  <div class="card"><h3>All Tasks</h3><p>Coming soon</p></div>
 </div>
 
-<!-- PROFILE -->
 <div id="profile" class="section">
-  <div class="card">
-    <h3>Profile</h3>
-    <p style="font-size:16px">Demo User</p>
-    <p style="font-size:16px">Email: demo@engagementapp.com</p>
-  </div>
+  <div class="card"><h3>Profile</h3><p>Demo User</p></div>
 </div>
 
-<!-- NAV -->
 <div class="bottom-nav">
   <button onclick="show('home')">Home</button>
   <button onclick="show('live')">Live</button>
@@ -247,11 +190,30 @@ body{
   <button onclick="show('profile')">Profile</button>
 </div>
 
+<button id="installBtn">⚡</button>
+
 <script>
 function show(section){
-  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
   document.getElementById(section).classList.add('active');
 }
+
+/* INSTALL PROMPT LOGIC (SAFE) */
+let deferredPrompt;
+const installBtn = document.getElementById('installBtn');
+
+window.addEventListener('beforeinstallprompt', (e) => {
+  e.preventDefault();
+  deferredPrompt = e;
+  installBtn.style.display = 'block';
+});
+
+installBtn.addEventListener('click', async () => {
+  if (!deferredPrompt) return;
+  deferredPrompt.prompt();
+  deferredPrompt = null;
+  installBtn.style.display = 'none';
+});
 </script>
 
 </body>
