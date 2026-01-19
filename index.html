@@ -2,25 +2,103 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Church App</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Church App Dashboard</title>
 
 <style>
+/* RESET */
 * {
-  box-sizing: border-box;
   margin: 0;
   padding: 0;
-  font-family: Arial, Helvetica, sans-serif;
+  box-sizing: border-box;
+  font-family: Arial, sans-serif;
 }
 
+/* BODY */
 body {
   background: #000;
   color: #fff;
   min-height: 100vh;
 }
 
-/* ===== LOADER ===== */
-#loadingScreen {
+/* HEADER */
+.header {
+  text-align: center;
+  padding: 20px;
+  border-bottom: 1px solid #222;
+}
+
+.header h1 {
+  color: #ffd400;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+/* CONTENT */
+.container {
+  padding: 15px;
+  padding-bottom: 90px;
+}
+
+.section-title {
+  color: #ffd400;
+  font-size: 22px;
+  margin: 15px 0;
+}
+
+/* CARDS */
+.card {
+  background: #111;
+  border-radius: 15px;
+  padding: 18px;
+  margin-bottom: 15px;
+  box-shadow: 0 0 10px rgba(255,212,0,0.15);
+}
+
+.card h3 {
+  font-size: 16px;
+  margin-bottom: 6px;
+}
+
+.card p {
+  font-size: 14px;
+  opacity: 0.8;
+}
+
+/* LIVE SERVICE */
+.live {
+  background: #000;
+  border: 1px solid #222;
+  height: 120px;
+  border-radius: 15px;
+}
+
+/* BOTTOM NAV */
+.bottom-nav {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background: #ffd400;
+  display: flex;
+  justify-content: space-around;
+  padding: 12px 0;
+}
+
+.bottom-nav a {
+  text-decoration: none;
+  color: #000;
+  font-weight: bold;
+  font-size: 14px;
+}
+
+.bottom-nav a.active {
+  border-bottom: 3px solid #000;
+  padding-bottom: 4px;
+}
+
+/* LOADER FIX */
+#loader {
   position: fixed;
   inset: 0;
   background: #000;
@@ -28,245 +106,82 @@ body {
   align-items: center;
   justify-content: center;
   z-index: 999;
-  color: gold;
-  font-size: 18px;
 }
 
-/* ===== AUTH ===== */
-#authBox {
-  max-width: 420px;
-  margin: auto;
-  padding: 40px 20px;
+.spinner {
+  width: 40px;
+  height: 40px;
+  border: 4px solid #222;
+  border-top: 4px solid #ffd400;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
 }
 
-#authBox h2 {
-  text-align: center;
-  margin-bottom: 20px;
-  color: gold;
-}
-
-#authBox input {
-  width: 100%;
-  padding: 14px;
-  margin-bottom: 12px;
-  border-radius: 8px;
-  border: none;
-}
-
-#authBox button {
-  width: 100%;
-  padding: 14px;
-  border-radius: 8px;
-  border: none;
-  background: gold;
-  font-weight: bold;
-  margin-top: 8px;
-}
-
-#authMsg {
-  margin-top: 10px;
-  text-align: center;
-  color: #ff8080;
-}
-
-/* ===== APP ===== */
-#app {
-  display: none;
-  padding-bottom: 90px;
-}
-
-/* ===== HEADER ===== */
-.top-header {
-  text-align: center;
-  padding: 16px;
-  font-size: 22px;
-  font-weight: bold;
-  color: gold;
-  border-bottom: 1px solid #222;
-}
-
-/* ===== DASHBOARD ===== */
-.dashboard {
-  padding: 20px;
-}
-
-.dashboard h3 {
-  color: gold;
-  margin-bottom: 16px;
-  font-size: 20px;
-}
-
-/* ===== CARD ===== */
-.card {
-  background: #111;
-  border-radius: 16px;
-  padding: 18px;
-  margin-bottom: 16px;
-  box-shadow: 0 0 0 1px #1f1f1f;
-}
-
-.card-title {
-  font-size: 16px;
-  font-weight: bold;
-}
-
-.card-sub {
-  opacity: 0.8;
-  margin-top: 6px;
-}
-
-/* ===== LIVE BOX ===== */
-.live-box {
-  background: #000;
-  border-radius: 12px;
-  height: 120px;
-  margin-top: 12px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  opacity: 0.6;
-}
-
-/* ===== SECTIONS ===== */
-.section { display: none; }
-.section.active { display: block; }
-
-/* ===== BOTTOM NAV ===== */
-.bottom-nav {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  background: gold;
-  display: none;
-  justify-content: space-around;
-  padding: 14px 0;
-}
-
-.bottom-nav button {
-  background: none;
-  border: none;
-  font-weight: bold;
-  font-size: 14px;
+@keyframes spin {
+  100% { transform: rotate(360deg); }
 }
 </style>
 </head>
 
 <body>
 
-<div id="loadingScreen">Loading...</div>
-
-<!-- AUTH -->
-<div id="authBox">
-  <h2>Login / Sign Up</h2>
-  <input type="email" id="email" placeholder="Email" />
-  <input type="password" id="password" placeholder="Password" />
-  <button id="loginBtn">Login</button>
-  <button id="signupBtn">Sign Up</button>
-  <div id="authMsg"></div>
+<!-- LOADER -->
+<div id="loader">
+  <div class="spinner"></div>
 </div>
 
-<!-- APP -->
-<div id="app">
-  <div class="top-header">CHURCH APP</div>
+<!-- HEADER -->
+<div class="header">
+  <h1>CHURCH APP</h1>
+</div>
 
-  <div class="dashboard section active" id="homeSection">
-    <h3>Dashboard</h3>
+<!-- CONTENT -->
+<div class="container">
+  <div class="section-title">Dashboard</div>
 
-    <div class="card">
-      <div class="card-title">💰 Total Donations</div>
-      <div class="card-sub">₦0 (demo)</div>
-    </div>
-
-    <div class="card">
-      <div class="card-title">🎯 Active Campaigns</div>
-      <div class="card-sub">None yet</div>
-    </div>
-
-    <div class="card">
-      <div class="card-title">📊 Donation Analytics</div>
-      <div class="card-sub">Coming soon</div>
-    </div>
-
-    <div class="card">
-      <div class="card-title">👥 Total Members</div>
-      <div class="card-sub">0 (demo)</div>
-    </div>
-
-    <div class="card">
-      <div class="card-title">📅 Upcoming Events</div>
-      <div class="card-sub">No events</div>
-    </div>
-
-    <div class="card">
-      <div class="card-title">🔴 Live Service (Demo)</div>
-      <div class="live-box">Live stream placeholder</div>
-    </div>
+  <div class="card">
+    <h3>💰 Total Donations</h3>
+    <p>₦0 (demo)</p>
   </div>
 
-  <div class="section" id="profileSection">
-    <div class="dashboard">
-      <h3>Profile</h3>
-      <div class="card">
-        <div class="card-title">Email</div>
-        <div class="card-sub" id="profileEmail"></div>
-      </div>
-    </div>
+  <div class="card">
+    <h3>🎯 Active Campaigns</h3>
+    <p>None yet</p>
+  </div>
+
+  <div class="card">
+    <h3>📊 Donation Analytics</h3>
+    <p>Coming soon</p>
+  </div>
+
+  <div class="card">
+    <h3>👥 Total Members</h3>
+    <p>0 (demo)</p>
+  </div>
+
+  <div class="card">
+    <h3>📅 Upcoming Events</h3>
+    <p>No events</p>
+  </div>
+
+  <div class="card">
+    <h3>🔴 Live Service (Demo)</h3>
+    <div class="live"></div>
   </div>
 </div>
 
-<!-- NAV -->
+<!-- BOTTOM NAV -->
 <div class="bottom-nav">
-  <button onclick="showSection('home')">HOME</button>
-  <button onclick="showSection('profile')">PROFILE</button>
-  <button onclick="logout()">LOGOUT</button>
+  <a href="#" class="active">HOME</a>
+  <a href="#">TASKS</a>
+  <a href="#">REWARDS</a>
+  <a href="#">DONATE</a>
 </div>
 
-<script type="module">
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
-
-const firebaseConfig = {
-  apiKey: "AIzaSyDImP8ODFS0lxWZ5AdTLi7jTxZzFo6JxeY",
-  authDomain: "rewards-task-mvp.firebaseapp.com",
-  projectId: "rewards-task-mvp",
-  appId: "1:154842831298:web:9ff9e24acfaf346aa99e5b"
-};
-
-const app = initializeApp(firebaseConfig);
-const auth = getAuth(app);
-
-window.showSection = (name) => {
-  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
-  document.getElementById(name + 'Section').classList.add('active');
-};
-
-loginBtn.onclick = async () => {
-  try {
-    await signInWithEmailAndPassword(auth, email.value, password.value);
-  } catch (e) { authMsg.textContent = e.message; }
-};
-
-signupBtn.onclick = async () => {
-  try {
-    await createUserWithEmailAndPassword(auth, email.value, password.value);
-  } catch (e) { authMsg.textContent = e.message; }
-};
-
-window.logout = () => signOut(auth);
-
-onAuthStateChanged(auth, user => {
-  loadingScreen.style.display = "none";
-  if (user) {
-    authBox.style.display = "none";
-    app.style.display = "block";
-    document.querySelector('.bottom-nav').style.display = "flex";
-    profileEmail.textContent = user.email;
-  } else {
-    authBox.style.display = "block";
-    app.style.display = "none";
-    document.querySelector('.bottom-nav').style.display = "none";
-  }
+<script>
+/* REMOVE LOADER */
+window.addEventListener("load", function () {
+  document.getElementById("loader").style.display = "none";
 });
 </script>
 
