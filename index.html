@@ -1,60 +1,50 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Church App Dashboard</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Church Rewards App</title>
 
 <style>
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  font-family: Arial, sans-serif;
-}
+* { margin: 0; padding: 0; box-sizing: border-box; font-family: Arial, sans-serif; }
 
 body {
   background: #000;
   color: #fff;
-  min-height: 100vh;
 }
 
 /* HEADER */
 .header {
-  padding: 20px;
+  padding: 18px;
   text-align: center;
   border-bottom: 1px solid #222;
 }
 
 .header h1 {
   color: #ffd400;
-  font-size: 28px;
-  font-weight: bold;
 }
 
-/* CONTENT */
-.container {
+/* MAIN CONTENT */
+.page {
+  display: none;
   padding: 15px;
-  padding-bottom: 120px; /* IMPORTANT FIX */
+  padding-bottom: 120px;
 }
 
-.section-title {
-  color: #ffd400;
-  font-size: 22px;
-  margin-bottom: 15px;
+.page.active {
+  display: block;
 }
 
-/* CARD */
+/* CARDS */
 .card {
   background: #111;
-  border-radius: 18px;
-  padding: 18px;
-  margin-bottom: 16px;
-  box-shadow: 0 0 15px rgba(255,212,0,0.15);
+  border-radius: 16px;
+  padding: 16px;
+  margin-bottom: 14px;
+  box-shadow: 0 0 12px rgba(255,212,0,0.15);
 }
 
 .card h3 {
-  font-size: 16px;
   margin-bottom: 6px;
 }
 
@@ -63,150 +53,202 @@ body {
   opacity: 0.85;
 }
 
-/* LIVE STREAM */
-.live-box {
+/* BUTTONS */
+.btn {
   margin-top: 10px;
-  background: #000;
-  border: 1px dashed #333;
-  height: 140px;
-  border-radius: 15px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  color: #aaa;
+  padding: 10px;
+  width: 100%;
+  background: #ffd400;
+  color: #000;
+  border: none;
+  border-radius: 10px;
+  font-weight: bold;
+  cursor: pointer;
 }
 
-.live-box span {
-  font-size: 14px;
+.btn:disabled {
+  background: #444;
+  color: #999;
 }
 
-.play {
-  font-size: 40px;
-  color: #ffd400;
-  margin-bottom: 8px;
+/* XP BAR */
+.xp-box {
+  background: #111;
+  padding: 15px;
+  border-radius: 16px;
+  margin-bottom: 15px;
+}
+
+.progress {
+  background: #333;
+  border-radius: 10px;
+  overflow: hidden;
+  margin-top: 8px;
+}
+
+.progress div {
+  height: 10px;
+  background: #ffd400;
+  width: 0%;
 }
 
 /* BOTTOM NAV */
 .bottom-nav {
   position: fixed;
   bottom: 0;
-  left: 0;
   width: 100%;
   background: #ffd400;
   display: flex;
   justify-content: space-around;
   padding: 14px 0;
-  z-index: 9999; /* IMPORTANT FIX */
 }
 
 .bottom-nav button {
   background: none;
   border: none;
   font-weight: bold;
-  font-size: 14px;
   cursor: pointer;
-  color: #000;
 }
 
-.bottom-nav button.active {
+.active-tab {
   border-bottom: 3px solid #000;
-  padding-bottom: 4px;
 }
 
-/* LOADER */
-#loader {
-  position: fixed;
-  inset: 0;
-  background: #000;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 10000;
-}
-
-.spinner {
-  width: 40px;
-  height: 40px;
-  border: 4px solid #222;
-  border-top: 4px solid #ffd400;
-  border-radius: 50%;
-  animation: spin 1s linear infinite;
-}
-
-@keyframes spin {
-  100% { transform: rotate(360deg); }
+/* REWARD LOCK */
+.locked {
+  opacity: 0.4;
 }
 </style>
 </head>
 
 <body>
 
-<!-- LOADER -->
-<div id="loader">
-  <div class="spinner"></div>
-</div>
-
-<!-- HEADER -->
 <div class="header">
-  <h1>CHURCH APP</h1>
+  <h1>Church Rewards</h1>
 </div>
 
-<!-- CONTENT -->
-<div class="container">
-  <div class="section-title">Dashboard</div>
-
+<!-- HOME -->
+<div id="home" class="page active">
   <div class="card">
-    <h3>💰 Total Donations</h3>
-    <p>₦0 (demo)</p>
+    <h3>👋 Welcome</h3>
+    <p>Complete tasks and earn XP rewards.</p>
   </div>
+</div>
 
-  <div class="card">
-    <h3>🎯 Active Campaigns</h3>
-    <p>None yet</p>
-  </div>
-
-  <div class="card">
-    <h3>📊 Donation Analytics</h3>
-    <p>Coming soon</p>
-  </div>
-
-  <div class="card">
-    <h3>👥 Total Members</h3>
-    <p>0 (demo)</p>
-  </div>
-
-  <div class="card">
-    <h3>📅 Upcoming Events</h3>
-    <p>No events</p>
-  </div>
-
-  <div class="card">
-    <h3>🔴 Live Service (Demo)</h3>
-    <div class="live-box">
-      <div class="play">▶</div>
-      <span>Live on Facebook / YouTube</span>
-      <span>No stream active</span>
+<!-- TASKS -->
+<div id="tasks" class="page">
+  <div class="xp-box">
+    <h3>⭐ XP Progress</h3>
+    <p>Total XP: <span id="xp">0</span></p>
+    <div class="progress">
+      <div id="xpBar"></div>
     </div>
   </div>
+
+  <div class="card">
+    <h3>🎥 Attend Live Service</h3>
+    <p>Earn 20 XP</p>
+    <button class="btn" onclick="completeTask(20,this)">Complete</button>
+  </div>
+
+  <div class="card">
+    <h3>📲 Share App</h3>
+    <p>Earn 15 XP</p>
+    <button class="btn" onclick="completeTask(15,this)">Complete</button>
+  </div>
+
+  <div class="card">
+    <h3>📅 Daily Check-In</h3>
+    <p>Earn 10 XP</p>
+    <button class="btn" onclick="completeTask(10,this)">Check-In</button>
+  </div>
+
+  <div class="card">
+    <h3>💝 Make a Donation (Demo)</h3>
+    <p>Earn 30 XP</p>
+    <button class="btn" onclick="completeTask(30,this)">Donate</button>
+  </div>
 </div>
 
-<!-- BOTTOM NAV -->
+<!-- REWARDS -->
+<div id="rewards" class="page">
+  <div class="card">
+    <h3>🎁 Rewards</h3>
+    <p>Unlock rewards using XP</p>
+  </div>
+
+  <div class="card reward" data-xp="30">
+    <h3>🎫 Event Access</h3>
+    <p>Requires 30 XP</p>
+  </div>
+
+  <div class="card reward" data-xp="60">
+    <h3>🧢 Church Merchandise</h3>
+    <p>Requires 60 XP</p>
+  </div>
+
+  <div class="card reward" data-xp="100">
+    <h3>🏆 VIP Recognition</h3>
+    <p>Requires 100 XP</p>
+  </div>
+</div>
+
+<!-- DONATE -->
+<div id="donate" class="page">
+  <div class="card">
+    <h3>💳 Donate</h3>
+    <p>Payment integration coming soon.</p>
+  </div>
+</div>
+
+<!-- NAV -->
 <div class="bottom-nav">
-  <button class="active" onclick="nav('Home')">HOME</button>
-  <button onclick="nav('Tasks')">TASKS</button>
-  <button onclick="nav('Rewards')">REWARDS</button>
-  <button onclick="nav('Donate')">DONATE</button>
+  <button onclick="showPage('home')" class="active-tab">HOME</button>
+  <button onclick="showPage('tasks')">TASKS</button>
+  <button onclick="showPage('rewards')">REWARDS</button>
+  <button onclick="showPage('donate')">DONATE</button>
 </div>
 
 <script>
-window.onload = () => {
-  document.getElementById("loader").style.display = "none";
-};
+let xp = localStorage.getItem("xp") ? parseInt(localStorage.getItem("xp")) : 0;
 
-function nav(page) {
-  alert(page + " page coming soon");
+const xpText = document.getElementById("xp");
+const xpBar = document.getElementById("xpBar");
+
+function updateXP() {
+  xpText.innerText = xp;
+  xpBar.style.width = Math.min(xp,100) + "%";
+  localStorage.setItem("xp", xp);
+  updateRewards();
 }
+
+function completeTask(value, btn) {
+  xp += value;
+  btn.disabled = true;
+  btn.innerText = "Completed";
+  updateXP();
+}
+
+function showPage(id) {
+  document.querySelectorAll(".page").forEach(p => p.classList.remove("active"));
+  document.getElementById(id).classList.add("active");
+
+  document.querySelectorAll(".bottom-nav button").forEach(b => b.classList.remove("active-tab"));
+  event.target.classList.add("active-tab");
+}
+
+function updateRewards() {
+  document.querySelectorAll(".reward").forEach(r => {
+    let req = parseInt(r.dataset.xp);
+    if (xp >= req) {
+      r.classList.remove("locked");
+    } else {
+      r.classList.add("locked");
+    }
+  });
+}
+
+updateXP();
 </script>
 
 </body>
