@@ -3,25 +3,23 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Church Rewards</title>
+<title>Church App</title>
 
 <style>
-* {
-  box-sizing: border-box;
-}
+* { box-sizing: border-box; }
 
 body {
   margin: 0;
   font-family: Arial, sans-serif;
   background: #000;
   color: #fff;
-  padding-bottom: 120px; /* FIX FOR BOTTOM NAV */
+  padding-bottom: 120px;
 }
 
 h1 {
   color: #ffd400;
   text-align: center;
-  margin-top: 15px;
+  margin: 15px 0;
 }
 
 .section {
@@ -45,9 +43,7 @@ h1 {
   border-bottom: 1px solid #222;
 }
 
-.row:last-child {
-  border-bottom: none;
-}
+.row:last-child { border-bottom: none; }
 
 .btn {
   background: #ffd400;
@@ -58,28 +54,19 @@ h1 {
   cursor: pointer;
 }
 
-.live-box {
+.video-box {
   border: 2px solid #ffd400;
   border-radius: 12px;
-  padding: 20px;
-  text-align: center;
+  overflow: hidden;
 }
 
-.spinner {
-  width: 40px;
-  height: 40px;
-  border: 4px solid #333;
-  border-top: 4px solid #ffd400;
-  border-radius: 50%;
-  margin: 10px auto;
-  animation: spin 1s linear infinite;
+iframe {
+  width: 100%;
+  height: 220px;
+  border: none;
 }
 
-@keyframes spin {
-  100% { transform: rotate(360deg); }
-}
-
-/* ===== FIXED BOTTOM NAV ===== */
+/* ===== BOTTOM NAV ===== */
 .bottom-nav {
   position: fixed;
   bottom: env(safe-area-inset-bottom);
@@ -91,8 +78,6 @@ h1 {
   justify-content: space-around;
   align-items: center;
   z-index: 9999;
-  pointer-events: auto;
-  touch-action: manipulation;
 }
 
 .nav-btn {
@@ -107,7 +92,7 @@ h1 {
 
 <body>
 
-<h1>Church Rewards</h1>
+<h1>Church App</h1>
 
 <div class="section">
   <div class="section-title">Welcome</div>
@@ -160,23 +145,31 @@ h1 {
   </div>
 </div>
 
+<!-- ✅ REAL PLAYING VIDEO -->
 <div class="section">
   <div class="section-title">🔴 Live Service (Demo)</div>
-  <div class="live-box">
-    <div class="spinner"></div>
-    <p style="color:#ffd400;font-weight:bold;">
-      Connecting to Live Stream...
-    </p>
+
+  <div class="video-box">
+    <!-- Public YouTube LIVE / Demo video -->
+    <iframe 
+      src="https://www.youtube.com/embed/5qap5aO4i9A?autoplay=1&mute=1"
+      allow="autoplay; encrypted-media"
+      allowfullscreen>
+    </iframe>
   </div>
+
+  <p style="text-align:center;color:#ffd400;margin-top:8px;">
+    Live Broadcast Demo
+  </p>
 </div>
 
 <!-- ===== BOTTOM NAV ===== -->
 <div class="bottom-nav">
-  <button class="nav-btn" onclick="alert('Home')">HOME</button>
-  <button class="nav-btn" onclick="alert('Tasks')">TASKS</button>
-  <button class="nav-btn" onclick="alert('Rewards')">REWARDS</button>
-  <button class="nav-btn" onclick="alert('Donate')">DONATE</button>
+  <button class="nav-btn">HOME</button>
+  <button class="nav-btn">TASKS</button>
+  <button class="nav-btn">REWARDS</button>
+  <button class="nav-btn">DONATE</button>
 </div>
 
 </body>
-  </html>
+                              </html>
