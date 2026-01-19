@@ -2,61 +2,84 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Church Rewards</title>
 
 <style>
+* {
+  box-sizing: border-box;
+  font-family: Arial, sans-serif;
+}
+
 body {
   margin: 0;
-  font-family: Arial, sans-serif;
   background: #000;
   color: #fff;
 }
 
 header {
   text-align: center;
-  padding: 16px;
-  font-size: 22px;
-  font-weight: bold;
-  color: #ffd700;
+  padding: 20px 10px 10px;
 }
 
-.container {
-  padding: 16px;
+header h1 {
+  color: #ffd400;
+  margin: 0;
+}
+
+.section-title {
+  color: #ffd400;
+  font-size: 20px;
+  margin: 20px 15px 10px;
 }
 
 .card {
   background: #111;
-  border-radius: 14px;
+  margin: 12px 15px;
   padding: 16px;
-  margin-bottom: 14px;
-  box-shadow: 0 0 10px rgba(255,215,0,0.15);
+  border-radius: 16px;
+  box-shadow: 0 0 12px rgba(255,212,0,0.15);
 }
 
 .card h3 {
-  margin: 0 0 10px;
-  font-size: 18px;
+  margin: 0 0 6px;
+}
+
+.card p {
+  margin: 0;
+  opacity: 0.85;
 }
 
 .row {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 8px 0;
+}
+
+.btn {
+  background: #ffd400;
+  color: #000;
+  border: none;
+  padding: 8px 14px;
+  border-radius: 12px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.btn:active {
+  transform: scale(0.95);
+}
+
+.list-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 0;
   border-bottom: 1px solid #222;
 }
 
-.row:last-child {
+.list-item:last-child {
   border-bottom: none;
-}
-
-button {
-  background: #ffd700;
-  color: #000;
-  border: none;
-  padding: 6px 14px;
-  border-radius: 8px;
-  font-weight: bold;
 }
 
 .footer {
@@ -64,85 +87,136 @@ button {
   bottom: 0;
   left: 0;
   right: 0;
-  background: #ffd700;
+  background: #ffd400;
   display: flex;
   justify-content: space-around;
   padding: 12px 0;
   color: #000;
   font-weight: bold;
 }
+
+.footer div {
+  cursor: pointer;
+}
+
+.spacer {
+  height: 90px;
+}
 </style>
 </head>
 
 <body>
 
-<header>Church Rewards</header>
+<header>
+  <h1>Church Rewards</h1>
+</header>
 
-<div class="container">
+<div class="section-title">Dashboard</div>
 
-  <!-- USER -->
-  <div class="card">
-    <h3>Welcome</h3>
-    <p>Email: joeledward949@gmail.com</p>
-    <p>XP: <strong>0</strong></p>
-  </div>
-
-  <!-- LIVE STREAMS -->
-  <div class="card">
-    <h3>📺 Live Streams</h3>
-    <div class="row">Facebook Live – Sunday Service</div>
-    <div class="row">YouTube Live – Bible Teaching</div>
-    <div class="row">TikTok Live – Community Chat</div>
-  </div>
-
-  <!-- TASKS -->
-  <div class="card">
-    <h3>📝 Tasks</h3>
-
-    <div class="row">
-      <span>Watch Live Stream</span>
-      <button>Complete</button>
-    </div>
-
-    <div class="row">
-      <span>Share App</span>
-      <button>Complete</button>
-    </div>
-
-    <div class="row">
-      <span>Invite Friend</span>
-      <button>Complete</button>
-    </div>
-  </div>
-
-  <!-- REMOTE JOBS -->
-  <div class="card">
-    <h3>💼 Remote Jobs</h3>
-
-    <div class="row">
-      <span>Frontend Developer</span>
-      <button>Apply</button>
-    </div>
-
-    <div class="row">
-      <span>QA Engineer</span>
-      <button>Apply</button>
-    </div>
-
-    <div class="row">
-      <span>Community Manager</span>
-      <button>Apply</button>
-    </div>
-  </div>
-
+<div class="card">
+  <h3>💰 Total Donations</h3>
+  <p>₦0 (demo)</p>
 </div>
 
-<!-- FOOTER -->
+<div class="card">
+  <h3>🎯 Active Campaigns</h3>
+  <p>None yet</p>
+</div>
+
+<div class="card">
+  <h3>📊 Donation Analytics</h3>
+  <p>Coming soon</p>
+</div>
+
+<div class="card">
+  <h3>👥 Total Members</h3>
+  <p>0 (demo)</p>
+</div>
+
+<div class="card">
+  <h3>📅 Upcoming Events</h3>
+  <p>No events</p>
+</div>
+
+<div class="card">
+  <h3>🔴 Live Service (Demo)</h3>
+  <p>Streaming placeholder</p>
+  <div style="margin-top:10px;height:150px;background:#000;border-radius:12px;"></div>
+</div>
+
+<!-- USER INFO -->
+<div class="card">
+  <h3>Welcome</h3>
+  <p>Email: joeledward949@gmail.com</p>
+  <p>XP: <span id="xp">0</span></p>
+</div>
+
+<!-- LIVE STREAMS -->
+<div class="card">
+  <h3>📺 Live Streams</h3>
+  <div class="list-item">Facebook Live – Sunday Service</div>
+  <div class="list-item">YouTube Live – Bible Teaching</div>
+  <div class="list-item">TikTok Live – Community Chat</div>
+</div>
+
+<!-- TASKS -->
+<div class="card">
+  <h3>📝 Tasks</h3>
+
+  <div class="list-item">
+    Watch Live Stream
+    <button class="btn" onclick="addXP(10)">Complete</button>
+  </div>
+
+  <div class="list-item">
+    Share App
+    <button class="btn" onclick="addXP(5)">Complete</button>
+  </div>
+
+  <div class="list-item">
+    Invite Friend
+    <button class="btn" onclick="addXP(15)">Complete</button>
+  </div>
+</div>
+
+<!-- REMOTE JOBS -->
+<div class="card">
+  <h3>💼 Remote Jobs</h3>
+
+  <div class="list-item">
+    Frontend Developer
+    <button class="btn">Apply</button>
+  </div>
+
+  <div class="list-item">
+    QA Engineer
+    <button class="btn">Apply</button>
+  </div>
+
+  <div class="list-item">
+    Community Manager
+    <button class="btn">Apply</button>
+  </div>
+</div>
+
+<div class="spacer"></div>
+
+<!-- BOTTOM NAV -->
 <div class="footer">
-  <div>Home</div>
-  <div>Profile</div>
-  <div>Logout</div>
+  <div>HOME</div>
+  <div>TASKS</div>
+  <div>REWARDS</div>
+  <div>DONATE</div>
 </div>
+
+<script>
+let xp = 0;
+function addXP(value) {
+  xp += value;
+  document.getElementById("xp").innerText = xp;
+  alert("Task completed! +" + value + " XP");
+}
+</script>
 
 </body>
-  </html>
+    </html>
