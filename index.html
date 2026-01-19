@@ -3,203 +3,228 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Church Rewards App</title>
+<title>Rewards Task App</title>
 
 <style>
-*{box-sizing:border-box;font-family:Arial,Helvetica,sans-serif}
-body{
-  margin:0;
-  background:#000;
-  color:#fff;
-  padding-bottom:90px;
-}
+*{box-sizing:border-box;margin:0;padding:0;font-family:Arial,Helvetica,sans-serif}
+body{background:#000;color:#fff;min-height:100vh}
 
-/* HEADER */
-.header{
-  text-align:center;
-  padding:16px;
-  font-size:26px;
-  font-weight:bold;
-  color:gold;
-  border-bottom:1px solid #222;
-}
+/* Loader */
+#loadingScreen{
+position:fixed;inset:0;background:#000;
+display:flex;align-items:center;justify-content:center;
+z-index:999;color:gold;font-size:18px}
 
-/* SECTIONS */
-.section{display:none;padding:16px}
+/* Auth */
+#authBox{max-width:400px;margin:auto;padding:40px 20px}
+#authBox h2{text-align:center;color:gold;margin-bottom:20px}
+#authBox input{width:100%;padding:14px;margin-bottom:12px;border-radius:8px;border:none}
+#authBox button{width:100%;padding:14px;border:none;border-radius:8px;background:gold;font-weight:bold;margin-bottom:10px}
+#authMsg{text-align:center;color:#ff8080}
+
+/* App */
+#app{display:none;flex-direction:column;padding:16px;padding-bottom:90px}
+.header{font-size:22px;color:gold;margin-bottom:16px}
+
+/* Cards */
+.card{
+border:1px solid #333;border-radius:14px;
+padding:16px;margin-bottom:14px;background:#111}
+
+/* Tasks / Jobs */
+.item{border-top:1px solid #222;padding:10px 0}
+.item button{
+background:gold;border:none;padding:6px 14px;
+border-radius:6px;margin-top:6px;cursor:pointer}
+
+/* Sections */
+.section{display:none}
 .section.active{display:block}
 
-/* DASHBOARD */
-.title{
-  font-size:22px;
-  color:gold;
-  margin:10px 0;
-}
-
-.card{
-  background:linear-gradient(145deg,#0d0d0d,#1a1a1a);
-  border-radius:18px;
-  padding:16px;
-  margin-bottom:14px;
-  box-shadow:0 0 10px rgba(255,215,0,.08);
-}
-.card h3{margin:0 0 6px;font-size:16px}
-.card p{margin:0;font-size:14px;color:#ccc}
-
-/* LIVE */
-.liveBox iframe{
-  width:100%;
-  height:190px;
-  border-radius:14px;
-  border:none;
-  margin-top:10px;
-}
-
-/* BUTTONS */
-.btn{
-  width:100%;
-  padding:12px;
-  background:gold;
-  border:none;
-  border-radius:12px;
-  font-weight:bold;
-  margin-top:10px;
-}
-.btn.small{width:auto;padding:8px 12px;font-size:13px;margin-right:6px}
-
-/* TASKS */
-.task{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  margin-top:10px;
-}
-.task button{
-  background:#222;
-  color:gold;
-  border:1px solid gold;
-  padding:6px 10px;
-  border-radius:8px;
-}
-
-/* NAV */
+/* Bottom Nav */
 .bottom-nav{
-  position:fixed;
-  bottom:0;
-  left:0;
-  right:0;
-  background:gold;
-  display:flex;
-  justify-content:space-around;
-  padding:10px 0;
-}
+position:fixed;bottom:0;left:0;right:0;
+background:#050505;border-top:1px solid #222;
+display:none;justify-content:space-around;padding:10px 0}
 .bottom-nav button{
-  background:none;
-  border:none;
-  font-weight:bold;
-  font-size:14px;
-}
+background:none;border:none;color:gold;font-size:14px}
+.logout{color:#ff7070}
+
+/* Modal */
+.modal{
+display:none;position:fixed;inset:0;background:#000c;z-index:999}
+.modal-box{
+background:#111;margin:20% auto;padding:20px;
+width:90%;max-width:400px;border-radius:12px}
+.modal-box button{
+width:100%;padding:12px;margin-top:10px;
+background:gold;border:none;border-radius:8px}
 </style>
 </head>
 
 <body>
 
-<div class="header">Church Rewards</div>
+<div id="loadingScreen">Loading...</div>
+
+<!-- AUTH -->
+<div id="authBox">
+<h2>Login / Sign Up</h2>
+<input id="email" type="email" placeholder="Email">
+<input id="password" type="password" placeholder="Password">
+<button id="loginBtn">Login</button>
+<button id="signupBtn">Sign Up</button>
+<div id="authMsg"></div>
+</div>
+
+<!-- APP -->
+<div id="app">
 
 <!-- DASHBOARD -->
-<div id="home" class="section active">
-  <div class="title">Dashboard</div>
+<div id="homeSection" class="section active">
+<div class="header">Dashboard</div>
 
-  <div class="card"><h3>💰 Total Donations</h3><p>₦0 (demo)</p></div>
-  <div class="card"><h3>🎯 Active Campaigns</h3><p>None yet</p></div>
-  <div class="card"><h3>📊 Donation Analytics</h3><p>Coming soon</p></div>
-  <div class="card"><h3>👥 Total Members</h3><p>0 (demo)</p></div>
-  <div class="card"><h3>📅 Upcoming Events</h3><p>No events</p></div>
-
-  <!-- LIVE DEMO -->
-  <div class="card">
-    <h3>🔴 Live Service (Demo)</h3>
-
-    <div>
-      <button class="btn small" onclick="showLive('yt')">YouTube</button>
-      <button class="btn small" onclick="showLive('fb')">Facebook</button>
-    </div>
-
-    <div id="ytLive" class="liveBox">
-      <iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ"></iframe>
-      <p>Demo YouTube Livestream</p>
-    </div>
-
-    <div id="fbLive" class="liveBox" style="display:none">
-      <iframe src="https://www.youtube.com/embed/9bZkp7q19f0"></iframe>
-      <p>Demo Facebook Livestream</p>
-    </div>
-  </div>
+<div class="card">
+Welcome: <strong id="profileEmail"></strong><br>
+XP: <strong id="xp">0</strong>
 </div>
 
-<!-- TASKS -->
-<div id="tasks" class="section">
-  <div class="title">Tasks</div>
-  <div class="card"><p>XP: <span id="xp">0</span></p></div>
-
-  <div class="card task">
-    <span>🙏 Attend Service</span>
-    <button onclick="addXP(10)">+10 XP</button>
-  </div>
-  <div class="card task">
-    <span>📖 Read Daily Devotion</span>
-    <button onclick="addXP(5)">+5 XP</button>
-  </div>
-  <div class="card task">
-    <span>🤝 Invite a Friend</span>
-    <button onclick="addXP(20)">+20 XP</button>
-  </div>
+<div class="card">
+<h3>📺 Live Streams</h3>
+<div class="item">Facebook Live – Sunday Service</div>
+<div class="item">YouTube Live – Teaching</div>
+<div class="item">TikTok Live – Community Chat</div>
 </div>
 
-<!-- REWARDS -->
-<div id="rewards" class="section">
-  <div class="title">Rewards</div>
-  <div class="card"><p>Your XP unlocks rewards</p></div>
-  <div class="card"><p>🎁 Free Event Access (50 XP)</p></div>
-  <div class="card"><p>👕 Church Merchandise (100 XP)</p></div>
+<div class="card">
+<h3>📝 Tasks</h3>
+<div class="item">Watch Live Stream<button onclick="addXP(5)">Complete</button></div>
+<div class="item">Share App<button onclick="addXP(3)">Complete</button></div>
+<div class="item">Invite Friend<button onclick="addXP(10)">Complete</button></div>
 </div>
 
-<!-- DONATE -->
-<div id="donate" class="section">
-  <div class="title">Donate</div>
-  <div class="card">
-    <p>Secure Donation (Demo)</p>
-    <button class="btn" onclick="alert('Flutterwave payment initializing (Demo Mode)')">
-      Pay with Flutterwave
-    </button>
-  </div>
+<div class="card">
+<h3>💼 Remote Jobs</h3>
+<div class="item">Frontend Developer<button onclick="openJob('Frontend Developer')">Apply</button></div>
+<div class="item">QA Engineer<button onclick="openJob('QA Engineer')">Apply</button></div>
+<div class="item">Community Manager<button onclick="openJob('Community Manager')">Apply</button></div>
+</div>
+
+<div class="card">
+<h3>💳 Payments</h3>
+Flutterwave Integration (Coming Soon)
+</div>
+
+</div>
+
+<!-- PROFILE -->
+<div id="profileSection" class="section">
+<div class="header">Profile</div>
+<div class="card">
+Email: <strong id="profileEmail2"></strong><br>
+Total XP: <strong id="xp2">0</strong>
+</div>
+</div>
+
 </div>
 
 <!-- NAV -->
 <div class="bottom-nav">
-  <button onclick="show('home')">HOME</button>
-  <button onclick="show('tasks')">TASKS</button>
-  <button onclick="show('rewards')">REWARDS</button>
-  <button onclick="show('donate')">DONATE</button>
+<button onclick="showSection('home')">Home</button>
+<button onclick="showSection('profile')">Profile</button>
+<button class="logout" onclick="logout()">Logout</button>
 </div>
 
-<script>
+<!-- JOB MODAL -->
+<div id="jobModal" class="modal">
+<div class="modal-box">
+<h3 id="jobTitle"></h3>
+<p>This is a demo application.</p>
+<p>Reward: +10 XP</p>
+<button onclick="applyJob()">Submit</button>
+<button onclick="closeJob()">Cancel</button>
+</div>
+</div>
+
+<!-- FIREBASE -->
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+import { getFirestore, doc, setDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+const firebaseConfig = {
+apiKey: "AIzaSyDImP8ODFS0lxWZ5AdTLi7jTxZzFo6JxeY",
+authDomain: "rewards-task-mvp.firebaseapp.com",
+projectId: "rewards-task-mvp",
+storageBucket: "rewards-task-mvp.appspot.com",
+messagingSenderId: "154842831298",
+appId: "1:154842831298:web:9ff9e24acfaf346aa99e5b"
+};
+
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const db = getFirestore(app);
+
+const email = document.getElementById("email");
+const password = document.getElementById("password");
+const authMsg = document.getElementById("authMsg");
+const loader = document.getElementById("loadingScreen");
+
 let xp = 0;
+let selectedJob = "";
 
-function show(id){
-  document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
-  document.getElementById(id).classList.add('active');
-}
+window.addXP = n => {
+xp += n;
+document.getElementById("xp").textContent = xp;
+document.getElementById("xp2").textContent = xp;
+};
 
-function addXP(val){
-  xp += val;
-  document.getElementById('xp').innerText = xp;
-}
+window.openJob = j => {
+selectedJob = j;
+document.getElementById("jobTitle").textContent = j;
+document.getElementById("jobModal").style.display="block";
+};
 
-function showLive(type){
-  document.getElementById('ytLive').style.display = type==='yt'?'block':'none';
-  document.getElementById('fbLive').style.display = type==='fb'?'block':'none';
+window.closeJob = () => document.getElementById("jobModal").style.display="none";
+
+window.applyJob = () => {
+addXP(10);
+alert("Application submitted!");
+closeJob();
+};
+
+window.showSection = s => {
+document.querySelectorAll(".section").forEach(x=>x.classList.remove("active"));
+document.getElementById(s+"Section").classList.add("active");
+};
+
+document.getElementById("signupBtn").onclick = async()=>{
+try{
+const cred = await createUserWithEmailAndPassword(auth,email.value,password.value);
+await setDoc(doc(db,"users",cred.user.uid),{email:cred.user.email});
+}catch(e){authMsg.textContent=e.message}
+};
+
+document.getElementById("loginBtn").onclick = async()=>{
+try{await signInWithEmailAndPassword(auth,email.value,password.value)}
+catch(e){authMsg.textContent=e.message}
+};
+
+window.logout = ()=>signOut(auth);
+
+onAuthStateChanged(auth,user=>{
+loader.style.display="none";
+if(user){
+document.getElementById("authBox").style.display="none";
+document.getElementById("app").style.display="flex";
+document.querySelector(".bottom-nav").style.display="flex";
+document.getElementById("profileEmail").textContent=user.email;
+document.getElementById("profileEmail2").textContent=user.email;
+}else{
+document.getElementById("authBox").style.display="block";
+document.getElementById("app").style.display="none";
 }
+});
 </script>
 
 </body>
-      </html>
+  </html>
