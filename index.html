@@ -5,16 +5,13 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Church App</title>
 
-<link rel="manifest" href="manifest.json">
-<meta name="theme-color" content="#000000">
-
 <style>
 body {
     margin: 0;
-    font-family: Arial, sans-serif;
     background: #000;
     color: #fff;
-    padding-bottom: 110px; /* space for bottom nav */
+    font-family: Arial, sans-serif;
+    padding-bottom: 90px;
 }
 
 .container {
@@ -29,72 +26,76 @@ body {
 }
 
 h2 {
-    margin: 0 0 10px;
+    margin: 0 0 12px;
 }
 
-button {
-    background: #f5c400;
-    border: none;
-    padding: 10px 18px;
-    border-radius: 20px;
-    font-weight: bold;
-    cursor: pointer;
-}
-
-.task, .job, .medical {
+/* TASKS */
+.task {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 12px 0;
+    padding: 10px 0;
     border-bottom: 1px solid #222;
 }
 
+.task:last-child {
+    border-bottom: none;
+}
+
+.task button {
+    background: #f5c400;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 20px;
+    font-weight: bold;
+}
+
+/* BOTTOM NAV (TEXT ONLY) */
+.bottom-nav {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 70px;
+    background: #000;
+    border-top: 1px solid #222;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    z-index: 9999;
+}
+
+.bottom-nav button {
+    background: none;
+    border: none;
+    color: #f5c400;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+/* IFRAME */
 iframe {
     width: 100%;
     height: 220px;
     border-radius: 12px;
     border: none;
 }
-
-/* ✅ FIXED & CLICKABLE Bottom Nav */
-.bottom-nav {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    height: 80px;
-    background: #000;
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-    border-top: 1px solid #222;
-    z-index: 1000;
-}
-
-.bottom-nav button {
-    background: none;
-    border: none;
-    color: #fff;
-    font-size: 24px;
-    cursor: pointer;
-}
 </style>
 </head>
 
 <body>
 
-<div class="container">
+<div class="container" id="top">
 
-    <!-- Dashboard -->
+    <!-- DASHBOARD -->
     <div class="card">
         <h2>Dashboard</h2>
         <p>Email: joeledward949@gmail.com</p>
         <p>XP: <span id="xp">0</span></p>
-        <button id="installBtn" style="display:none;">Install App</button>
     </div>
 
-    <!-- Tasks FIRST -->
-    <div class="card">
+    <!-- TASKS -->
+    <div class="card" id="tasks">
         <h2>📝 Tasks</h2>
 
         <div class="task">
@@ -113,105 +114,48 @@ iframe {
         </div>
     </div>
 
-    <!-- ✅ Live Stream MOVED DOWN -->
-    <div class="card">
+    <!-- LIVE STREAM (NOW BELOW TASKS) -->
+    <div class="card" id="live">
         <h2>📺 Live Stream</h2>
-        <iframe
-            src="https://www.youtube.com/embed/5qap5aO4i9A"
-            allow="autoplay; encrypted-media"
+
+        <iframe 
+            src="https://www.youtube.com/embed/jfKfPfyJRdk"
             allowfullscreen>
         </iframe>
-        <p style="opacity:.6;">Live placeholder – connects to social platforms later</p>
-    </div>
 
-    <!-- Medical -->
-    <div class="card">
-        <h2>🩺 Medical & Wellness</h2>
-
-        <div class="medical">
-            <span>Daily Health Tips</span>
-            <button>View</button>
-        </div>
-
-        <div class="medical">
-            <span>Prayer for Healing</span>
-            <button>Open</button>
-        </div>
-
-        <div class="medical">
-            <span>Medical Outreach Info</span>
-            <button>Read</button>
-        </div>
-
-        <p style="opacity:.5;font-size:13px;">
-            Placeholder content – connects later
+        <p style="opacity:.7;margin-top:8px">
+            Live placeholder – connects to social platforms later
         </p>
     </div>
 
-    <!-- Remote Jobs -->
-    <div class="card">
-        <h2>💼 Remote Jobs</h2>
-
-        <div class="job">
-            <span>Frontend Developer</span>
-            <button>Apply</button>
-        </div>
-
-        <div class="job">
-            <span>QA Engineer</span>
-            <button>Apply</button>
-        </div>
-
-        <div class="job">
-            <span>Community Manager</span>
-            <button>Apply</button>
-        </div>
+    <!-- MEDICAL & WELLNESS -->
+    <div class="card" id="medical">
+        <h2>🩺 Medical & Wellness</h2>
+        <p>Daily health tips, prayer support & wellness guidance coming soon.</p>
     </div>
 
 </div>
 
-<!-- ✅ WORKING Bottom Navigation -->
+<!-- BOTTOM NAV -->
 <div class="bottom-nav">
-    <button onclick="scrollToTop()">🏠</button>
-    <button onclick="alert('Live section')">📺</button>
-    <button onclick="alert('Tasks section')">📝</button>
-    <button onclick="alert('Profile section')">👤</button>
+    <button onclick="scrollToSection('top')">Home</button>
+    <button onclick="scrollToSection('live')">Live</button>
+    <button onclick="scrollToSection('tasks')">Tasks</button>
+    <button onclick="scrollToSection('medical')">Profile</button>
 </div>
 
 <script>
-/* XP */
 let xp = 0;
+
 function addXP() {
     xp += 10;
-    document.getElementById("xp").innerText = xp;
+    document.getElementById('xp').innerText = xp;
 }
 
-/* Bottom Nav Home */
-function scrollToTop() {
-    window.scrollTo({ top: 0, behavior: "smooth" });
-}
-
-/* PWA Install */
-let deferredPrompt;
-const installBtn = document.getElementById("installBtn");
-
-window.addEventListener("beforeinstallprompt", e => {
-    e.preventDefault();
-    deferredPrompt = e;
-    installBtn.style.display = "inline-block";
-});
-
-installBtn.onclick = () => {
-    deferredPrompt.prompt();
-    deferredPrompt = null;
-    installBtn.style.display = "none";
-};
-
-/* Service Worker */
-if ("serviceWorker" in navigator) {
-    navigator.serviceWorker.register("service-worker.js");
+function scrollToSection(id) {
+    document.getElementById(id).scrollIntoView({behavior: 'smooth'});
 }
 </script>
 
 </body>
-            </html>
+</html>
