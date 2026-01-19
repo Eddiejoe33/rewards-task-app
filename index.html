@@ -1,121 +1,111 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Engagement App</title>
-
-<style>
-body{margin:0;font-family:Arial;background:#0b0b0b;color:#fff}
-.gold{color:#c9b26b}
-#login,#app{max-width:420px;margin:auto;padding:30px}
-input,button{width:100%;padding:14px;margin-top:10px;border-radius:10px;border:none}
-button{background:#c9b26b;font-weight:bold}
-#app{display:none;padding-bottom:90px}
-.card{background:#151515;padding:18px;border-radius:16px;margin-bottom:14px}
-.bottom-nav{
-  position:fixed;bottom:0;left:0;right:0;
-  background:#101010;display:none;
-  justify-content:space-around;padding:14px
-}
-.bottom-nav button{background:none;border:none;color:#c9b26b;font-size:16px}
-.section{display:none}
-.section.active{display:block}
-</style>
+  <meta charset="UTF-8" />
+  <title>Rewards Task App</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f4f6f8;
+      padding: 40px;
+    }
+    .box {
+      max-width: 400px;
+      margin: auto;
+      background: #fff;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    input, button {
+      width: 100%;
+      padding: 10px;
+      margin-top: 10px;
+    }
+    button {
+      background: #2d89ff;
+      color: #fff;
+      border: none;
+      cursor: pointer;
+    }
+    button:hover {
+      background: #1b5fd9;
+    }
+    .hidden {
+      display: none;
+    }
+  </style>
 </head>
-
 <body>
 
-<!-- LOGIN -->
-<div id="login">
-  <h2 class="gold" style="text-align:center">Engagement App</h2>
-  <input id="email" type="email" placeholder="Email">
-  <input id="password" type="password" placeholder="Password">
+<div id="loginBox" class="box">
+  <h2>Demo Login</h2>
+  <input id="email" type="email" placeholder="Email" value="demo@engagementapp.com" />
+  <input id="password" type="password" placeholder="Password" />
   <button id="loginBtn">Login</button>
-  <p id="msg" style="color:red;text-align:center"></p>
+  <p id="error" style="color:red;"></p>
 </div>
 
-<!-- APP -->
-<div id="app">
-  <h2 class="gold" style="text-align:center">Engagement App</h2>
-
-  <div id="home" class="section active">
-    <div class="card">Dashboard</div>
-    <div class="card">Live Stream</div>
-    <div class="card">Medical Support</div>
-    <div class="card">Donations</div>
-    <div class="card">Remote Church Jobs</div>
-  </div>
-
-  <div id="tasks" class="section"><div class="card">Tasks</div></div>
-  <div id="rewards" class="section"><div class="card">Rewards</div></div>
-
-  <div id="profile" class="section">
-    <div class="card">
-      <p id="userEmail"></p>
-      <button id="logoutBtn">Logout</button>
-    </div>
-  </div>
+<div id="dashboard" class="box hidden">
+  <h2>Welcome 🎉</h2>
+  <p>You are logged in.</p>
+  <button id="logoutBtn">Logout</button>
 </div>
 
-<div class="bottom-nav" id="nav">
-  <button onclick="show('home')">Home</button>
-  <button onclick="show('tasks')">Tasks</button>
-  <button onclick="show('rewards')">Rewards</button>
-  <button onclick="show('profile')">Profile</button>
-</div>
-
+<!-- Firebase -->
 <script type="module">
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-import {
-  getAuth,
-  signInWithEmailAndPassword,
-  onAuthStateChanged,
-  signOut
-} from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js";
+  import {
+    getAuth,
+    signInWithEmailAndPassword,
+    onAuthStateChanged,
+    signOut
+  } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-auth.js";
 
-/* 🔥 USE THE SAME PROJECT YOU CREATED THE USER IN */
-const firebaseConfig = {
-  apiKey: "AIzaSyAezp-Hh60aStIXWxDMp82PVh973eMbb0",
-  authDomain: "engagement-app-72208.firebaseapp.com",
-  projectId: "engagement-app-72208",
-  appId: "1:994138223274:web:02b1d185fda4e3126f56d3"
-};
+  const firebaseConfig = {
+    apiKey: "YOUR_API_KEY",
+    authDomain: "engagement-app-72208.firebaseapp.com",
+    projectId: "engagement-app-72208",
+    appId: "YOUR_APP_ID"
+  };
 
-const app = initializeApp(firebaseConfig);
-const auth = getAuth(app);
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
 
-const loginBox = document.getElementById("login");
-const appBox = document.getElementById("app");
-const nav = document.getElementById("nav");
-const msg = document.getElementById("msg");
-const userEmail = document.getElementById("userEmail");
+  const loginBox = document.getElementById("loginBox");
+  const dashboard = document.getElementById("dashboard");
+  const errorEl = document.getElementById("error");
 
-loginBtn.onclick = () => {
-  signInWithEmailAndPassword(auth, email.value, password.value)
-    .catch(() => msg.textContent = "Wrong email or password");
-};
+  // KEEP USER LOGGED IN
+  onAuthStateChanged(auth, (user) => {
+    if (user) {
+      loginBox.classList.add("hidden");
+      dashboard.classList.remove("hidden");
+    } else {
+      loginBox.classList.remove("hidden");
+      dashboard.classList.add("hidden");
+    }
+  });
 
-logoutBtn.onclick = () => signOut(auth);
+  // LOGIN
+  document.getElementById("loginBtn").addEventListener("click", async () => {
+    errorEl.textContent = "";
+    const email = document.getElementById("email").value;
+    const password = document.getElementById("password").value;
 
-onAuthStateChanged(auth, user => {
-  if (user) {
-    loginBox.style.display = "none";
-    appBox.style.display = "block";
-    nav.style.display = "flex";
-    userEmail.textContent = user.email;
-  } else {
-    loginBox.style.display = "block";
-    appBox.style.display = "none";
-    nav.style.display = "none";
-  }
-});
+    try {
+      await signInWithEmailAndPassword(auth, email, password);
+    } catch (err) {
+      errorEl.textContent = err.message;
+    }
+  });
 
-window.show = id => {
-  document.querySelectorAll(".section").forEach(s => s.classList.remove("active"));
-  document.getElementById(id).classList.add("active");
-};
+  // LOGOUT
+  document.getElementById("logoutBtn").addEventListener("click", async () => {
+    await signOut(auth);
+  });
 </script>
 
 </body>
-  </html>
+                                     </html>
