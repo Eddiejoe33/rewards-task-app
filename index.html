@@ -6,118 +6,83 @@
 <title>Church Rewards App</title>
 
 <style>
-* { margin: 0; padding: 0; box-sizing: border-box; font-family: Arial, sans-serif; }
+*{margin:0;padding:0;box-sizing:border-box;font-family:Arial,sans-serif;}
+body{background:#000;color:#fff;overflow-x:hidden;}
 
-body {
-  background: #000;
-  color: #fff;
+.header{
+  text-align:center;
+  padding:18px;
+  border-bottom:1px solid #222;
 }
+.header h1{color:#ffd400;}
 
-/* HEADER */
-.header {
-  padding: 18px;
-  text-align: center;
-  border-bottom: 1px solid #222;
+.page{
+  display:none;
+  padding:16px;
+  padding-bottom:120px;
 }
+.page.active{display:block;}
 
-.header h1 {
-  color: #ffd400;
+.card{
+  background:#111;
+  border-radius:18px;
+  padding:16px;
+  margin-bottom:14px;
+  box-shadow:0 0 14px rgba(255,212,0,.15);
 }
+.card h3{margin-bottom:6px;}
+.card p{font-size:14px;opacity:.85}
 
-/* MAIN CONTENT */
-.page {
-  display: none;
-  padding: 15px;
-  padding-bottom: 120px;
+/* XP */
+.xp-box{
+  background:#111;
+  padding:15px;
+  border-radius:16px;
+  margin-bottom:16px;
 }
-
-.page.active {
-  display: block;
+.progress{
+  background:#333;
+  border-radius:10px;
+  overflow:hidden;
+  margin-top:8px;
 }
-
-/* CARDS */
-.card {
-  background: #111;
-  border-radius: 16px;
-  padding: 16px;
-  margin-bottom: 14px;
-  box-shadow: 0 0 12px rgba(255,212,0,0.15);
-}
-
-.card h3 {
-  margin-bottom: 6px;
-}
-
-.card p {
-  font-size: 14px;
-  opacity: 0.85;
+.progress div{
+  height:10px;
+  background:#ffd400;
+  width:0%;
 }
 
 /* BUTTONS */
-.btn {
-  margin-top: 10px;
-  padding: 10px;
-  width: 100%;
-  background: #ffd400;
-  color: #000;
-  border: none;
-  border-radius: 10px;
-  font-weight: bold;
-  cursor: pointer;
+.btn{
+  margin-top:10px;
+  padding:10px;
+  width:100%;
+  background:#ffd400;
+  border:none;
+  border-radius:10px;
+  font-weight:bold;
 }
+.btn:disabled{background:#444;color:#999}
 
-.btn:disabled {
-  background: #444;
-  color: #999;
+/* NAV */
+.bottom-nav{
+  position:fixed;
+  bottom:0;
+  width:100%;
+  background:#ffd400;
+  display:flex;
+  justify-content:space-around;
+  padding:14px 0;
 }
+.bottom-nav button{
+  background:none;
+  border:none;
+  font-weight:bold;
+}
+.active-tab{border-bottom:3px solid #000}
 
-/* XP BAR */
-.xp-box {
-  background: #111;
-  padding: 15px;
-  border-radius: 16px;
-  margin-bottom: 15px;
-}
-
-.progress {
-  background: #333;
-  border-radius: 10px;
-  overflow: hidden;
-  margin-top: 8px;
-}
-
-.progress div {
-  height: 10px;
-  background: #ffd400;
-  width: 0%;
-}
-
-/* BOTTOM NAV */
-.bottom-nav {
-  position: fixed;
-  bottom: 0;
-  width: 100%;
-  background: #ffd400;
-  display: flex;
-  justify-content: space-around;
-  padding: 14px 0;
-}
-
-.bottom-nav button {
-  background: none;
-  border: none;
-  font-weight: bold;
-  cursor: pointer;
-}
-
-.active-tab {
-  border-bottom: 3px solid #000;
-}
-
-/* REWARD LOCK */
-.locked {
-  opacity: 0.4;
-}
+/* REWARD */
+.locked{opacity:.4}
 </style>
 </head>
 
@@ -127,70 +92,102 @@ body {
   <h1>Church Rewards</h1>
 </div>
 
-<!-- HOME -->
+<!-- DASHBOARD -->
 <div id="home" class="page active">
+
+  <h2 style="color:#ffd400;margin-bottom:12px;">Dashboard</h2>
+
   <div class="card">
-    <h3>👋 Welcome</h3>
-    <p>Complete tasks and earn XP rewards.</p>
+    <h3>💰 Total Donations</h3>
+    <p>₦0 (demo)</p>
   </div>
+
+  <div class="card">
+    <h3>🎯 Active Campaigns</h3>
+    <p>None yet</p>
+  </div>
+
+  <div class="card">
+    <h3>📊 Donation Analytics</h3>
+    <p>Coming soon</p>
+  </div>
+
+  <div class="card">
+    <h3>👥 Total Members</h3>
+    <p>0 (demo)</p>
+  </div>
+
+  <div class="card">
+    <h3>📅 Upcoming Events</h3>
+    <p>No events</p>
+  </div>
+
+  <div class="card">
+    <h3>🔴 Live Service (Demo)</h3>
+    <p>Streaming placeholder</p>
+    <div style="background:#000;height:120px;border-radius:12px;margin-top:10px;"></div>
+  </div>
+
 </div>
 
 <!-- TASKS -->
 <div id="tasks" class="page">
+
   <div class="xp-box">
     <h3>⭐ XP Progress</h3>
     <p>Total XP: <span id="xp">0</span></p>
-    <div class="progress">
-      <div id="xpBar"></div>
-    </div>
+    <div class="progress"><div id="xpBar"></div></div>
   </div>
 
   <div class="card">
     <h3>🎥 Attend Live Service</h3>
-    <p>Earn 20 XP</p>
+    <p>+20 XP</p>
     <button class="btn" onclick="completeTask(20,this)">Complete</button>
   </div>
 
   <div class="card">
     <h3>📲 Share App</h3>
-    <p>Earn 15 XP</p>
+    <p>+15 XP</p>
     <button class="btn" onclick="completeTask(15,this)">Complete</button>
   </div>
 
   <div class="card">
     <h3>📅 Daily Check-In</h3>
-    <p>Earn 10 XP</p>
+    <p>+10 XP</p>
     <button class="btn" onclick="completeTask(10,this)">Check-In</button>
   </div>
 
   <div class="card">
-    <h3>💝 Make a Donation (Demo)</h3>
-    <p>Earn 30 XP</p>
+    <h3>💝 Donate (Demo)</h3>
+    <p>+30 XP</p>
     <button class="btn" onclick="completeTask(30,this)">Donate</button>
   </div>
+
 </div>
 
 <!-- REWARDS -->
 <div id="rewards" class="page">
+
   <div class="card">
     <h3>🎁 Rewards</h3>
-    <p>Unlock rewards using XP</p>
+    <p>Unlocked with XP</p>
   </div>
 
   <div class="card reward" data-xp="30">
     <h3>🎫 Event Access</h3>
-    <p>Requires 30 XP</p>
+    <p>30 XP required</p>
   </div>
 
   <div class="card reward" data-xp="60">
-    <h3>🧢 Church Merchandise</h3>
-    <p>Requires 60 XP</p>
+    <h3>🧢 Church Merch</h3>
+    <p>60 XP required</p>
   </div>
 
   <div class="card reward" data-xp="100">
     <h3>🏆 VIP Recognition</h3>
-    <p>Requires 100 XP</p>
+    <p>100 XP required</p>
   </div>
+
 </div>
 
 <!-- DONATE -->
@@ -203,48 +200,42 @@ body {
 
 <!-- NAV -->
 <div class="bottom-nav">
-  <button onclick="showPage('home')" class="active-tab">HOME</button>
-  <button onclick="showPage('tasks')">TASKS</button>
-  <button onclick="showPage('rewards')">REWARDS</button>
-  <button onclick="showPage('donate')">DONATE</button>
+  <button onclick="showPage('home',this)" class="active-tab">HOME</button>
+  <button onclick="showPage('tasks',this)">TASKS</button>
+  <button onclick="showPage('rewards',this)">REWARDS</button>
+  <button onclick="showPage('donate',this)">DONATE</button>
 </div>
 
 <script>
 let xp = localStorage.getItem("xp") ? parseInt(localStorage.getItem("xp")) : 0;
-
 const xpText = document.getElementById("xp");
 const xpBar = document.getElementById("xpBar");
 
-function updateXP() {
+function updateXP(){
   xpText.innerText = xp;
-  xpBar.style.width = Math.min(xp,100) + "%";
-  localStorage.setItem("xp", xp);
+  xpBar.style.width = Math.min(xp,100)+"%";
+  localStorage.setItem("xp",xp);
   updateRewards();
 }
 
-function completeTask(value, btn) {
-  xp += value;
-  btn.disabled = true;
-  btn.innerText = "Completed";
+function completeTask(val,btn){
+  xp += val;
+  btn.disabled=true;
+  btn.innerText="Completed";
   updateXP();
 }
 
-function showPage(id) {
-  document.querySelectorAll(".page").forEach(p => p.classList.remove("active"));
+function showPage(id,el){
+  document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));
   document.getElementById(id).classList.add("active");
-
-  document.querySelectorAll(".bottom-nav button").forEach(b => b.classList.remove("active-tab"));
-  event.target.classList.add("active-tab");
+  document.querySelectorAll(".bottom-nav button").forEach(b=>b.classList.remove("active-tab"));
+  el.classList.add("active-tab");
 }
 
-function updateRewards() {
-  document.querySelectorAll(".reward").forEach(r => {
-    let req = parseInt(r.dataset.xp);
-    if (xp >= req) {
-      r.classList.remove("locked");
-    } else {
-      r.classList.add("locked");
-    }
+function updateRewards(){
+  document.querySelectorAll(".reward").forEach(r=>{
+    let req=parseInt(r.dataset.xp);
+    r.classList.toggle("locked",xp<req);
   });
 }
 
@@ -252,4 +243,4 @@ updateXP();
 </script>
 
 </body>
-  </html>
+      </html>
