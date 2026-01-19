@@ -1,13 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Church App</title>
 
-<!-- PWA Manifest -->
 <link rel="manifest" href="manifest.json">
-
 <meta name="theme-color" content="#000000">
 
 <style>
@@ -16,6 +14,7 @@ body {
     font-family: Arial, sans-serif;
     background: #000;
     color: #fff;
+    padding-bottom: 90px; /* FIX: space for bottom nav */
 }
 
 .container {
@@ -30,7 +29,7 @@ body {
 }
 
 h2 {
-    margin-top: 0;
+    margin: 0 0 10px;
 }
 
 button {
@@ -42,32 +41,39 @@ button {
     cursor: pointer;
 }
 
-.task, .job {
+.task, .job, .medical {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 10px 0;
+    padding: 12px 0;
     border-bottom: 1px solid #222;
 }
 
 iframe {
     width: 100%;
-    height: 200px;
+    height: 220px;
     border-radius: 12px;
     border: none;
 }
 
-/* Bottom Nav */
+/* FIXED Bottom Navigation */
 .bottom-nav {
     position: fixed;
     bottom: 0;
     left: 0;
     right: 0;
+    height: 70px;
     background: #000;
     display: flex;
     justify-content: space-around;
-    padding: 10px 0;
+    align-items: center;
     border-top: 1px solid #222;
+    z-index: 999;
+}
+
+.bottom-nav span {
+    font-size: 22px;
+    opacity: 0.85;
 }
 </style>
 </head>
@@ -84,15 +90,15 @@ iframe {
         <button id="installBtn" style="display:none;">Install App</button>
     </div>
 
-    <!-- Live Video (FIXED) -->
+    <!-- Live Stream -->
     <div class="card">
         <h2>📺 Live Stream</h2>
-        <iframe 
-          src="https://www.youtube.com/embed/5qap5aO4i9A"
-          allow="autoplay; encrypted-media"
-          allowfullscreen>
+        <iframe
+            src="https://www.youtube.com/embed/5qap5aO4i9A"
+            allow="autoplay; encrypted-media"
+            allowfullscreen>
         </iframe>
-        <p style="opacity:0.6;">Live placeholder – connects to social platforms later</p>
+        <p style="opacity:.6;">Live placeholder – connects to social platforms later</p>
     </div>
 
     <!-- Tasks -->
@@ -113,6 +119,30 @@ iframe {
             <span>Invite Friend</span>
             <button onclick="addXP()">Complete</button>
         </div>
+    </div>
+
+    <!-- Medical / Health Section (FIXED & VISIBLE) -->
+    <div class="card">
+        <h2>🩺 Medical & Wellness</h2>
+
+        <div class="medical">
+            <span>Daily Health Tips</span>
+            <button>View</button>
+        </div>
+
+        <div class="medical">
+            <span>Prayer for Healing</span>
+            <button>Open</button>
+        </div>
+
+        <div class="medical">
+            <span>Medical Outreach Info</span>
+            <button>Read</button>
+        </div>
+
+        <p style="opacity:.5;font-size:13px;">
+            Placeholder content – real medical services connect later
+        </p>
     </div>
 
     <!-- Remote Jobs -->
@@ -137,7 +167,7 @@ iframe {
 
 </div>
 
-<!-- Bottom Navigation -->
+<!-- Bottom Navigation FIXED -->
 <div class="bottom-nav">
     <span>🏠</span>
     <span>📺</span>
@@ -146,7 +176,7 @@ iframe {
 </div>
 
 <script>
-/* XP Logic */
+/* XP System */
 let xp = 0;
 function addXP() {
     xp += 10;
@@ -157,19 +187,17 @@ function addXP() {
 let deferredPrompt;
 const installBtn = document.getElementById("installBtn");
 
-window.addEventListener("beforeinstallprompt", (e) => {
+window.addEventListener("beforeinstallprompt", e => {
     e.preventDefault();
     deferredPrompt = e;
     installBtn.style.display = "inline-block";
 });
 
-installBtn.addEventListener("click", () => {
+installBtn.onclick = () => {
     deferredPrompt.prompt();
-    deferredPrompt.userChoice.then(() => {
-        deferredPrompt = null;
-        installBtn.style.display = "none";
-    });
-});
+    deferredPrompt = null;
+    installBtn.style.display = "none";
+};
 
 /* Service Worker */
 if ("serviceWorker" in navigator) {
@@ -178,4 +206,4 @@ if ("serviceWorker" in navigator) {
 </script>
 
 </body>
-  </html>
+    </html>
