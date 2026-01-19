@@ -1,40 +1,48 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>Church App</title>
 
 <style>
-* { box-sizing: border-box; }
+* {
+  box-sizing: border-box;
+  font-family: Arial, sans-serif;
+}
 
 body {
   margin: 0;
-  font-family: Arial, sans-serif;
   background: #000;
   color: #fff;
-  padding-bottom: 90px; /* space for bottom nav */
+  padding-bottom: 80px;
 }
 
-h1 {
-  color: #ffd400;
+/* Header */
+header {
   text-align: center;
-  margin: 15px 0;
+  padding: 20px;
+  font-size: 28px;
+  font-weight: bold;
+  color: #f5c400;
 }
 
+/* Sections */
 .section {
   background: #111;
   margin: 15px;
   padding: 15px;
   border-radius: 15px;
-  box-shadow: 0 0 10px rgba(255,212,0,0.15);
+  box-shadow: 0 0 10px rgba(245,196,0,0.15);
 }
 
 .section-title {
-  font-weight: bold;
+  font-size: 18px;
   margin-bottom: 10px;
+  font-weight: bold;
 }
 
+/* Rows */
 .row {
   display: flex;
   justify-content: space-between;
@@ -43,72 +51,62 @@ h1 {
   border-bottom: 1px solid #222;
 }
 
-.row:last-child { border-bottom: none; }
+.row:last-child {
+  border-bottom: none;
+}
 
+/* Buttons */
 .btn {
-  background: #ffd400;
+  background: #f5c400;
   border: none;
-  padding: 6px 16px;
+  padding: 8px 14px;
   border-radius: 20px;
   font-weight: bold;
   cursor: pointer;
 }
 
 .btn:active {
-  transform: scale(0.95);
+  transform: scale(0.96);
 }
 
-/* VIDEO */
-.video-box {
-  border: 2px solid #ffd400;
+/* Live box */
+.live-box {
+  border: 2px solid #f5c400;
   border-radius: 12px;
-  overflow: hidden;
+  padding: 20px;
+  text-align: center;
+  margin-top: 10px;
+  background: #222;
 }
 
-iframe {
-  width: 100%;
-  height: 220px;
-  border: none;
-  pointer-events: auto;
-}
-
-/* ===== BOTTOM NAV (FIXED & CLICKABLE) ===== */
-.bottom-nav {
+/* Bottom Navigation */
+nav {
   position: fixed;
   bottom: 0;
-  left: 0;
-  right: 0;
-  height: 64px;
-  background: #ffd400;
+  width: 100%;
+  background: #f5c400;
   display: flex;
   justify-content: space-around;
-  align-items: center;
-  z-index: 99999;
+  padding: 15px 0;
+  z-index: 999;
 }
 
-.nav-btn {
-  background: none;
-  border: none;
-  font-weight: bold;
-  font-size: 14px;
+nav div {
   color: #000;
+  font-weight: bold;
   cursor: pointer;
-}
-
-.nav-btn:active {
-  transform: scale(0.9);
 }
 </style>
 </head>
 
 <body>
 
-<h1>Church App</h1>
+<header>Church App</header>
 
 <div class="section">
-  <div class="section-title">Welcome</div>
+  <div class="section-title">Dashboard</div>
   <p>Email: joeledward949@gmail.com</p>
-  <p>XP: 0</p>
+  <p>XP: <span id="xp">0</span></p>
 </div>
 
 <div class="section">
@@ -123,17 +121,17 @@ iframe {
 
   <div class="row">
     <span>Watch Live Stream</span>
-    <button class="btn" onclick="taskDone()">Complete</button>
+    <button class="btn" onclick="addXP()">Complete</button>
   </div>
 
   <div class="row">
     <span>Share App</span>
-    <button class="btn" onclick="taskDone()">Complete</button>
+    <button class="btn" onclick="addXP()">Complete</button>
   </div>
 
   <div class="row">
     <span>Invite Friend</span>
-    <button class="btn" onclick="taskDone()">Complete</button>
+    <button class="btn" onclick="addXP()">Complete</button>
   </div>
 </div>
 
@@ -142,58 +140,81 @@ iframe {
 
   <div class="row">
     <span>Frontend Developer</span>
-    <button class="btn" onclick="applyJob()">Apply</button>
+    <button class="btn" onclick="demo()">Apply</button>
   </div>
 
   <div class="row">
     <span>QA Engineer</span>
-    <button class="btn" onclick="applyJob()">Apply</button>
+    <button class="btn" onclick="demo()">Apply</button>
   </div>
 
   <div class="row">
     <span>Community Manager</span>
-    <button class="btn" onclick="applyJob()">Apply</button>
+    <button class="btn" onclick="demo()">Apply</button>
   </div>
+</div>
+
+<div class="section">
+  <div class="section-title">🩺 Christian Health Support (Placeholder)</div>
+
+  <div class="row">
+    <span>Medical Prayer Request</span>
+    <button class="btn" onclick="healthDemo()">Submit</button>
+  </div>
+
+  <div class="row">
+    <span>Christian Medical Assistance</span>
+    <button class="btn" onclick="healthDemo()">Request</button>
+  </div>
+
+  <div class="row">
+    <span>Confidential Health Complaint</span>
+    <button class="btn" onclick="healthDemo()">Report</button>
+  </div>
+
+  <p style="font-size:12px;color:#aaa;margin-top:10px;">
+    *Feature will connect members to trusted Christian health professionals and prayer teams.
+  </p>
 </div>
 
 <div class="section">
   <div class="section-title">🔴 Live Service (Demo)</div>
 
-  <div class="video-box">
-    <!-- STABLE DEMO VIDEO -->
-    <iframe
-      src="https://www.youtube.com/embed/jfKfPfyJRdk?autoplay=1&mute=1"
-      allow="autoplay; encrypted-media"
-      allowfullscreen>
-    </iframe>
+  <div class="live-box">
+    <p>We're processing this video.</p>
+    <p>Check back later.</p>
+    <p style="color:#f5c400;margin-top:10px;">Live Broadcast Demo</p>
   </div>
-
-  <p style="text-align:center;color:#ffd400;margin-top:8px;">
-    Live Broadcast Demo
-  </p>
 </div>
 
-<!-- ===== BOTTOM NAV ===== -->
-<div class="bottom-nav">
-  <button class="nav-btn" onclick="nav('Home')">HOME</button>
-  <button class="nav-btn" onclick="nav('Tasks')">TASKS</button>
-  <button class="nav-btn" onclick="nav('Rewards')">REWARDS</button>
-  <button class="nav-btn" onclick="nav('Donate')">DONATE</button>
-</div>
+<nav>
+  <div onclick="navClick('Home')">HOME</div>
+  <div onclick="navClick('Tasks')">TASKS</div>
+  <div onclick="navClick('Rewards')">REWARDS</div>
+  <div onclick="navClick('Donate')">DONATE</div>
+</nav>
 
 <script>
-function nav(page) {
-  alert(page + " page (demo)");
+let xp = 0;
+
+function addXP() {
+  xp += 10;
+  document.getElementById("xp").innerText = xp;
+  alert("Task completed! +10 XP");
 }
 
-function taskDone() {
-  alert("Task completed +10 XP (demo)");
+function demo() {
+  alert("Feature coming soon (demo)");
 }
 
-function applyJob() {
-  alert("Application submitted (demo)");
+function healthDemo() {
+  alert("Health support feature coming soon (demo)");
+}
+
+function navClick(tab) {
+  alert(tab + " page coming soon");
 }
 </script>
 
 </body>
-    </html>
+  </html>
