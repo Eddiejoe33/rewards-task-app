@@ -6,27 +6,37 @@
 <title>Church App</title>
 
 <style>
-body {
+* {
+    box-sizing: border-box;
     margin: 0;
-    background: #000;
-    color: #fff;
+    padding: 0;
     font-family: Arial, sans-serif;
+}
+
+body {
+    background: #0b0b0b;
+    color: #fff;
     padding-bottom: 90px;
 }
 
-.container {
-    padding: 16px;
-}
-
+/* CARD STYLE */
 .card {
-    background: #111;
-    border-radius: 16px;
-    padding: 16px;
-    margin-bottom: 16px;
+    background: linear-gradient(145deg, #111, #1a1a1a);
+    border-radius: 18px;
+    padding: 18px;
+    margin: 16px;
 }
 
+/* HEADINGS */
 h2 {
-    margin: 0 0 12px;
+    font-size: 22px;
+    margin-bottom: 10px;
+}
+
+/* DASHBOARD */
+.dashboard p {
+    margin-top: 8px;
+    color: #ccc;
 }
 
 /* TASKS */
@@ -34,12 +44,9 @@ h2 {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 10px 0;
+    margin: 12px 0;
     border-bottom: 1px solid #222;
-}
-
-.task:last-child {
-    border-bottom: none;
+    padding-bottom: 10px;
 }
 
 .task button {
@@ -48,114 +55,126 @@ h2 {
     padding: 8px 16px;
     border-radius: 20px;
     font-weight: bold;
+    cursor: pointer;
 }
 
-/* BOTTOM NAV (TEXT ONLY) */
+/* LIVE VIDEO */
+.video-wrapper {
+    position: relative;
+    padding-bottom: 56.25%;
+    height: 0;
+    border-radius: 14px;
+    overflow: hidden;
+}
+
+.video-wrapper iframe {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    border: 0;
+}
+
+/* SECTION ANCHORS */
+.section {
+    scroll-margin-top: 20px;
+}
+
+/* BOTTOM NAV */
 .bottom-nav {
     position: fixed;
     bottom: 0;
     left: 0;
     right: 0;
-    height: 70px;
+    height: 80px;
     background: #000;
     border-top: 1px solid #222;
     display: flex;
     justify-content: space-around;
     align-items: center;
-    z-index: 9999;
+    z-index: 99999;
 }
 
 .bottom-nav button {
     background: none;
     border: none;
     color: #f5c400;
-    font-size: 14px;
+    font-size: 18px;
     font-weight: bold;
-}
-
-/* IFRAME */
-iframe {
-    width: 100%;
-    height: 220px;
-    border-radius: 12px;
-    border: none;
+    cursor: pointer;
 }
 </style>
 </head>
 
-<body>
+<body id="top">
 
-<div class="container" id="top">
+<!-- DASHBOARD -->
+<div class="card dashboard section" id="home">
+    <h2>Dashboard</h2>
+    <p>Email: example@email.com</p>
+    <p>XP: 0</p>
+</div>
 
-    <!-- DASHBOARD -->
-    <div class="card">
-        <h2>Dashboard</h2>
-        <p>Email: joeledward949@gmail.com</p>
-        <p>XP: <span id="xp">0</span></p>
+<!-- TASKS -->
+<div class="card section" id="tasks">
+    <h2>📝 Tasks</h2>
+
+    <div class="task">
+        <span>Watch Live Stream</span>
+        <button>Complete</button>
     </div>
 
-    <!-- TASKS -->
-    <div class="card" id="tasks">
-        <h2>📝 Tasks</h2>
-
-        <div class="task">
-            <span>Watch Live Stream</span>
-            <button onclick="addXP()">Complete</button>
-        </div>
-
-        <div class="task">
-            <span>Share App</span>
-            <button onclick="addXP()">Complete</button>
-        </div>
-
-        <div class="task">
-            <span>Invite Friend</span>
-            <button onclick="addXP()">Complete</button>
-        </div>
+    <div class="task">
+        <span>Share App</span>
+        <button>Complete</button>
     </div>
 
-    <!-- LIVE STREAM (NOW BELOW TASKS) -->
-    <div class="card" id="live">
-        <h2>📺 Live Stream</h2>
+    <div class="task">
+        <span>Invite Friend</span>
+        <button>Complete</button>
+    </div>
+</div>
 
+<!-- LIVE STREAM -->
+<div class="card section" id="live">
+    <h2>📺 Live Stream</h2>
+
+    <div class="video-wrapper">
         <iframe 
-            src="https://www.youtube.com/embed/jfKfPfyJRdk"
+            src="https://www.youtube.com/embed/jfKfPfyJRdk?autoplay=0&mute=0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
             allowfullscreen>
         </iframe>
-
-        <p style="opacity:.7;margin-top:8px">
-            Live placeholder – connects to social platforms later
-        </p>
     </div>
 
-    <!-- MEDICAL & WELLNESS -->
-    <div class="card" id="medical">
-        <h2>🩺 Medical & Wellness</h2>
-        <p>Daily health tips, prayer support & wellness guidance coming soon.</p>
-    </div>
+    <p style="margin-top:10px;color:#aaa;">
+        Live placeholder – connects to social platforms later
+    </p>
+</div>
 
+<!-- MEDICAL & WELLNESS -->
+<div class="card section" id="medical">
+    <h2>🩺 Medical & Wellness</h2>
+    <p style="color:#ccc;">
+        Health tips, prayer requests, wellness tracking coming soon.
+    </p>
 </div>
 
 <!-- BOTTOM NAV -->
 <div class="bottom-nav">
-    <button onclick="scrollToSection('top')">Home</button>
+    <button onclick="scrollToSection('home')">Home</button>
     <button onclick="scrollToSection('live')">Live</button>
     <button onclick="scrollToSection('tasks')">Tasks</button>
     <button onclick="scrollToSection('medical')">Profile</button>
 </div>
 
 <script>
-let xp = 0;
-
-function addXP() {
-    xp += 10;
-    document.getElementById('xp').innerText = xp;
-}
-
 function scrollToSection(id) {
-    document.getElementById(id).scrollIntoView({behavior: 'smooth'});
+    const el = document.getElementById(id);
+    if (el) {
+        el.scrollIntoView({ behavior: 'smooth' });
+    }
 }
 </script>
 
 </body>
-</html>
+    </html>
