@@ -7,7 +7,7 @@
 
 <style>
 :root{
-  --gold:#d4b86a;
+  --gold:#c9b26b;
   --bg:#0b0b0b;
   --card:#151515;
   --text:#f5f5f5;
@@ -26,41 +26,23 @@ body{
   min-height:100vh;
 }
 
-/* ===== LOADER ===== */
-#loadingScreen{
-  position:fixed;
-  inset:0;
-  background:#000;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  z-index:999;
-  color:var(--gold);
-}
-
 /* ===== AUTH ===== */
 #authBox{
   max-width:420px;
   margin:auto;
-  padding:60px 20px;
+  padding:40px 20px;
 }
 
 #authBox h2{
   text-align:center;
   color:var(--gold);
-  margin-bottom:10px;
-}
-
-#authBox p{
-  text-align:center;
-  color:#aaa;
   margin-bottom:20px;
 }
 
 #authBox input{
   width:100%;
   padding:14px;
-  border-radius:12px;
+  border-radius:10px;
   border:none;
   margin-bottom:12px;
 }
@@ -69,7 +51,7 @@ body{
   width:100%;
   padding:14px;
   border:none;
-  border-radius:12px;
+  border-radius:10px;
   background:var(--gold);
   font-weight:bold;
   cursor:pointer;
@@ -91,15 +73,17 @@ body{
 
 .app-title{
   text-align:center;
-  font-size:26px;
-  color:var(--gold);
-  margin-bottom:4px;
+  margin-bottom:20px;
 }
 
-.app-sub{
-  text-align:center;
+.app-title h1{
+  color:var(--gold);
+  font-size:26px;
+}
+
+.app-title p{
   color:#aaa;
-  margin-bottom:20px;
+  font-size:14px;
 }
 
 /* ===== CARDS ===== */
@@ -110,14 +94,11 @@ body{
   margin-bottom:16px;
 }
 
-.card h3{
+.card-title{
   color:var(--gold);
-  margin-bottom:10px;
+  font-size:16px;
+  margin-bottom:8px;
 }
-
-/* ===== SECTIONS ===== */
-.section{display:none}
-.section.active{display:block}
 
 /* ===== VIDEO ===== */
 .video-box{
@@ -138,11 +119,15 @@ body{
   border-radius:14px;
   background:var(--gold);
   font-weight:bold;
+  margin-top:10px;
   cursor:pointer;
-  margin-top:12px;
 }
 
-/* ===== NAV ===== */
+/* ===== SECTIONS ===== */
+.section{display:none}
+.section.active{display:block}
+
+/* ===== BOTTOM NAV ===== */
 .bottom-nav{
   position:fixed;
   bottom:0;
@@ -160,26 +145,20 @@ body{
   border:none;
   color:var(--gold);
   font-size:15px;
+  cursor:pointer;
 }
 
 .bottom-nav button.active{
   color:#fff;
-}
-
-.logout{
-  color:#ff8a8a;
 }
 </style>
 </head>
 
 <body>
 
-<div id="loadingScreen">Loading…</div>
-
 <!-- ===== AUTH ===== -->
 <div id="authBox">
   <h2>Engagement App</h2>
-  <p>Church Engagement Platform</p>
   <input id="email" type="email" placeholder="Email">
   <input id="password" type="password" placeholder="Password">
   <button id="loginBtn">Login</button>
@@ -190,67 +169,75 @@ body{
 <!-- ===== APP ===== -->
 <div id="app">
 
-  <div class="app-title">Engagement App</div>
-  <div class="app-sub">Church Engagement Platform</div>
+<div class="app-title">
+  <h1>Engagement App</h1>
+  <p>Church Engagement Platform</p>
+</div>
 
-  <!-- HOME -->
-  <div id="homeSection" class="section active">
+<!-- ===== HOME ===== -->
+<div id="homeSection" class="section active">
 
-    <div class="card">
-      <h3>Dashboard</h3>
-      <p>Email: <span id="profileEmail"></span></p>
-      <p>XP: 0</p>
-    </div>
-
-    <div class="card">
-      <h3>Live Stream</h3>
-      <div class="video-box">Live video will appear here</div>
-    </div>
-
-    <div class="card">
-      <h3>Christian Medical Support</h3>
-      <p>Request prayer, medical help & spiritual care.</p>
-    </div>
-
-    <div class="card">
-      <h3>Remote Church Jobs</h3>
-      <p>Media, Admin, Outreach & Volunteer roles.</p>
-      <button class="action-btn">Apply</button>
-    </div>
-
+  <div class="card">
+    <div class="card-title">Dashboard</div>
+    <p>Email: <span id="profileEmail"></span></p>
+    <p>XP: 0</p>
   </div>
 
-  <!-- TASKS -->
-  <div id="tasksSection" class="section">
-    <div class="card">
-      <h3>Tasks</h3>
-      <p>Attend Sunday Service (+20 XP)</p>
-      <button class="action-btn">Complete</button>
-    </div>
+  <div class="card">
+    <div class="card-title">Live Stream</div>
+    <div class="video-box">Live video will appear here</div>
   </div>
 
-  <!-- REWARDS -->
-  <div id="rewardsSection" class="section">
-    <div class="card">
-      <h3>Rewards</h3>
-      <p>Redeem Prayer Badge (200 XP)</p>
-      <button class="action-btn">Redeem</button>
-    </div>
+  <div class="card">
+    <div class="card-title">Christian Medical Support</div>
+    <p>Request prayer, medical help & spiritual care.</p>
   </div>
 
-  <!-- PROFILE -->
-  <div id="profileSection" class="section">
-    <div class="card">
-      <h3>Profile</h3>
-      <p>Email:</p>
-      <strong id="profileEmail2"></strong>
-      <button class="action-btn logout" onclick="logout()">Logout</button>
-    </div>
+  <!-- ✅ DONATIONS PLACEHOLDER -->
+  <div class="card">
+    <div class="card-title">Donations</div>
+    <p>Support church projects & outreach.</p>
+    <p style="color:#888">Coming soon</p>
+  </div>
+
+  <!-- ✅ REMOTE JOBS PLACEHOLDER -->
+  <div class="card">
+    <div class="card-title">Remote Church Jobs</div>
+    <p>Media, Admin, Outreach & Volunteer roles.</p>
+    <button class="action-btn">Apply</button>
   </div>
 
 </div>
 
-<!-- NAV -->
+<!-- ===== TASKS ===== -->
+<div id="tasksSection" class="section">
+  <div class="card">
+    <div class="card-title">Tasks</div>
+    <p>Watch Live Stream</p>
+    <button class="action-btn">Complete</button>
+  </div>
+</div>
+
+<!-- ===== REWARDS ===== -->
+<div id="rewardsSection" class="section">
+  <div class="card">
+    <div class="card-title">Rewards</div>
+    <p>Rewards coming soon</p>
+  </div>
+</div>
+
+<!-- ===== PROFILE ===== -->
+<div id="profileSection" class="section">
+  <div class="card">
+    <div class="card-title">Profile</div>
+    <p id="profileEmail2"></p>
+    <button class="action-btn" onclick="logout()">Logout</button>
+  </div>
+</div>
+
+</div>
+
+<!-- ===== NAV ===== -->
 <div class="bottom-nav">
   <button onclick="showSection('home')">Home</button>
   <button onclick="showSection('tasks')">Tasks</button>
@@ -273,18 +260,11 @@ const firebaseConfig={
   apiKey:"AIzaSyDImP8ODFS0lxWZ5AdTLi7jTxZzFo6JxeY",
   authDomain:"rewards-task-mvp.firebaseapp.com",
   projectId:"rewards-task-mvp",
+  appId:"1:154842831298:web:9ff9e24acfaf346aa99e5b"
 };
 
 const app=initializeApp(firebaseConfig);
 const auth=getAuth(app);
-
-const email=document.getElementById("email");
-const password=document.getElementById("password");
-const authMsg=document.getElementById("authMsg");
-const authBox=document.getElementById("authBox");
-const appBox=document.getElementById("app");
-const nav=document.querySelector(".bottom-nav");
-const loader=document.getElementById("loadingScreen");
 
 window.showSection=name=>{
   document.querySelectorAll(".section").forEach(s=>s.classList.remove("active"));
@@ -306,20 +286,19 @@ loginBtn.onclick=async()=>{
 window.logout=()=>signOut(auth);
 
 onAuthStateChanged(auth,user=>{
-  loader.style.display="none";
   if(user){
     authBox.style.display="none";
-    appBox.style.display="block";
-    nav.style.display="flex";
+    app.style.display="block";
+    document.querySelector(".bottom-nav").style.display="flex";
     profileEmail.textContent=user.email;
     profileEmail2.textContent=user.email;
   }else{
     authBox.style.display="block";
-    appBox.style.display="none";
-    nav.style.display="none";
+    app.style.display="none";
+    document.querySelector(".bottom-nav").style.display="none";
   }
 });
 </script>
 
 </body>
-  </html>
+      </html>
