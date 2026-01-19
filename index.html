@@ -62,13 +62,23 @@
     onAuthStateChanged,
     signOut
   } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-auth.js";
+// Import the functions you need from the SDKs you need
+import { initializeApp } from "firebase/app";
+// TODO: Add SDKs for Firebase products that you want to use
+// https://firebase.google.com/docs/web/setup#available-libraries
 
-  const firebaseConfig = {
-    apiKey: "YOUR_API_KEY",
-    authDomain: "engagement-app-72208.firebaseapp.com",
-    projectId: "engagement-app-72208",
-    appId: "YOUR_APP_ID"
-  };
+// Your web app's Firebase configuration
+const firebaseConfig = {
+  apiKey: "AIzaSyAezeP-Hh60aStIXWxDMp82PVh973eMbb0",
+  authDomain: "engagement-app-72208.firebaseapp.com",
+  projectId: "engagement-app-72208",
+  storageBucket: "engagement-app-72208.firebasestorage.app",
+  messagingSenderId: "994138223274",
+  appId: "1:994138223274:web:02b1d185fda4e3126f56d3"
+};
+
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
 
   const app = initializeApp(firebaseConfig);
   const auth = getAuth(app);
