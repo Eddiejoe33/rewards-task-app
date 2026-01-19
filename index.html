@@ -230,6 +230,7 @@ function show(section){
 }
 </script>
 
+<script>
 /* INSTALL PROMPT LOGIC (SAFE) */
 let deferredPrompt;
 const installBtn = document.getElementById('installBtn');
@@ -237,14 +238,7 @@ const installBtn = document.getElementById('installBtn');
 window.addEventListener('beforeinstallprompt', (e) => {
   e.preventDefault();
   deferredPrompt = e;
-  installBtn.style.display = 'block';
-});
-
-installBtn.addEventListener('click', async () => {
-  if (!deferredPrompt) return;
-  deferredPrompt.prompt();
-  deferredPrompt = null;
-  installBtn.style.display = 'none';
+  if (installBtn) installBtn.style.display = 'block';
 });
 </script>
 
