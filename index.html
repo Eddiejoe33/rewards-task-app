@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Engagement App</title>
 
-<link rel="manifest" href="manifest.json">
-<meta name="theme-color" content="#d4af37">
+<link rel="manifest" href="manifest.json" />
+<meta name="theme-color" content="#c9b26b" />
 
 <style>
 :root{
@@ -32,6 +32,7 @@ body{background:var(--bg);color:var(--text);min-height:100vh}
 
 /* APP */
 #app{display:none;padding:20px;padding-bottom:100px}
+
 .app-title{text-align:center;margin-bottom:20px}
 .app-title h1{color:var(--gold)}
 .app-title p{color:#aaa;font-size:14px}
@@ -57,6 +58,7 @@ body{background:var(--bg);color:var(--text);min-height:100vh}
 .section{display:none}
 .section.active{display:block}
 
+/* NAV */
 .bottom-nav{
   position:fixed;bottom:0;left:0;right:0;
   background:#101010;border-top:1px solid #222;
@@ -70,69 +72,53 @@ body{background:var(--bg);color:var(--text);min-height:100vh}
 
 <body>
 
-<!-- AUTH -->
+<!-- LOGIN -->
 <div id="authBox">
   <h2>Engagement App</h2>
-  <input id="email" type="email" placeholder="Email">
-  <input id="password" type="password" placeholder="Password">
+  <input id="email" type="email" placeholder="Email" />
+  <input id="password" type="password" placeholder="Password" />
   <button id="loginBtn">Login</button>
   <div id="authMsg"></div>
-  <p style="text-align:center;color:#aaa;margin-top:12px;font-size:13px">
-    Demo access only
-  </p>
 </div>
 
 <!-- APP -->
 <div id="app">
-
   <div class="app-title">
     <h1>Engagement App</h1>
     <p>Church Engagement Platform</p>
   </div>
 
-  <!-- HOME -->
   <div id="homeSection" class="section active">
     <div class="card">
       <div class="card-title">Dashboard</div>
       <p>Email: <span id="profileEmail"></span></p>
       <p>XP: 0</p>
-      <p>Donations: <span style="color:#aaa">Coming soon</span></p>
     </div>
 
     <div class="card">
       <div class="card-title">Live Stream</div>
-      <div class="video-box">Live video will appear here</div>
+      <div class="video-box">Live stream here</div>
     </div>
 
     <div class="card">
-      <div class="card-title">Christian Medical Support</div>
-      <p>Request prayer, medical help & spiritual care.</p>
+      <div class="card-title">Christian Support</div>
+      <p>Prayer, counseling & care</p>
     </div>
 
     <div class="card">
       <div class="card-title">Remote Church Jobs</div>
-      <p>Media, Admin, Outreach & Volunteer roles.</p>
       <button class="action-btn">Apply</button>
     </div>
   </div>
 
-  <!-- TASKS -->
   <div id="tasksSection" class="section">
-    <div class="card">
-      <div class="card-title">Tasks</div>
-      <p>Tasks coming soon</p>
-    </div>
+    <div class="card"><div class="card-title">Tasks</div><p>Coming soon</p></div>
   </div>
 
-  <!-- REWARDS -->
   <div id="rewardsSection" class="section">
-    <div class="card">
-      <div class="card-title">Rewards</div>
-      <p>Rewards coming soon</p>
-    </div>
+    <div class="card"><div class="card-title">Rewards</div><p>Coming soon</p></div>
   </div>
 
-  <!-- PROFILE -->
   <div id="profileSection" class="section">
     <div class="card">
       <div class="card-title">Profile</div>
@@ -140,10 +126,8 @@ body{background:var(--bg);color:var(--text);min-height:100vh}
       <button class="action-btn" id="logoutBtn">Logout</button>
     </div>
   </div>
-
 </div>
 
-<!-- NAV -->
 <div class="bottom-nav" id="bottomNav">
   <button onclick="showSection('home')">Home</button>
   <button onclick="showSection('tasks')">Tasks</button>
@@ -158,21 +142,26 @@ import {
   getAuth,
   signInWithEmailAndPassword,
   onAuthStateChanged,
-  signOut
+  signOut,
+  setPersistence,
+  browserSessionPersistence
 } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
 
+/* 🔑 YOUR FIREBASE CONFIG */
 const firebaseConfig = {
   apiKey: "AIzaSyAezp-Hh60aStIXWxDMp82PVh973eMbb0",
   authDomain: "engagement-app-72208.firebaseapp.com",
   projectId: "engagement-app-72208",
-  storageBucket: "engagement-app-72208.appspot.com",
-  messagingSenderId: "994138223274",
   appId: "1:994138223274:web:02b1d185fda4e3126f56d3"
 };
 
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 
+/* 🔒 DEMO MODE: no auto login */
+setPersistence(auth, browserSessionPersistence);
+
+/* UI */
 const authBox = document.getElementById("authBox");
 const appBox = document.getElementById("app");
 const bottomNav = document.getElementById("bottomNav");
@@ -181,29 +170,31 @@ const password = document.getElementById("password");
 const authMsg = document.getElementById("authMsg");
 const profileEmail = document.getElementById("profileEmail");
 const profileEmail2 = document.getElementById("profileEmail2");
+const logoutBtn = document.getElementById("logoutBtn");
 
 window.showSection = name => {
-  document.querySelectorAll(".section").forEach(s => s.classList.remove("active"));
-  document.getElementById(name + "Section").classList.add("active");
+  document.querySelectorAll(".section").forEach(s=>s.classList.remove("active"));
+  document.getElementById(name+"Section").classList.add("active");
 };
 
-loginBtn.onclick = () =>
+document.getElementById("loginBtn").onclick = () => {
   signInWithEmailAndPassword(auth, email.value, password.value)
-    .catch(e => authMsg.textContent = e.message);
+    .catch(e => authMsg.textContent = "Invalid login");
+};
 
 logoutBtn.onclick = () => signOut(auth);
 
 onAuthStateChanged(auth, user => {
-  if (user) {
-    authBox.style.display = "none";
-    appBox.style.display = "block";
-    bottomNav.style.display = "flex";
-    profileEmail.textContent = user.email;
-    profileEmail2.textContent = user.email;
-  } else {
-    authBox.style.display = "block";
-    appBox.style.display = "none";
-    bottomNav.style.display = "none";
+  if(user){
+    authBox.style.display="none";
+    appBox.style.display="block";
+    bottomNav.style.display="flex";
+    profileEmail.textContent=user.email;
+    profileEmail2.textContent=user.email;
+  }else{
+    authBox.style.display="block";
+    appBox.style.display="none";
+    bottomNav.style.display="none";
   }
 });
 </script>
@@ -218,4 +209,4 @@ if ("serviceWorker" in navigator) {
 </script>
 
 </body>
-    </html>
+                                                        </html>
