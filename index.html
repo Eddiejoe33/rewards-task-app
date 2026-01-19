@@ -15,28 +15,14 @@
 *{margin:0;padding:0;box-sizing:border-box;font-family:Arial,Helvetica,sans-serif}
 body{background:var(--bg);color:var(--text);min-height:100vh}
 
-#authBox{
-  max-width:420px;
-  margin:auto;
-  padding:40px 20px;
-}
+#authBox{max-width:420px;margin:auto;padding:40px 20px}
 #authBox h2{text-align:center;color:var(--gold);margin-bottom:20px}
 #authBox input{
-  width:100%;
-  padding:14px;
-  border-radius:10px;
-  border:none;
-  margin-bottom:12px;
+  width:100%;padding:14px;border-radius:10px;border:none;margin-bottom:12px
 }
 #authBox button{
-  width:100%;
-  padding:14px;
-  border:none;
-  border-radius:10px;
-  background:var(--gold);
-  font-weight:bold;
-  cursor:pointer;
-  margin-top:10px;
+  width:100%;padding:14px;border:none;border-radius:10px;
+  background:var(--gold);font-weight:bold;cursor:pointer;margin-top:10px
 }
 #authMsg{text-align:center;margin-top:10px;color:#ff8a8a}
 
@@ -55,45 +41,25 @@ body{background:var(--bg);color:var(--text);min-height:100vh}
 .card-title{color:var(--gold);margin-bottom:8px}
 
 .video-box{
-  height:180px;
-  background:#000;
-  border-radius:14px;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  color:#777;
+  height:180px;background:#000;border-radius:14px;
+  display:flex;align-items:center;justify-content:center;color:#777
 }
 
 .action-btn{
-  width:100%;
-  padding:14px;
-  border:none;
-  border-radius:14px;
-  background:var(--gold);
-  font-weight:bold;
-  cursor:pointer;
-  margin-top:10px;
+  width:100%;padding:14px;border:none;border-radius:14px;
+  background:var(--gold);font-weight:bold;cursor:pointer;margin-top:10px
 }
 
 .section{display:none}
 .section.active{display:block}
 
 .bottom-nav{
-  position:fixed;
-  bottom:0;
-  left:0;
-  right:0;
-  background:#101010;
-  border-top:1px solid #222;
-  display:none;
-  justify-content:space-around;
-  padding:14px 0;
+  position:fixed;bottom:0;left:0;right:0;
+  background:#101010;border-top:1px solid #222;
+  display:none;justify-content:space-around;padding:14px 0
 }
 .bottom-nav button{
-  background:none;
-  border:none;
-  color:var(--gold);
-  font-size:15px;
+  background:none;border:none;color:var(--gold);font-size:15px
 }
 </style>
 </head>
@@ -117,13 +83,14 @@ body{background:var(--bg);color:var(--text);min-height:100vh}
     <p>Church Engagement Platform</p>
   </div>
 
-  <!-- DASHBOARD -->
+  <!-- HOME / DASHBOARD -->
   <div id="homeSection" class="section active">
 
     <div class="card">
       <div class="card-title">Dashboard</div>
       <p>Email: <span id="profileEmail"></span></p>
       <p>XP: 0</p>
+      <p>Donations: <span style="color:#aaa">Coming soon</span></p>
     </div>
 
     <div class="card">
