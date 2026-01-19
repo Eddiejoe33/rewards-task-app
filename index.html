@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Rewards Task App</title>
+<title>Church Rewards</title>
 
 <style>
 *{box-sizing:border-box;margin:0;padding:0;font-family:Arial,Helvetica,sans-serif}
@@ -18,30 +18,47 @@ z-index:999;color:gold;font-size:18px}
 /* Auth */
 #authBox{max-width:400px;margin:auto;padding:40px 20px}
 #authBox h2{text-align:center;color:gold;margin-bottom:20px}
-#authBox input{width:100%;padding:14px;margin-bottom:12px;border-radius:8px;border:none}
-#authBox button{width:100%;padding:14px;border:none;border-radius:8px;background:gold;font-weight:bold;margin-bottom:10px}
+#authBox input{
+width:100%;padding:14px;margin-bottom:12px;
+border-radius:12px;border:none}
+#authBox button{
+width:100%;padding:14px;border:none;
+border-radius:12px;background:gold;font-weight:bold;margin-bottom:10px}
 #authMsg{text-align:center;color:#ff8080}
 
 /* App */
-#app{display:none;flex-direction:column;padding:16px;padding-bottom:90px}
+#app{display:none;flex-direction:column;padding:18px;padding-bottom:90px}
+
+/* Sphere cards */
+.card{
+background:radial-gradient(circle at top,#1a1a1a,#0c0c0c);
+border-radius:22px;
+padding:18px;
+margin-bottom:18px;
+box-shadow:0 10px 25px rgba(0,0,0,.7),
+inset 0 1px 1px rgba(255,255,255,.05)
+}
+
 .header{font-size:22px;color:gold;margin-bottom:16px}
 
-/* Cards */
-.card{
-border:1px solid #333;border-radius:14px;
-padding:16px;margin-bottom:14px;background:#111}
-
-/* Tasks / Jobs */
-.item{border-top:1px solid #222;padding:10px 0}
+/* Items */
+.item{
+display:flex;justify-content:space-between;
+align-items:center;
+border-top:1px solid #222;
+padding:12px 0
+}
+.item:first-child{border-top:none}
 .item button{
-background:gold;border:none;padding:6px 14px;
-border-radius:6px;margin-top:6px;cursor:pointer}
+background:gold;border:none;
+padding:6px 16px;border-radius:999px;
+font-weight:bold}
 
 /* Sections */
 .section{display:none}
 .section.active{display:block}
 
-/* Bottom Nav */
+/* Bottom nav (UNCHANGED behavior) */
 .bottom-nav{
 position:fixed;bottom:0;left:0;right:0;
 background:#050505;border-top:1px solid #222;
@@ -49,22 +66,12 @@ display:none;justify-content:space-around;padding:10px 0}
 .bottom-nav button{
 background:none;border:none;color:gold;font-size:14px}
 .logout{color:#ff7070}
-
-/* Modal */
-.modal{
-display:none;position:fixed;inset:0;background:#000c;z-index:999}
-.modal-box{
-background:#111;margin:20% auto;padding:20px;
-width:90%;max-width:400px;border-radius:12px}
-.modal-box button{
-width:100%;padding:12px;margin-top:10px;
-background:gold;border:none;border-radius:8px}
 </style>
 </head>
 
 <body>
 
-<div id="loadingScreen">Loading...</div>
+<div id="loadingScreen">Loading…</div>
 
 <!-- AUTH -->
 <div id="authBox">
@@ -89,29 +96,29 @@ XP: <strong id="xp">0</strong>
 </div>
 
 <div class="card">
-<h3>📺 Live Streams</h3>
-<div class="item">Facebook Live – Sunday Service</div>
-<div class="item">YouTube Live – Teaching</div>
-<div class="item">TikTok Live – Community Chat</div>
+📺 <strong>Live Streams</strong>
+<div class="item">Facebook Live — Sunday Service</div>
+<div class="item">YouTube Live — Teaching Session</div>
+<div class="item">TikTok Live — Community Chat</div>
 </div>
 
 <div class="card">
-<h3>📝 Tasks</h3>
+📝 <strong>Tasks</strong>
 <div class="item">Watch Live Stream<button onclick="addXP(5)">Complete</button></div>
 <div class="item">Share App<button onclick="addXP(3)">Complete</button></div>
 <div class="item">Invite Friend<button onclick="addXP(10)">Complete</button></div>
 </div>
 
 <div class="card">
-<h3>💼 Remote Jobs</h3>
-<div class="item">Frontend Developer<button onclick="openJob('Frontend Developer')">Apply</button></div>
-<div class="item">QA Engineer<button onclick="openJob('QA Engineer')">Apply</button></div>
-<div class="item">Community Manager<button onclick="openJob('Community Manager')">Apply</button></div>
+💼 <strong>Remote Jobs</strong>
+<div class="item">Frontend Developer<button onclick="addXP(10)">Apply</button></div>
+<div class="item">QA Engineer<button onclick="addXP(10)">Apply</button></div>
+<div class="item">Community Manager<button onclick="addXP(10)">Apply</button></div>
 </div>
 
 <div class="card">
-<h3>💳 Payments</h3>
-Flutterwave Integration (Coming Soon)
+💳 <strong>Payments</strong><br>
+Flutterwave integration in progress
 </div>
 
 </div>
@@ -134,94 +141,61 @@ Total XP: <strong id="xp2">0</strong>
 <button class="logout" onclick="logout()">Logout</button>
 </div>
 
-<!-- JOB MODAL -->
-<div id="jobModal" class="modal">
-<div class="modal-box">
-<h3 id="jobTitle"></h3>
-<p>This is a demo application.</p>
-<p>Reward: +10 XP</p>
-<button onclick="applyJob()">Submit</button>
-<button onclick="closeJob()">Cancel</button>
-</div>
-</div>
-
 <!-- FIREBASE -->
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
 import { getFirestore, doc, setDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
-const firebaseConfig = {
-apiKey: "AIzaSyDImP8ODFS0lxWZ5AdTLi7jTxZzFo6JxeY",
-authDomain: "rewards-task-mvp.firebaseapp.com",
-projectId: "rewards-task-mvp",
-storageBucket: "rewards-task-mvp.appspot.com",
-messagingSenderId: "154842831298",
-appId: "1:154842831298:web:9ff9e24acfaf346aa99e5b"
+const firebaseConfig={
+apiKey:"AIzaSyDImP8ODFS0lxWZ5AdTLi7jTxZzFo6JxeY",
+authDomain:"rewards-task-mvp.firebaseapp.com",
+projectId:"rewards-task-mvp",
+storageBucket:"rewards-task-mvp.appspot.com",
+messagingSenderId:"154842831298",
+appId:"1:154842831298:web:9ff9e24acfaf346aa99e5b"};
+
+const app=initializeApp(firebaseConfig);
+const auth=getAuth(app);
+const db=getFirestore(app);
+
+let xp=0;
+window.addXP=n=>{
+xp+=n;
+document.getElementById("xp").textContent=xp;
+document.getElementById("xp2").textContent=xp;
 };
 
-const app = initializeApp(firebaseConfig);
-const auth = getAuth(app);
-const db = getFirestore(app);
-
-const email = document.getElementById("email");
-const password = document.getElementById("password");
-const authMsg = document.getElementById("authMsg");
-const loader = document.getElementById("loadingScreen");
-
-let xp = 0;
-let selectedJob = "";
-
-window.addXP = n => {
-xp += n;
-document.getElementById("xp").textContent = xp;
-document.getElementById("xp2").textContent = xp;
-};
-
-window.openJob = j => {
-selectedJob = j;
-document.getElementById("jobTitle").textContent = j;
-document.getElementById("jobModal").style.display="block";
-};
-
-window.closeJob = () => document.getElementById("jobModal").style.display="none";
-
-window.applyJob = () => {
-addXP(10);
-alert("Application submitted!");
-closeJob();
-};
-
-window.showSection = s => {
+window.showSection=s=>{
 document.querySelectorAll(".section").forEach(x=>x.classList.remove("active"));
 document.getElementById(s+"Section").classList.add("active");
 };
 
-document.getElementById("signupBtn").onclick = async()=>{
+document.getElementById("signupBtn").onclick=async()=>{
 try{
-const cred = await createUserWithEmailAndPassword(auth,email.value,password.value);
-await setDoc(doc(db,"users",cred.user.uid),{email:cred.user.email});
+const c=await createUserWithEmailAndPassword(auth,email.value,password.value);
+await setDoc(doc(db,"users",c.user.uid),{email:c.user.email});
 }catch(e){authMsg.textContent=e.message}
 };
 
-document.getElementById("loginBtn").onclick = async()=>{
+document.getElementById("loginBtn").onclick=async()=>{
 try{await signInWithEmailAndPassword(auth,email.value,password.value)}
 catch(e){authMsg.textContent=e.message}
 };
 
-window.logout = ()=>signOut(auth);
+window.logout=()=>signOut(auth);
 
-onAuthStateChanged(auth,user=>{
-loader.style.display="none";
-if(user){
-document.getElementById("authBox").style.display="none";
-document.getElementById("app").style.display="flex";
+onAuthStateChanged(auth,u=>{
+loadingScreen.style.display="none";
+if(u){
+authBox.style.display="none";
+app.style.display="flex";
 document.querySelector(".bottom-nav").style.display="flex";
-document.getElementById("profileEmail").textContent=user.email;
-document.getElementById("profileEmail2").textContent=user.email;
+profileEmail.textContent=u.email;
+profileEmail2.textContent=u.email;
 }else{
-document.getElementById("authBox").style.display="block";
-document.getElementById("app").style.display="none";
+authBox.style.display="block";
+app.style.display="none";
 }
 });
 </script>
