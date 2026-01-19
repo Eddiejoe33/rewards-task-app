@@ -5,19 +5,19 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Engagement App</title>
 
-<!-- ===== PWA ===== -->
 <link rel="manifest" href="manifest.json">
-<meta name="theme-color" content="#1b1b1b">
+<meta name="theme-color" content="#0b0b0b">
 
 <style>
 :root{
-  --gold:#c9b26b;      /* softer gold */
+  --gold:#d4b76a;
   --bg:#0b0b0b;
-  --card:#151515;
-  --text:#f5f5f5;
+  --card:#141414;
+  --text:#f3f3f3;
+  --muted:#9a9a9a;
 }
 
-*{box-sizing:border-box;margin:0;padding:0;font-family:Arial,Helvetica,sans-serif}
+*{margin:0;padding:0;box-sizing:border-box;font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto}
 
 body{
   background:var(--bg);
@@ -33,28 +33,34 @@ body{
   display:flex;
   align-items:center;
   justify-content:center;
-  z-index:999;
   color:var(--gold);
-  font-size:18px;
+  z-index:999;
 }
 
 /* ===== AUTH ===== */
 #authBox{
   max-width:420px;
   margin:auto;
-  padding:40px 20px;
+  padding:60px 20px;
 }
 
 #authBox h2{
   text-align:center;
   color:var(--gold);
-  margin-bottom:20px;
+  font-size:28px;
+  margin-bottom:8px;
+}
+
+#authBox p{
+  text-align:center;
+  color:var(--muted);
+  margin-bottom:30px;
 }
 
 #authBox input{
   width:100%;
   padding:14px;
-  border-radius:10px;
+  border-radius:14px;
   border:none;
   margin-bottom:12px;
 }
@@ -63,10 +69,9 @@ body{
   width:100%;
   padding:14px;
   border:none;
-  border-radius:10px;
+  border-radius:14px;
   background:var(--gold);
-  font-weight:bold;
-  cursor:pointer;
+  font-weight:600;
   margin-top:10px;
 }
 
@@ -79,85 +84,117 @@ body{
 /* ===== APP ===== */
 #app{
   display:none;
-  flex-direction:column;
   padding:20px;
-  padding-bottom:110px;
+  padding-bottom:120px;
 }
 
-.header{
-  font-size:22px;
-  font-weight:bold;
+/* ===== HEADER ===== */
+.app-title{
+  text-align:center;
+  margin-bottom:26px;
+}
+
+.app-title h1{
   color:var(--gold);
-  margin-bottom:18px;
+  font-size:30px;
+  font-weight:700;
+}
+
+.app-title p{
+  color:var(--muted);
+  font-size:14px;
+  margin-top:4px;
 }
 
 /* ===== CARDS ===== */
 .card{
-  background:var(--card);
-  border-radius:16px;
-  padding:18px;
-  margin-bottom:16px;
+  background:linear-gradient(180deg,#1a1a1a,#121212);
+  border-radius:22px;
+  padding:20px;
+  margin-bottom:18px;
+}
+
+.card h3{
+  color:#fff;
+  margin-bottom:10px;
 }
 
 .card-title{
-  font-size:16px;
-  margin-bottom:10px;
   color:var(--gold);
+  font-weight:600;
+  margin-bottom:12px;
+}
+
+/* ===== DASH ===== */
+.kv{
+  color:var(--muted);
+  margin-top:8px;
+}
+
+/* ===== LIST ===== */
+.list{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:10px 0;
+  border-bottom:1px solid #222;
+}
+
+.list:last-child{border-bottom:none}
+
+/* ===== TASK BTN ===== */
+.task-btn{
+  background:var(--gold);
+  border:none;
+  border-radius:20px;
+  padding:8px 18px;
+  font-weight:600;
+}
+
+/* ===== VIDEO ===== */
+.video-box{
+  background:#000;
+  height:190px;
+  border-radius:18px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  color:#777;
+}
+
+/* ===== ACTION ===== */
+.action-btn{
+  width:100%;
+  padding:14px;
+  border-radius:16px;
+  border:none;
+  background:var(--gold);
+  font-weight:600;
+  margin-top:12px;
 }
 
 /* ===== SECTIONS ===== */
 .section{display:none}
 .section.active{display:block}
 
-/* ===== VIDEO ===== */
-.video-box{
-  width:100%;
-  height:180px;
-  border-radius:14px;
-  background:#000;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  color:#888;
-  font-size:14px;
-}
-
-/* ===== BUTTON ===== */
-.action-btn{
-  width:100%;
-  padding:14px;
-  border:none;
-  border-radius:12px;
-  background:var(--gold);
-  font-weight:bold;
-  cursor:pointer;
-  margin-top:10px;
-}
-
-/* ===== BOTTOM NAV ===== */
+/* ===== NAV ===== */
 .bottom-nav{
   position:fixed;
   bottom:0;
   left:0;
   right:0;
-  background:#101010;
+  background:#0f0f0f;
   border-top:1px solid #222;
   display:none;
   justify-content:space-around;
   padding:14px 0;
-  z-index:100;
 }
 
 .bottom-nav button{
   background:none;
   border:none;
   color:var(--gold);
-  font-size:16px;
-  cursor:pointer;
-}
-
-.bottom-nav button.active{
-  color:#fff;
+  font-size:15px;
 }
 
 .logout{color:#ff8a8a}
@@ -168,9 +205,10 @@ body{
 
 <div id="loadingScreen">Loading…</div>
 
-<!-- ===== AUTH ===== -->
+<!-- AUTH -->
 <div id="authBox">
   <h2>Engagement App</h2>
+  <p>Church Engagement Platform</p>
   <input id="email" type="email" placeholder="Email">
   <input id="password" type="password" placeholder="Password">
   <button id="loginBtn">Login</button>
@@ -178,197 +216,103 @@ body{
   <div id="authMsg"></div>
 </div>
 
-<!-- ===== APP ===== -->
+<!-- APP -->
 <div id="app">
 
-<!-- ===== DASHBOARD ===== -->
+<div class="app-title">
+  <h1>Engagement App</h1>
+  <p>Church Engagement Platform</p>
+</div>
+
+<!-- HOME -->
 <div id="homeSection" class="section active">
-  <div class="header">Dashboard</div>
 
   <div class="card">
-    Welcome, <span id="profileEmail"></span>
+    <h3>Dashboard</h3>
+    <div class="kv">Email: <span id="profileEmail"></span></div>
+    <div class="kv">XP: 0</div>
   </div>
 
   <div class="card">
-    <div class="card-title">Live Stream</div>
-    <div class="video-box">Live video will appear here</div>
+    <div class="card-title">Church Overview</div>
+    <div class="list"><span>👥 Total Members</span><span class="muted">0 (demo)</span></div>
+    <div class="list"><span>🎁 Rewards</span><span class="muted">Coming soon</span></div>
+    <div class="list"><span>💊 Medical & Wellness</span><span class="muted">Placeholder</span></div>
+    <div class="list"><span>💼 Job Opportunities</span><span class="muted">Placeholder</span></div>
   </div>
 
   <div class="card">
-    <div class="card-title">Christian Medical Support</div>
-    <p>Request prayer, medical help & spiritual care.</p>
+    <div class="card-title">Tasks</div>
+    <div class="list"><span>Watch Live Stream</span><button class="task-btn">Complete</button></div>
+    <div class="list"><span>Share App</span><button class="task-btn">Complete</button></div>
+    <div class="list"><span>Invite Friend</span><button class="task-btn">Complete</button></div>
   </div>
 
-  <div class="card">
-    <div class="card-title">Remote Church Jobs</div>
-    <p>Media, Admin, Outreach & Volunteer roles.</p>
-    <button class="action-btn">Apply</button>
-  </div>
-
-  <div class="card">
-    <div class="card-title">Install App</div>
-    <button id="installBtn" class="action-btn" style="display:none">
-      Install Engagement App
-    </button>
-    <p id="iosHint" style="display:none;font-size:14px;color:#aaa;margin-top:8px">
-      iPhone: Share → Add to Home Screen
-    </p>
-  </div>
 </div>
 
-<!-- ===== TASKS ===== -->
+<!-- TASKS -->
 <div id="tasksSection" class="section">
-  <div class="header">Tasks</div>
-
-  <div class="card">
-    Attend Sunday Service (+20 XP)
-    <button class="action-btn">Complete</button>
-  </div>
-
-  <div class="card">
-    Share Church Post (+30 XP)
-    <button class="action-btn">Complete</button>
-  </div>
+  <div class="card"><h3>Tasks</h3></div>
 </div>
 
-<!-- ===== REWARDS ===== -->
+<!-- REWARDS -->
 <div id="rewardsSection" class="section">
-  <div class="header">Rewards</div>
-
-  <div class="card">
-    Redeem Prayer Badge (200 XP)
-    <button class="action-btn">Redeem</button>
-  </div>
+  <div class="card"><h3>Rewards</h3></div>
 </div>
 
-<!-- ===== PROFILE ===== -->
+<!-- PROFILE -->
 <div id="profileSection" class="section">
-
-  <div class="header">Profile</div>
-
   <div class="card">
-    <div class="card-title">Account Information</div>
-    <p><strong>Email:</strong></p>
+    <h3>Profile</h3>
     <p id="profileEmail2"></p>
-  </div>
-
-  <div class="card">
-    <div class="card-title">Engagement Stats</div>
-    <p>XP: <strong>0</strong></p>
-    <p>Tasks Completed: <strong>0</strong></p>
-    <p>Rewards Earned: <strong>0</strong></p>
-  </div>
-
-  <div class="card">
-    <div class="card-title">Account Actions</div>
     <button class="action-btn" onclick="logout()">Logout</button>
   </div>
-
 </div>
 
 </div>
 
-<!-- ===== NAV ===== -->
+<!-- NAV -->
 <div class="bottom-nav">
   <button onclick="showSection('home')">Home</button>
   <button onclick="showSection('tasks')">Tasks</button>
   <button onclick="showSection('rewards')">Rewards</button>
   <button onclick="showSection('profile')">Profile</button>
-  <button class="logout" onclick="logout()">Logout</button>
 </div>
 
-<!-- ===== FIREBASE ===== -->
+<!-- FIREBASE -->
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-import {
-  getAuth,
-  createUserWithEmailAndPassword,
-  signInWithEmailAndPassword,
-  onAuthStateChanged,
-  signOut
-} from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
-import {
-  getFirestore,
-  doc,
-  setDoc
-} from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+import { getAuth,createUserWithEmailAndPassword,signInWithEmailAndPassword,onAuthStateChanged,signOut } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
 
 const firebaseConfig={
   apiKey:"AIzaSyDImP8ODFS0lxWZ5AdTLi7jTxZzFo6JxeY",
   authDomain:"rewards-task-mvp.firebaseapp.com",
   projectId:"rewards-task-mvp",
-  storageBucket:"rewards-task-mvp.appspot.com",
-  messagingSenderId:"154842831298",
   appId:"1:154842831298:web:9ff9e24acfaf346aa99e5b"
 };
 
 const app=initializeApp(firebaseConfig);
 const auth=getAuth(app);
-const db=getFirestore(app);
-
-const email=document.getElementById("email");
-const password=document.getElementById("password");
-const authMsg=document.getElementById("authMsg");
-const authBox=document.getElementById("authBox");
-const appBox=document.getElementById("app");
-const nav=document.querySelector(".bottom-nav");
-const loader=document.getElementById("loadingScreen");
 
 window.showSection=name=>{
   document.querySelectorAll(".section").forEach(s=>s.classList.remove("active"));
   document.getElementById(name+"Section").classList.add("active");
 };
 
-signupBtn.onclick=async()=>{
-  try{
-    const cred=await createUserWithEmailAndPassword(auth,email.value,password.value);
-    await setDoc(doc(db,"users",cred.user.uid),{email:cred.user.email});
-  }catch(e){authMsg.textContent=e.message}
-};
-
-loginBtn.onclick=async()=>{
-  try{await signInWithEmailAndPassword(auth,email.value,password.value)}
-  catch(e){authMsg.textContent=e.message}
-};
-
+signupBtn.onclick=()=>createUserWithEmailAndPassword(auth,email.value,password.value).catch(e=>authMsg.textContent=e.message);
+loginBtn.onclick=()=>signInWithEmailAndPassword(auth,email.value,password.value).catch(e=>authMsg.textContent=e.message);
 window.logout=()=>signOut(auth);
 
 onAuthStateChanged(auth,user=>{
-  loader.style.display="none";
+  loadingScreen.style.display="none";
   if(user){
     authBox.style.display="none";
-    appBox.style.display="flex";
-    nav.style.display="flex";
+    app.style.display="block";
+    document.querySelector(".bottom-nav").style.display="flex";
     profileEmail.textContent=user.email;
     profileEmail2.textContent=user.email;
-  }else{
-    authBox.style.display="block";
-    appBox.style.display="none";
-    nav.style.display="none";
   }
 });
-</script>
-
-<!-- ===== INSTALL LOGIC ===== -->
-<script>
-let deferredPrompt;
-const installBtn=document.getElementById("installBtn");
-const iosHint=document.getElementById("iosHint");
-const isIOS=/iphone|ipad|ipod/i.test(navigator.userAgent);
-
-window.addEventListener("beforeinstallprompt",e=>{
-  e.preventDefault();
-  deferredPrompt=e;
-  installBtn.style.display="block";
-});
-
-installBtn?.addEventListener("click",async()=>{
-  if(!deferredPrompt)return;
-  deferredPrompt.prompt();
-  deferredPrompt=null;
-});
-
-if(isIOS) iosHint.style.display="block";
 </script>
 
 </body>
