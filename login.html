@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Engagement App – Login</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <style>
+    * {
+      box-sizing: border-box;
+      font-family: Arial, sans-serif;
+    }
+
+    body {
+      margin: 0;
+      background: linear-gradient(180deg, #000000, #111111);
+      color: #fff;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .login-container {
+      width: 90%;
+      max-width: 360px;
+      background: #0f0f0f;
+      border-radius: 20px;
+      padding: 30px 25px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.6);
+    }
+
+    .title {
+      text-align: center;
+      color: #d4b76a;
+      font-size: 26px;
+      font-weight: bold;
+      margin-bottom: 5px;
+    }
+
+    .subtitle {
+      text-align: center;
+      font-size: 14px;
+      color: #aaa;
+      margin-bottom: 25px;
+    }
+
+    label {
+      font-size: 14px;
+      color: #ccc;
+      display: block;
+      margin-bottom: 6px;
+    }
+
+    input {
+      width: 100%;
+      padding: 12px;
+      border-radius: 10px;
+      border: none;
+      outline: none;
+      background: #1c1c1c;
+      color: #fff;
+      margin-bottom: 18px;
+      font-size: 15px;
+    }
+
+    input::placeholder {
+      color: #777;
+    }
+
+    .login-btn {
+      width: 100%;
+      padding: 14px;
+      border-radius: 14px;
+      border: none;
+      background: #d4b76a;
+      color: #000;
+      font-weight: bold;
+      font-size: 16px;
+      cursor: pointer;
+    }
+
+    .login-btn:active {
+      opacity: 0.9;
+    }
+
+    .forgot {
+      text-align: center;
+      margin-top: 14px;
+      font-size: 14px;
+    }
+
+    .forgot a {
+      color: #d4b76a;
+      text-decoration: none;
+    }
+
+    /* Spinner */
+    .spinner {
+      display: none;
+      margin: 20px auto 0;
+      width: 36px;
+      height: 36px;
+      border: 4px solid #333;
+      border-top: 4px solid #d4b76a;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    .note {
+      margin-top: 18px;
+      text-align: center;
+      font-size: 12px;
+      color: #777;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="login-container">
+    <div class="title">Engagement App</div>
+    <div class="subtitle">Church Engagement Platform</div>
+
+    <label>Email</label>
+    <input type="email" id="email" placeholder="Enter your email">
+
+    <label>Password</label>
+    <input type="password" id="password" placeholder="Enter your password">
+
+    <button class="login-btn" onclick="fakeLogin()">Login</button>
+
+    <div class="spinner" id="spinner"></div>
+
+    <div class="forgot">
+      <a href="#">Forgot password?</a>
+    </div>
+
+    <div class="note">
+      Secure church member access
+    </div>
+  </div>
+
+  <!-- TEMPORARY DEMO SCRIPT (SAFE) -->
+  <script>
+    function fakeLogin() {
+      const spinner = document.getElementById("spinner");
+      spinner.style.display = "block";
+
+      // Demo loading effect
+      setTimeout(() => {
+        spinner.style.display = "none";
+        alert("Login logic will be added in Step 2");
+      }, 2000);
+    }
+  </script>
+
+</body>
+  </html>
