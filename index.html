@@ -4,7 +4,42 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Engagement App</title>
+/* ================= FIX BOTTOM NAV SHAKE ================= */
 
+html, body {
+  height: 100%;
+  overflow-x: hidden;
+}
+
+#app {
+  min-height: 100vh;
+  padding-bottom: 80px;
+}
+
+.section {
+  padding-bottom: 80px;
+}
+
+.bottom-nav {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+
+  width: 100%;
+  height: 65px;
+
+  background: var(--bg);
+  border-top: 1px solid #222;
+
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+
+  z-index: 9999;
+
+  transform: translateZ(0);
+  will-change: transform;
+}
 <style>
 :root{
   --gold:#f2c94c;
