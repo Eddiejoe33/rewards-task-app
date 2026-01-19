@@ -117,15 +117,23 @@ body{background:var(--bg);color:var(--text);min-height:100vh}
     <p>Church Engagement Platform</p>
   </div>
 
+  <!-- DASHBOARD -->
   <div id="homeSection" class="section active">
+
     <div class="card">
       <div class="card-title">Dashboard</div>
       <p>Email: <span id="profileEmail"></span></p>
+      <p>XP: 0</p>
     </div>
 
     <div class="card">
       <div class="card-title">Live Stream</div>
-      <div class="video-box">Live video here</div>
+      <div class="video-box">Live video will appear here</div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">Christian Medical Support</div>
+      <p>Request prayer, medical help & spiritual care.</p>
     </div>
 
     <div class="card">
@@ -135,16 +143,24 @@ body{background:var(--bg);color:var(--text);min-height:100vh}
 
     <div class="card">
       <div class="card-title">Remote Church Jobs</div>
+      <p>Media, Admin, Outreach & Volunteer roles.</p>
       <button class="action-btn">Apply</button>
     </div>
+
   </div>
 
   <div id="tasksSection" class="section">
-    <div class="card"><div class="card-title">Tasks</div></div>
+    <div class="card">
+      <div class="card-title">Tasks</div>
+      <p>Tasks coming soon</p>
+    </div>
   </div>
 
   <div id="rewardsSection" class="section">
-    <div class="card"><div class="card-title">Rewards</div></div>
+    <div class="card">
+      <div class="card-title">Rewards</div>
+      <p>Rewards coming soon</p>
+    </div>
   </div>
 
   <div id="profileSection" class="section">
@@ -163,7 +179,6 @@ body{background:var(--bg);color:var(--text);min-height:100vh}
   <button onclick="showSection('profile')">Profile</button>
 </div>
 
-<!-- FIREBASE -->
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
@@ -178,7 +193,6 @@ const firebaseConfig={
 const app=initializeApp(firebaseConfig);
 const auth=getAuth(app);
 
-/* FIXED DOM BINDINGS */
 const authBox=document.getElementById("authBox");
 const appBox=document.getElementById("app");
 const email=document.getElementById("email");
