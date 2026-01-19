@@ -1,138 +1,73 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Engagement App</title>
 
-<link rel="manifest" href="manifest.json" />
-<meta name="theme-color" content="#c9b26b" />
-
 <style>
-:root{
-  --gold:#c9b26b;
-  --bg:#0b0b0b;
-  --card:#151515;
-  --text:#f5f5f5;
-}
-*{margin:0;padding:0;box-sizing:border-box;font-family:Arial,Helvetica,sans-serif}
-body{background:var(--bg);color:var(--text);min-height:100vh}
-
-/* AUTH */
-#authBox{max-width:420px;margin:auto;padding:40px 20px}
-#authBox h2{text-align:center;color:var(--gold);margin-bottom:20px}
-#authBox input{
-  width:100%;padding:14px;border-radius:10px;border:none;margin-bottom:12px
-}
-#authBox button{
-  width:100%;padding:14px;border:none;border-radius:10px;
-  background:var(--gold);font-weight:bold;cursor:pointer;margin-top:10px
-}
-#authMsg{text-align:center;margin-top:10px;color:#ff8a8a}
-
-/* APP */
-#app{display:none;padding:20px;padding-bottom:100px}
-
-.app-title{text-align:center;margin-bottom:20px}
-.app-title h1{color:var(--gold)}
-.app-title p{color:#aaa;font-size:14px}
-
-.card{
-  background:var(--card);
-  border-radius:18px;
-  padding:18px;
-  margin-bottom:16px;
-}
-.card-title{color:var(--gold);margin-bottom:8px}
-
-.video-box{
-  height:180px;background:#000;border-radius:14px;
-  display:flex;align-items:center;justify-content:center;color:#777
-}
-
-.action-btn{
-  width:100%;padding:14px;border:none;border-radius:14px;
-  background:var(--gold);font-weight:bold;cursor:pointer;margin-top:10px
-}
-
-.section{display:none}
-.section.active{display:block}
-
-/* NAV */
+body{margin:0;font-family:Arial;background:#0b0b0b;color:#fff}
+.gold{color:#c9b26b}
+#login,#app{max-width:420px;margin:auto;padding:30px}
+input,button{width:100%;padding:14px;margin-top:10px;border-radius:10px;border:none}
+button{background:#c9b26b;font-weight:bold}
+#app{display:none;padding-bottom:90px}
+.card{background:#151515;padding:18px;border-radius:16px;margin-bottom:14px}
 .bottom-nav{
   position:fixed;bottom:0;left:0;right:0;
-  background:#101010;border-top:1px solid #222;
-  display:none;justify-content:space-around;padding:14px 0
+  background:#101010;display:none;
+  justify-content:space-around;padding:14px
 }
-.bottom-nav button{
-  background:none;border:none;color:var(--gold);font-size:15px
-}
+.bottom-nav button{background:none;border:none;color:#c9b26b;font-size:16px}
+.section{display:none}
+.section.active{display:block}
 </style>
 </head>
 
 <body>
 
 <!-- LOGIN -->
-<div id="authBox">
-  <h2>Engagement App</h2>
-  <input id="email" type="email" placeholder="Email" />
-  <input id="password" type="password" placeholder="Password" />
+<div id="login">
+  <h2 class="gold" style="text-align:center">Engagement App</h2>
+  <input id="email" placeholder="Email">
+  <input id="password" type="password" placeholder="Password">
   <button id="loginBtn">Login</button>
-  <div id="authMsg"></div>
+  <p id="msg" style="color:red;text-align:center"></p>
 </div>
 
 <!-- APP -->
 <div id="app">
-  <div class="app-title">
-    <h1>Engagement App</h1>
-    <p>Church Engagement Platform</p>
+  <h2 class="gold" style="text-align:center">Engagement App</h2>
+
+  <div id="home" class="section active">
+    <div class="card">Dashboard</div>
+    <div class="card">Live Stream</div>
+    <div class="card">Medical Support</div>
+    <div class="card">Donations</div>
+    <div class="card">Remote Church Jobs</div>
   </div>
 
-  <div id="homeSection" class="section active">
-    <div class="card">
-      <div class="card-title">Dashboard</div>
-      <p>Email: <span id="profileEmail"></span></p>
-      <p>XP: 0</p>
-    </div>
-
-    <div class="card">
-      <div class="card-title">Live Stream</div>
-      <div class="video-box">Live stream here</div>
-    </div>
-
-    <div class="card">
-      <div class="card-title">Christian Support</div>
-      <p>Prayer, counseling & care</p>
-    </div>
-
-    <div class="card">
-      <div class="card-title">Remote Church Jobs</div>
-      <button class="action-btn">Apply</button>
-    </div>
+  <div id="tasks" class="section">
+    <div class="card">Tasks</div>
   </div>
 
-  <div id="tasksSection" class="section">
-    <div class="card"><div class="card-title">Tasks</div><p>Coming soon</p></div>
+  <div id="rewards" class="section">
+    <div class="card">Rewards</div>
   </div>
 
-  <div id="rewardsSection" class="section">
-    <div class="card"><div class="card-title">Rewards</div><p>Coming soon</p></div>
-  </div>
-
-  <div id="profileSection" class="section">
+  <div id="profile" class="section">
     <div class="card">
-      <div class="card-title">Profile</div>
-      <p id="profileEmail2"></p>
-      <button class="action-btn" id="logoutBtn">Logout</button>
+      <p id="userEmail"></p>
+      <button id="logoutBtn">Logout</button>
     </div>
   </div>
 </div>
 
-<div class="bottom-nav" id="bottomNav">
-  <button onclick="showSection('home')">Home</button>
-  <button onclick="showSection('tasks')">Tasks</button>
-  <button onclick="showSection('rewards')">Rewards</button>
-  <button onclick="showSection('profile')">Profile</button>
+<div class="bottom-nav" id="nav">
+  <button onclick="show('home')">Home</button>
+  <button onclick="show('tasks')">Tasks</button>
+  <button onclick="show('rewards')">Rewards</button>
+  <button onclick="show('profile')">Profile</button>
 </div>
 
 <!-- FIREBASE -->
@@ -142,12 +77,9 @@ import {
   getAuth,
   signInWithEmailAndPassword,
   onAuthStateChanged,
-  signOut,
-  setPersistence,
-  browserSessionPersistence
+  signOut
 } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
 
-/* 🔑 YOUR FIREBASE CONFIG */
 const firebaseConfig = {
   apiKey: "AIzaSyAezp-Hh60aStIXWxDMp82PVh973eMbb0",
   authDomain: "engagement-app-72208.firebaseapp.com",
@@ -158,55 +90,41 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 
-/* 🔒 DEMO MODE: no auto login */
-setPersistence(auth, browserSessionPersistence);
+/* 🔥 FORCE LOGOUT ON LOAD (KEY FIX) */
+signOut(auth);
 
-/* UI */
-const authBox = document.getElementById("authBox");
+const loginBox = document.getElementById("login");
 const appBox = document.getElementById("app");
-const bottomNav = document.getElementById("bottomNav");
-const email = document.getElementById("email");
-const password = document.getElementById("password");
-const authMsg = document.getElementById("authMsg");
-const profileEmail = document.getElementById("profileEmail");
-const profileEmail2 = document.getElementById("profileEmail2");
-const logoutBtn = document.getElementById("logoutBtn");
+const nav = document.getElementById("nav");
 
-window.showSection = name => {
-  document.querySelectorAll(".section").forEach(s=>s.classList.remove("active"));
-  document.getElementById(name+"Section").classList.add("active");
+document.getElementById("loginBtn").onclick = ()=>{
+  signInWithEmailAndPassword(
+    auth,
+    email.value,
+    password.value
+  ).catch(()=>msg.textContent="Wrong login");
 };
 
-document.getElementById("loginBtn").onclick = () => {
-  signInWithEmailAndPassword(auth, email.value, password.value)
-    .catch(e => authMsg.textContent = "Invalid login");
-};
+document.getElementById("logoutBtn").onclick = ()=>signOut(auth);
 
-logoutBtn.onclick = () => signOut(auth);
-
-onAuthStateChanged(auth, user => {
+onAuthStateChanged(auth,user=>{
   if(user){
-    authBox.style.display="none";
+    loginBox.style.display="none";
     appBox.style.display="block";
-    bottomNav.style.display="flex";
-    profileEmail.textContent=user.email;
-    profileEmail2.textContent=user.email;
+    nav.style.display="flex";
+    userEmail.textContent=user.email;
   }else{
-    authBox.style.display="block";
+    loginBox.style.display="block";
     appBox.style.display="none";
-    bottomNav.style.display="none";
+    nav.style.display="none";
   }
 });
-</script>
 
-<!-- SERVICE WORKER -->
-<script>
-if ("serviceWorker" in navigator) {
-  window.addEventListener("load", () => {
-    navigator.serviceWorker.register("service-worker.js");
-  });
-}
+window.show=name=>{
+  document.querySelectorAll(".section").forEach(s=>s.classList.remove("active"));
+  document.getElementById(name).classList.add("active");
+};
 </script>
 
 </body>
-                                                        </html>
+</html>
