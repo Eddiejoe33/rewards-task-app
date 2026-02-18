@@ -31,28 +31,27 @@
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
   // ---------------- SUPABASE ----------------
-  const supabaseUrl = "https://dwxmhgrysyvaahgcarth.supabase.co";
-  const supabaseKey = "sb_publishable_SrRfZegLOPLOPG8DEG6kyw_FYzuuudh";
+  const supabaseUrl = "https://dwxmhgrysyvaahgcarth.supabase.co"; // your project URL
+  const supabaseKey = "sb_publishable_SrRfZegLOPLOPG8DEG6kyw_FYzuuudh"; // your anon key
   const supabase = supabase.createClient(supabaseUrl, supabaseKey);
 
-  // Load church users
   async function loadUsers() {
     try {
       const { data, error } = await supabase.from("users").select("*");
       if(error){
-        document.getElementById("users").innerText = "Error: " + error.message;
+        document.getElementById("users").innerText = "Error fetching users: " + error.message;
         return;
       }
-      if(!data.length){
-        document.getElementById("users").innerText = "No users found";
+      if(!data || data.length === 0){
+        document.getElementById("users").innerText = "No church members found yet.";
         return;
       }
       let output = "";
       data.forEach(u=>{
-        output += `${u.name} - ${u.role}\n`;
+        output += `👤 ${u.name} - ${u.role}\n`;
       });
       document.getElementById("users").innerText = output;
-    } catch(err) {
+    } catch(err){
       document.getElementById("users").innerText = "Fetch failed: " + err.message;
     }
   }
@@ -62,10 +61,10 @@
   // ---------------- AI DEMO ----------------
   function askAI(){
     const q = document.getElementById("question").value.trim();
-    if(!q) return alert("Type a question first.");
-    document.getElementById("ai-answer").innerText = "Pastor AI received: " + q;
+    if(!q) return alert("Please type a question first.");
+    document.getElementById("ai-answer").innerText = "🤖 Pastor AI received: " + q;
   }
 </script>
 
 </body>
-</html>
+  </html>
