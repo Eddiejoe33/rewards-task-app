@@ -11,6 +11,7 @@
     input, button {padding:10px; width:100%; margin-top:5px;}
     button{background:#2c3e50;color:white;border:none;cursor:pointer;}
     button:hover{background:black;}
+    .error {color:red;}
   </style>
 </head>
 <body>
@@ -38,21 +39,25 @@
   async function loadUsers() {
     try {
       const { data, error } = await supabase.from("users").select("*");
+
       if(error){
-        document.getElementById("users").innerText = "Error fetching users: " + error.message;
+        document.getElementById("users").innerHTML = `<span class="error">Error fetching users: ${error.message}</span>`;
         return;
       }
+
       if(!data || data.length === 0){
         document.getElementById("users").innerText = "No church members found yet.";
         return;
       }
+
       let output = "";
       data.forEach(u=>{
         output += `👤 ${u.name} - ${u.role}\n`;
       });
       document.getElementById("users").innerText = output;
+
     } catch(err){
-      document.getElementById("users").innerText = "Fetch failed: " + err.message;
+      document.getElementById("users").innerHTML = `<span class="error">Cannot connect to Supabase: ${err.message}</span>`;
     }
   }
 
@@ -67,4 +72,4 @@
 </script>
 
 </body>
-  </html>
+</html>
