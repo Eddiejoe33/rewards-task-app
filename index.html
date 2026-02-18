@@ -6,70 +6,80 @@
 <title>Church</title>
 <style>
 /* ---------- General Styles ---------- */
-body { 
-  font-family: Arial, sans-serif; 
-  background: linear-gradient(135deg, #222, #bfa94a); /* dark gold gradient */
-  margin: 0; 
-  padding: 0; 
-  font-size: 20px; 
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  background: #1e1e1e; /* dark background */
   color: #fff;
+  font-size: 20px;
 }
 
-.container { 
-  max-width: 900px; 
-  margin: 20px auto; 
-  background: #1c1c1c; 
-  padding: 20px; 
-  border-radius: 16px; 
-  box-shadow: 0 6px 20px rgba(0,0,0,0.3); 
-  padding-bottom: 160px; /* extra for stable bottom nav */
-  color: #fff;
+.container {
+  max-width: 500px;
+  margin: 20px auto;
+  padding-bottom: 140px; /* space for bottom nav */
 }
 
 /* ---------- Headings ---------- */
-h1 { font-size: 36px; text-align: center; margin-bottom: 20px; }
-h2 { font-size: 26px; margin-top: 20px; }
-
-/* ---------- Boxes ---------- */
-.box { 
-  background: #2a2a2a; 
-  border: 2px solid #444; 
-  padding: 18px; 
-  border-radius: 14px; 
-  margin-top: 12px; 
-  font-size: 22px; 
-  color: #fff;
-}
-
-/* ---------- List ---------- */
-ul { list-style: none; padding: 0; margin: 0; }
-li { padding: 14px; border-bottom: 1px solid #555; font-size: 22px; }
-li:last-child { border-bottom: none; }
-
-/* ---------- Buttons ---------- */
-button.action { 
-  background: #bfa94a; 
-  margin-top: 15px; 
-  width: 100%; 
-  font-size: 24px; 
-  padding: 16px; 
-  border-radius: 14px; 
-  color: #1c1c1c; 
-  border: none; 
+h1 {
+  text-align: center;
+  font-size: 36px;
+  margin-bottom: 20px;
   font-weight: bold;
-  cursor: pointer;
 }
-button.action:hover { background: #d4c06b; }
+
+/* ---------- Home Feature Boxes ---------- */
+.home-feature {
+  background: #2c2c2c;
+  padding: 18px;
+  border-radius: 12px;
+  margin-bottom: 20px;
+}
+
+.home-feature h2 {
+  font-size: 22px;
+  margin-bottom: 12px;
+}
 
 /* ---------- Inputs ---------- */
-input, textarea { 
-  width: 100%; 
-  padding: 16px; 
-  border-radius: 12px; 
-  border: 2px solid #555; 
-  font-size: 20px;
-  background: #222;
+.home-feature input {
+  width: 100%;
+  padding: 12px;
+  border-radius: 8px;
+  border: 1px solid #555;
+  margin-bottom: 10px;
+  font-size: 18px;
+  background: #1e1e1e;
   color: #fff;
+}
+
+/* ---------- Buttons ---------- */
+.home-feature button {
+  width: 100%;
+  padding: 12px;
+  font-size: 20px;
+  border-radius: 8px;
+  background: #1abc9c;
+  border: none;
+  color: white;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.home-feature button:hover {
+  background: #16a085;
+}
+
+/* ---------- Output Box ---------- */
+.output-box {
+  background: #1e1e1e;
+  border: 1px solid #555;
+  border-radius: 8px;
+  padding: 12px;
+  margin-top: 10px;
+  min-height: 40px;
+  font-size: 18px;
 }
 
 /* ---------- Sections ---------- */
@@ -83,82 +93,101 @@ input, textarea {
   left: 0;
   width: 100%;
   display: flex;
-  background: #1c1c1c;
+  background: #2c2c2c;
   justify-content: space-around;
   padding: 12px 0;
   box-shadow: 0 -3px 8px rgba(0,0,0,0.3);
-  z-index: 999;
 }
+
 #bottom-nav button {
   background: none;
-  color: #fff;
   border: none;
-  font-size: 20px;
+  color: white;
+  font-size: 18px;
   font-weight: bold;
   flex: 1;
-  cursor: pointer;
 }
-#bottom-nav button.active { color: #bfa94a; }
+
+#bottom-nav button.active {
+  color: #1abc9c;
+}
 </style>
 </head>
-
 <body>
 
 <div class="container">
   <h1 id="page-title">Church</h1>
 
-  <!-- Home Dashboard -->
+  <!-- Home Section -->
   <div id="home" class="section active-section">
-    <h2>📖 King James Bible (AI)</h2>
-    <input type="text" id="bible-search" placeholder="Search Chapter:Verse (e.g., John 3:16)">
-    <button class="action" onclick="searchBible()">Read Verse</button>
-    <div id="bible-output" class="box"></div>
 
-    <h2>🙏 Prayer Requests</h2>
-    <textarea id="prayer-input" placeholder="Type your prayer request..."></textarea>
-    <button class="action" onclick="addPrayer()">Send Prayer</button>
-    <ul id="prayer-log" class="box"></ul>
+    <!-- King James Bible -->
+    <div class="home-feature">
+      <h2>📖 King James Bible (AI)</h2>
+      <input type="text" id="bible-search" placeholder="Search Chapter:Verse (e.g., John 3:16)">
+      <button onclick="readBible()">Read Verse</button>
+      <div id="bible-output" class="output-box"></div>
+    </div>
 
-    <h2>💍 Marriage Counseling</h2>
-    <div class="box">Request counseling or view tips here.</div>
+    <!-- Prayer Requests -->
+    <div class="home-feature">
+      <h2>🙏 Prayer Requests</h2>
+      <input type="text" id="prayer-input" placeholder="Type your prayer request...">
+      <button onclick="addPrayer()">Send Prayer</button>
+      <div id="prayer-output" class="output-box"></div>
+    </div>
 
-    <h2>💰 Donation</h2>
-    <div class="box">Track and make donations here.</div>
+    <!-- Marriage Counseling -->
+    <div class="home-feature">
+      <h2>💍 Marriage Counseling</h2>
+      <input type="text" id="counseling-input" placeholder="Request counseling or view tips...">
+      <button onclick="requestCounseling()">Submit</button>
+      <div id="counseling-output" class="output-box"></div>
+    </div>
+
+    <!-- Donation -->
+    <div class="home-feature">
+      <h2>💰 Donation</h2>
+      <input type="number" id="donation-input" placeholder="Enter amount">
+      <button onclick="makeDonation()">Donate</button>
+      <div id="donation-output" class="output-box"></div>
+    </div>
+
   </div>
 
-  <!-- Profile -->
+  <!-- Profile Section -->
   <div id="profile" class="section">
     <h2>👤 Profile</h2>
-    <div class="box">
+    <div class="home-feature">
       Name: John Doe<br>
       Role: Member<br>
       Points: 10
     </div>
   </div>
 
-  <!-- Activities -->
+  <!-- Activities Section -->
   <div id="activities" class="section">
-    <h2>🗂 Activities</h2>
-    <ul id="task-list" class="box"></ul>
-    <div id="rewards" class="box"></div>
-    <button class="action" onclick="addTask()">➕ Add Task</button>
-
-    <h2>📅 Calendar</h2>
-    <div class="box">
-      Sunday Service - 9AM<br>
-      Youth Meeting - Wednesday 6PM<br>
-      Choir Practice - Friday 4PM
+    <h2>⚡ Activities</h2>
+    <div class="home-feature">
+      <ul id="task-list">
+        <li>Task 1 - Pending</li>
+        <li>Task 2 - Completed</li>
+      </ul>
+      <button onclick="addTask()">➕ Add Task</button>
     </div>
   </div>
 
-  <!-- Appointments -->
+  <!-- Appointments Section -->
   <div id="appointments" class="section">
     <h2>📅 Appointments</h2>
-    <div class="box">
-      Meeting with Pastor - Tomorrow 10AM<br>
-      Choir Practice - Saturday 4PM
+    <div class="home-feature">
+      <ul>
+        <li>Sunday Service - 10:00 AM</li>
+        <li>Choir Practice - Saturday 4:00 PM</li>
+      </ul>
     </div>
   </div>
+
 </div>
 
 <!-- Bottom Navigation -->
@@ -170,29 +199,25 @@ input, textarea {
 </div>
 
 <script>
-// ---------- Navigation ----------
+/* ---------- Navigation ---------- */
 function showSection(section){
   document.querySelectorAll('.section').forEach(s=>s.classList.remove('active-section'));
   document.getElementById(section).classList.add('active-section');
 
+  // Highlight active bottom button
   document.querySelectorAll('#bottom-nav button').forEach(b=>b.classList.remove('active'));
   document.getElementById('nav-' + section).classList.add('active');
 
-  const titleMap = {
-    home: "Church",
-    profile: "Profile",
-    activities: "Activities",
-    appointments: "Appointments"
-  };
-  document.getElementById("page-title").innerText = titleMap[section] || "Church";
+  // Change page title to the active section
+  const titles = { home: "Church", profile: "Profile", activities: "Activities", appointments: "Appointments" };
+  document.getElementById('page-title').innerText = titles[section] || "Church";
 }
 
-// ---------- Tasks + Rewards ----------
+/* ---------- Tasks ---------- */
 let tasks = [
   { name: "Task 1", status: "Pending" },
   { name: "Task 2", status: "Completed" }
 ];
-let points = 10;
 
 function renderTasks(){
   const ul = document.getElementById("task-list");
@@ -204,44 +229,44 @@ function renderTasks(){
   });
 }
 
-function renderRewards(){
-  document.getElementById("rewards").innerText = `You have earned: ${points} points`;
-}
-
 function addTask(){
   const next = tasks.length + 1;
   tasks.push({ name: "Task " + next, status: "Pending" });
-  points += 5;
   renderTasks();
-  renderRewards();
 }
 
 renderTasks();
-renderRewards();
 
-// ---------- Prayer Requests ----------
-let prayers = [];
+/* ---------- Prayer ---------- */
 function addPrayer(){
-  const text = document.getElementById("prayer-input").value.trim();
-  if(!text) return alert("Type your prayer request");
-  prayers.push(text);
-  const ul = document.getElementById("prayer-log");
-  const li = document.createElement("li");
-  li.textContent = text;
-  ul.appendChild(li);
+  const input = document.getElementById("prayer-input").value.trim();
+  if(!input) return alert("Type your prayer request");
+  document.getElementById("prayer-output").innerText = "🙏 Prayer sent: " + input;
   document.getElementById("prayer-input").value = "";
 }
 
-// ---------- Bible Search with AI Simulation ----------
-function searchBible(){
-  const verse = document.getElementById("bible-search").value.trim();
-  if(!verse) return alert("Enter chapter:verse to read");
+/* ---------- Counseling ---------- */
+function requestCounseling(){
+  const input = document.getElementById("counseling-input").value.trim();
+  if(!input) return alert("Type your counseling request");
+  document.getElementById("counseling-output").innerText = "💍 Counseling submitted: " + input;
+  document.getElementById("counseling-input").value = "";
+}
 
-  // Simulated AI reading output
-  const output = `📖 AI Reading of ${verse}:\n"In the beginning God created the heaven and the earth..." (simulated AI voice)`;
-  document.getElementById("bible-output").innerText = output;
+/* ---------- Donation ---------- */
+function makeDonation(){
+  const amount = document.getElementById("donation-input").value.trim();
+  if(!amount || amount <= 0) return alert("Enter a valid amount");
+  document.getElementById("donation-output").innerText = "💰 Donation made: $" + amount;
+  document.getElementById("donation-input").value = "";
+}
 
-  // Optional: could integrate actual TTS or AI API here
+/* ---------- Bible AI (Simulated) ---------- */
+function readBible(){
+  const input = document.getElementById("bible-search").value.trim();
+  if(!input) return alert("Enter Chapter:Verse (e.g., John 3:16)");
+  // Simulated AI read
+  document.getElementById("bible-output").innerText = `📖 AI Reading of ${input}:\n"In the beginning God created the heaven and the earth..." (simulated voice)`;
 }
 </script>
 
