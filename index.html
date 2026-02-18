@@ -11,6 +11,7 @@
   input, button { padding:10px; width:100%; margin-top:5px; }
   button { background:#2c3e50; color:white; border:none; cursor:pointer; }
   button:hover { background:black; }
+  #debug { font-size:12px; color:red; margin-top:10px; }
 </style>
 </head>
 <body>
@@ -25,22 +26,30 @@
   <input id="question" placeholder="Ask your pastor anything...">
   <button onclick="askAI()">Ask AI</button>
   <div id="ai-answer" class="box"></div>
+
+  <h3>Debug Info</h3>
+  <div id="debug" class="box"></div>
 </div>
 
+<!-- Supabase v2 -->
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
-  // ---------------- SUPABASE ----------------
-  const supabaseUrl = "https://dwxmhgrysyvaahgcarth.supabase.co"; 
-  const supabaseKey = "sb_publishable_SrRfZegLOPLOPG8DEG6kyw_FYzuuudh"; 
+  // ----------- SUPABASE SETUP -----------
+  const supabaseUrl = "https://dwxmhgrysyvaahgcarth.supabase.co";
+  const supabaseKey = "sb_publishable_SrRfZegLOPLOPG8DEG6kyw_FYzuuudh"; // Publishable key
   const supabase = supabase.createClient(supabaseUrl, supabaseKey);
 
+  // ----------- LOAD USERS -----------
   async function loadUsers() {
     const el = document.getElementById("users");
+    const debugEl = document.getElementById("debug");
     el.innerText = "Loading church members...";
+    debugEl.innerText = "";
 
     try {
       const { data, error } = await supabase.from("users").select("*");
-      
+      debugEl.innerText = "Supabase fetch complete\nDATA: " + JSON.stringify(data) + "\nERROR: " + JSON.stringify(error);
+
       if (error) {
         el.innerText = "Supabase error: " + error.message;
         return;
@@ -51,23 +60,21 @@
         return;
       }
 
-      // Print all users
+      // Print users
       el.innerText = data.map(u => `${u.name} - ${u.role}`).join("\n");
 
     } catch (err) {
       el.innerText = "Fetch failed: " + err.message;
+      debugEl.innerText += "\nCatch error: " + err.message;
     }
   }
 
   loadUsers();
 
-  // ---------------- AI DEMO ----------------
+  // ----------- AI DEMO -----------
   function askAI() {
     const q = document.getElementById("question").value.trim();
-    if (!q) {
-      alert("Type a question first.");
-      return;
-    }
+    if (!q) return alert("Type a question first.");
     document.getElementById("ai-answer").innerText = "Pastor AI received: " + q;
   }
 </script>
