@@ -7,7 +7,7 @@
 <style>
 body {
   font-family: Arial, sans-serif;
-  background: #f0f2f5;
+  background: linear-gradient(to bottom, #f0f4f8, #d9e2ec); /* soft colored background */
   margin: 0;
   padding: 0;
   font-size: 20px;
@@ -19,7 +19,7 @@ body {
   padding: 20px;
   border-radius: 16px;
   box-shadow: 0 6px 20px rgba(0,0,0,0.12);
-  padding-bottom: 140px; /* space for bottom nav */
+  padding-bottom: 160px; /* space for bottom nav */
 }
 h1 { color: #2c3e50; font-size: 34px; text-align:center; margin-bottom:20px; }
 h2 { font-size: 26px; margin-top: 20px; }
@@ -81,7 +81,7 @@ textarea {
 <div class="container">
   <h1>🙏 Church App</h1>
 
-  <!-- Homepage / Dashboard -->
+  <!-- Home / Dashboard -->
   <div id="dashboard" class="section active-section">
     <h2>📖 King James Bible</h2>
     <div class="box">
@@ -95,12 +95,6 @@ textarea {
     <textarea id="prayer-input" placeholder="Type your prayer request..."></textarea>
     <button class="action" onclick="addPrayer()">Send Prayer</button>
 
-    <h2>💍 Marriage Counseling</h2>
-    <div class="box">
-      <p><em>Placeholder: Request marriage counseling or guidance here.</em></p>
-      <button class="action" onclick="alert('Request sent!')">Request Counseling</button>
-    </div>
-
     <h2>💰 Donations</h2>
     <div class="box">
       <p><em>Placeholder for donation / tithes collection.</em></p>
@@ -108,7 +102,7 @@ textarea {
     </div>
   </div>
 
-  <!-- Profile Section -->
+  <!-- Profile -->
   <div id="profile" class="section">
     <h2>👤 Profile</h2>
     <div class="box">
@@ -118,22 +112,22 @@ textarea {
     </div>
   </div>
 
-  <!-- Counseling Section -->
-  <div id="counseling" class="section">
-    <h2>💍 Marriage Counseling Requests</h2>
-    <ul class="box">
-      <li>Request 1 - Pending</li>
-      <li>Request 2 - Completed</li>
-    </ul>
-  </div>
+  <!-- Activities -->
+  <div id="activities" class="section">
+    <h2>🗂 Tasks / Rewards</h2>
+    <div class="box">
+      <ul id="task-list"></ul>
+      <button class="action" onclick="addTask()">➕ Add Task</button>
+    </div>
 
-  <!-- Donations Section -->
-  <div id="donations" class="section">
-    <h2>💰 Donations / Tithes</h2>
-    <ul class="box">
-      <li>John Doe - $50 - 12 Feb 2026</li>
-      <li>Mary Jane - $30 - 14 Feb 2026</li>
-    </ul>
+    <h2>📅 Service Calendar</h2>
+    <div class="box">
+      <ul>
+        <li>Sunday Service - Feb 20, 2026 - 9AM</li>
+        <li>Wednesday Prayer Meeting - Feb 23, 2026 - 6PM</li>
+        <li>Friday Bible Study - Feb 25, 2026 - 7PM</li>
+      </ul>
+    </div>
   </div>
 
   <!-- AI Secretary -->
@@ -152,18 +146,44 @@ textarea {
 <div id="bottom-nav">
   <button id="nav-dashboard" class="active" onclick="showSection('dashboard')">🏠 Home</button>
   <button id="nav-profile" onclick="showSection('profile')">👤 Profile</button>
-  <button id="nav-prayers" onclick="showSection('counseling')">💍 Counseling</button>
-  <button id="nav-appointments" onclick="showSection('donations')">💰 Donations</button>
+  <button id="nav-activities" onclick="showSection('activities')">🗂 Activities</button>
   <button id="nav-ai" onclick="showSection('ai')">🤖 AI</button>
 </div>
 
 <script>
+// Navigation
 function showSection(section){
   document.querySelectorAll('.section').forEach(s=>s.classList.remove('active-section'));
   document.getElementById(section).classList.add('active-section');
   document.querySelectorAll('#bottom-nav button').forEach(b=>b.classList.remove('active'));
   document.getElementById('nav-' + section).classList.add('active');
 }
+
+// Tasks
+let tasks = [
+  { name: "Task 1", status: "Pending" },
+  { name: "Task 2", status: "Completed" }
+];
+let points = 10;
+
+function renderTasks(){
+  const ul = document.getElementById("task-list");
+  ul.innerHTML = "";
+  tasks.forEach(t=>{
+    const li = document.createElement("li");
+    li.textContent = `${t.name} - ${t.status}`;
+    ul.appendChild(li);
+  });
+}
+
+function addTask(){
+  const next = tasks.length + 1;
+  tasks.push({ name: "Task " + next, status: "Pending" });
+  points += 5;
+  renderTasks();
+}
+
+renderTasks();
 
 // Prayer Requests
 let prayers = [];
@@ -189,8 +209,8 @@ function askAI(){
     renderAILog();
     response = "🙏 Your prayer request has been noted by Pastor AI.";
   }
-  if(input.toLowerCase().includes("counseling")) response = "Check counseling section for guidance!";
-  if(input.toLowerCase().includes("donation")) response = "You can donate using the Donations tab.";
+  if(input.toLowerCase().includes("counseling")) response = "Check Activities tab for guidance!";
+  if(input.toLowerCase().includes("donation")) response = "You can donate using the Home tab.";
   if(input.toLowerCase().includes("hello")) response = "Hello! How can I assist you today?";
   document.getElementById("ai-output").innerText = response;
   document.getElementById("ai-input").value = "";
@@ -208,4 +228,4 @@ function renderAILog(){
 </script>
 
 </body>
-    </html>
+  </html>
