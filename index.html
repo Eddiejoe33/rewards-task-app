@@ -1,158 +1,151 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-<!DOCTYPE html>
 <html>
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Church</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
 
 <style>
 body {
   margin: 0;
-  font-family: Arial;
-  background: black;
-  color: gold;
+  background: #0b0b0b;
+  color: #f5f5f5;
+  font-family: Arial, sans-serif;
 }
 
-/* HEADER */
+/* Top Header */
 header {
-  text-align: center;
   padding: 12px;
-  font-size: 20px;
-  font-weight: bold;
-  border-bottom: 1px solid gold;
-}
-
-/* DASHBOARD BUTTONS */
-.dashboard {
-  padding: 15px;
-  padding-bottom: 90px;
-}
-
-.card {
-  background: #111;
-  border: 1px solid gold;
-  padding: 15px;
-  margin-bottom: 12px;
-  border-radius: 12px;
+  text-align: center;
   font-size: 18px;
+  font-weight: bold;
+  border-bottom: 1px solid #2c2c2c;
+  background: #0b0b0b;
+}
+
+/* Main Content */
+.content {
+  padding: 15px;
+  padding-bottom: 80px;
+}
+
+/* Dashboard Buttons */
+.card {
+  padding: 15px;
+  margin: 10px 0;
+  border-radius: 12px;
+  background: #141414;
+  border: 1px solid #2c2c2c;
   cursor: pointer;
-}
-
-/* HIDDEN BOXES */
-.box {
-  display: none;
-  margin-top: 10px;
-}
-
-input, textarea, button {
-  width: 100%;
-  padding: 10px;
-  margin-top: 5px;
-  border-radius: 8px;
-  border: none;
   font-size: 16px;
 }
 
+/* Hidden Boxes */
+.box {
+  display: none;
+  margin-top: 8px;
+}
+
 input, textarea {
-  background: black;
-  color: gold;
-  border: 1px solid gold;
+  width: 100%;
+  padding: 10px;
+  margin-top: 8px;
+  background: #0b0b0b;
+  border: 1px solid #3a3a3a;
+  color: white;
+  border-radius: 8px;
 }
 
 button {
-  background: gold;
-  color: black;
+  margin-top: 8px;
+  padding: 10px;
+  width: 100%;
+  background: #b08d2b; /* DIM GOLD */
+  border: none;
+  border-radius: 8px;
   font-weight: bold;
 }
 
-/* BOTTOM NAV */
+/* Bottom Navigation */
 nav {
   position: fixed;
   bottom: 0;
   width: 100%;
-  background: black;
   display: flex;
-  justify-content: space-around;
-  padding: 10px 0;
-  border-top: 1px solid gold;
+  background: #0b0b0b;
+  border-top: 1px solid #2c2c2c;
 }
 
 nav button {
+  flex: 1;
+  padding: 12px;
   background: none;
   border: none;
-  color: gold;
-  font-size: 16px;
+  color: #888;
+  font-size: 14px;
+}
+
+nav button.active {
+  color: #b08d2b;
 }
 </style>
 </head>
 
 <body>
 
-<header id="title">Church</header>
+<header id="topTitle">Church</header>
 
-<div class="dashboard">
+<div class="content" id="homePage">
 
-<!-- Bible -->
-<div class="card" onclick="toggleBox('bibleBox')">📖 King James Bible (AI)</div>
-<div class="box" id="bibleBox">
-  <input id="bibleInput" placeholder="Search Chapter:Verse (John 3:16)">
-  <button onclick="readVerse()">Read Verse</button>
-  <p id="bibleResult"></p>
-</div>
+  <!-- Bible -->
+  <div class="card" onclick="toggleBox('bibleBox')">📖 King James Bible (AI)</div>
+  <div class="box" id="bibleBox">
+    <input placeholder="Search Chapter:Verse (e.g., John 3:16)">
+    <button>Read Verse</button>
+  </div>
 
-<!-- Prayer -->
-<div class="card" onclick="toggleBox('prayerBox')">🙏 Prayer Request</div>
-<div class="box" id="prayerBox">
-  <textarea placeholder="Type your prayer request..."></textarea>
-  <button>Send Prayer</button>
-</div>
+  <!-- Prayer -->
+  <div class="card" onclick="toggleBox('prayerBox')">🙏 Prayer Request</div>
+  <div class="box" id="prayerBox">
+    <textarea placeholder="Type your prayer request..."></textarea>
+    <button>Send Prayer</button>
+  </div>
 
-<!-- Counseling -->
-<div class="card" onclick="toggleBox('counselBox')">💍 Marriage Counseling</div>
-<div class="box" id="counselBox">
-  <textarea placeholder="Describe your counseling request..."></textarea>
-  <button>Request Counseling</button>
-</div>
+  <!-- Counseling -->
+  <div class="card" onclick="toggleBox('counselBox')">💍 Marriage Counseling</div>
+  <div class="box" id="counselBox">
+    <textarea placeholder="Describe your counseling need..."></textarea>
+    <button>Request Counseling</button>
+  </div>
 
-<!-- Donation -->
-<div class="card" onclick="toggleBox('donateBox')">💰 Donation</div>
-<div class="box" id="donateBox">
-  <input placeholder="Enter donation amount">
-  <button>Donate</button>
-</div>
+  <!-- Donation -->
+  <div class="card" onclick="toggleBox('donateBox')">💰 Donation</div>
+  <div class="box" id="donateBox">
+    <input placeholder="Enter amount">
+    <button>Donate</button>
+  </div>
 
 </div>
 
 <!-- Bottom Navigation -->
 <nav>
-  <button onclick="setTitle('Home')">🏠 Home</button>
-  <button onclick="setTitle('Profile')">👤 Profile</button>
-  <button onclick="setTitle('Activities')">⚡ Activities</button>
-  <button onclick="setTitle('Appointments')">📅 Appointments</button>
+  <button class="active" onclick="setPage('Home')">🏠 Home</button>
+  <button onclick="setPage('Profile')">👤 Profile</button>
+  <button onclick="setPage('Activities')">⚡ Activities</button>
+  <button onclick="setPage('Appointments')">📅 Appointments</button>
 </nav>
 
 <script>
-// Toggle show/hide boxes
 function toggleBox(id) {
   let box = document.getElementById(id);
   box.style.display = box.style.display === "block" ? "none" : "block";
 }
 
-// Change top title
-function setTitle(name) {
-  document.getElementById("title").innerText = name;
-}
-
-// AI Bible Reader (fake for now)
-function readVerse() {
-  let v = document.getElementById("bibleInput").value;
-  document.getElementById("bibleResult").innerText =
-    "📖 AI Reading of " + v + ": (AI will speak the verse here)";
+function setPage(name) {
+  document.getElementById("topTitle").innerText = name;
+  document.querySelectorAll("nav button").forEach(btn => btn.classList.remove("active"));
+  event.target.classList.add("active");
 }
 </script>
 
 </body>
-  </html>
+      </html>
