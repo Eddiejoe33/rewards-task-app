@@ -1,36 +1,50 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Church</title>
 
 <style>
 body {
   margin: 0;
-  font-family: Arial, sans-serif;
-  background: #000;
+  font-family: Arial;
+  background: black;
   color: gold;
 }
 
 /* HEADER */
 header {
-  background: black;
-  padding: 12px;
   text-align: center;
+  padding: 12px;
   font-size: 20px;
   font-weight: bold;
   border-bottom: 1px solid gold;
 }
 
-/* MAIN CONTENT */
-.container {
+/* DASHBOARD BUTTONS */
+.dashboard {
   padding: 15px;
-  padding-bottom: 80px;
+  padding-bottom: 90px;
 }
 
-.section {
-  margin-bottom: 20px;
+.card {
+  background: #111;
+  border: 1px solid gold;
+  padding: 15px;
+  margin-bottom: 12px;
+  border-radius: 12px;
+  font-size: 18px;
+  cursor: pointer;
+}
+
+/* HIDDEN BOXES */
+.box {
+  display: none;
+  margin-top: 10px;
 }
 
 input, textarea, button {
@@ -43,7 +57,7 @@ input, textarea, button {
 }
 
 input, textarea {
-  background: #111;
+  background: black;
   color: gold;
   border: 1px solid gold;
 }
@@ -52,7 +66,6 @@ button {
   background: gold;
   color: black;
   font-weight: bold;
-  cursor: pointer;
 }
 
 /* BOTTOM NAV */
@@ -78,60 +91,66 @@ nav button {
 
 <body>
 
-<header id="topTitle">Church</header>
+<header id="title">Church</header>
 
-<div class="container" id="content">
+<div class="dashboard">
 
-  <!-- Bible AI -->
-  <div class="section">
-    <h3>📖 King James Bible (AI)</h3>
-    <input id="bibleInput" placeholder="Search Chapter:Verse (e.g., John 3:16)">
-    <button onclick="readVerse()">Read Verse</button>
-    <p id="bibleResult"></p>
-  </div>
+<!-- Bible -->
+<div class="card" onclick="toggleBox('bibleBox')">📖 King James Bible (AI)</div>
+<div class="box" id="bibleBox">
+  <input id="bibleInput" placeholder="Search Chapter:Verse (John 3:16)">
+  <button onclick="readVerse()">Read Verse</button>
+  <p id="bibleResult"></p>
+</div>
 
-  <!-- Prayer -->
-  <div class="section">
-    <h3>🙏 Prayer Request</h3>
-    <textarea placeholder="Type your prayer request..."></textarea>
-    <button>Send Prayer</button>
-  </div>
+<!-- Prayer -->
+<div class="card" onclick="toggleBox('prayerBox')">🙏 Prayer Request</div>
+<div class="box" id="prayerBox">
+  <textarea placeholder="Type your prayer request..."></textarea>
+  <button>Send Prayer</button>
+</div>
 
-  <!-- Counseling -->
-  <div class="section">
-    <h3>💍 Marriage Counseling</h3>
-    <textarea placeholder="Describe your counseling request..."></textarea>
-    <button>Request Counseling</button>
-  </div>
+<!-- Counseling -->
+<div class="card" onclick="toggleBox('counselBox')">💍 Marriage Counseling</div>
+<div class="box" id="counselBox">
+  <textarea placeholder="Describe your counseling request..."></textarea>
+  <button>Request Counseling</button>
+</div>
 
-  <!-- Donation -->
-  <div class="section">
-    <h3>💰 Donation</h3>
-    <input placeholder="Enter donation amount">
-    <button>Donate</button>
-  </div>
+<!-- Donation -->
+<div class="card" onclick="toggleBox('donateBox')">💰 Donation</div>
+<div class="box" id="donateBox">
+  <input placeholder="Enter donation amount">
+  <button>Donate</button>
+</div>
 
 </div>
 
 <!-- Bottom Navigation -->
 <nav>
-  <button onclick="showPage('Home')">🏠 Home</button>
-  <button onclick="showPage('Profile')">👤 Profile</button>
-  <button onclick="showPage('Activities')">⚡ Activities</button>
-  <button onclick="showPage('Appointments')">📅 Appointments</button>
+  <button onclick="setTitle('Home')">🏠 Home</button>
+  <button onclick="setTitle('Profile')">👤 Profile</button>
+  <button onclick="setTitle('Activities')">⚡ Activities</button>
+  <button onclick="setTitle('Appointments')">📅 Appointments</button>
 </nav>
 
 <script>
-// Change Top Title when clicking bottom buttons
-function showPage(name) {
-  document.getElementById("topTitle").innerText = name;
+// Toggle show/hide boxes
+function toggleBox(id) {
+  let box = document.getElementById(id);
+  box.style.display = box.style.display === "block" ? "none" : "block";
 }
 
-// AI Bible Reader (Simple Simulation)
+// Change top title
+function setTitle(name) {
+  document.getElementById("title").innerText = name;
+}
+
+// AI Bible Reader (fake for now)
 function readVerse() {
-  let verse = document.getElementById("bibleInput").value;
+  let v = document.getElementById("bibleInput").value;
   document.getElementById("bibleResult").innerText =
-    "📖 AI Reading of " + verse + ": (AI will speak this verse here)";
+    "📖 AI Reading of " + v + ": (AI will speak the verse here)";
 }
 </script>
 
