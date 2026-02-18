@@ -3,48 +3,51 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>🙏 Church AI Dashboard</title>
+<title>🙏 Church App</title>
 <style>
 /* ---------- General ---------- */
 body {
   font-family: Arial, sans-serif;
-  background: linear-gradient(135deg, #dfe9f3 0%, #ffffff 100%);
+  background: linear-gradient(135deg, #1c1c1c 0%, #4b2e83 100%); /* dark/gold gradient */
   margin: 0;
   padding: 0;
   font-size: 20px;
+  color: #fff;
 }
 .container {
   max-width: 900px;
-  margin: 20px auto 120px auto; /* bottom space for nav */
-  background: #fff;
+  margin: 20px auto 140px auto;
+  background: #222; /* dark card background */
   border-radius: 16px;
-  box-shadow: 0 6px 20px rgba(0,0,0,0.12);
+  box-shadow: 0 6px 20px rgba(0,0,0,0.5);
   padding: 20px;
+  color: #fff;
 }
 
 /* ---------- Headings ---------- */
-h1 { font-size: 38px; text-align: center; color: #2c3e50; margin-bottom: 20px; }
-h2 { font-size: 26px; margin-top: 20px; color: #34495e; }
+h1 { font-size: 38px; text-align: center; color: #f9d342; margin-bottom: 20px; }
+h2 { font-size: 26px; margin-top: 20px; color: #f1c40f; }
 
 /* ---------- Boxes ---------- */
 .box {
-  background: #f9f9f9;
-  border: 2px solid #ddd;
+  background: #333;
+  border: 2px solid #555;
   border-radius: 14px;
   padding: 18px;
   margin-top: 12px;
   font-size: 22px;
+  color: #fff;
 }
 
 /* ---------- Lists ---------- */
 ul { list-style: none; padding: 0; margin: 0; }
-li { padding: 14px; border-bottom: 1px solid #ddd; font-size: 22px; }
+li { padding: 14px; border-bottom: 1px solid #555; font-size: 22px; }
 li:last-child { border-bottom: none; }
 
 /* ---------- Buttons ---------- */
 button.action {
-  background: #1abc9c;
-  color: #fff;
+  background: #f9d342;
+  color: #222;
   border: none;
   width: 100%;
   font-size: 24px;
@@ -53,17 +56,20 @@ button.action {
   border-radius: 14px;
   font-weight: bold;
   cursor: pointer;
+  transition: 0.3s;
 }
-button.action:hover { background: #16a085; }
+button.action:hover { background: #f1c40f; }
 
 /* ---------- Inputs ---------- */
-textarea, input {
+input, textarea {
   width: 100%;
   font-size: 20px;
   padding: 16px;
   border-radius: 12px;
-  border: 2px solid #ccc;
+  border: 2px solid #555;
   margin-top: 12px;
+  background: #111;
+  color: #fff;
 }
 
 /* ---------- Sections ---------- */
@@ -80,7 +86,7 @@ textarea, input {
   background: #2c3e50;
   justify-content: space-around;
   padding: 12px 0;
-  box-shadow: 0 -3px 8px rgba(0,0,0,0.2);
+  box-shadow: 0 -3px 8px rgba(0,0,0,0.6);
   z-index: 10;
 }
 #bottom-nav button {
@@ -91,18 +97,20 @@ textarea, input {
   font-weight: bold;
   flex: 1;
 }
-#bottom-nav button.active { color: #1abc9c; cursor: pointer; }
+#bottom-nav button.active { color: #f9d342; cursor: pointer; }
 </style>
 </head>
 <body>
 
 <div class="container">
-  <h1>🙏 Church AI Dashboard</h1>
+  <h1>🙏 Church App</h1>
 
   <!-- Home Section -->
   <div id="home" class="section active-section">
     <h2>📖 King James Bible</h2>
-    <div class="box">[Sample Bible Verse: John 3:16] For God so loved the world...</div>
+    <input id="bible-search" placeholder="Enter book, chapter, verse (e.g., John 3:16)">
+    <button class="action" onclick="searchVerse()">Search Verse</button>
+    <div id="bible-result" class="box">Your verse will appear here...</div>
 
     <h2>🙏 Prayer Requests</h2>
     <div class="box">Submit your prayer requests in Activities</div>
@@ -156,14 +164,6 @@ textarea, input {
     </div>
   </div>
 
-  <!-- AI Assist Section -->
-  <div id="ai" class="section">
-    <h2>🤖 Church AI Assistant</h2>
-    <textarea id="ai-input" placeholder="Ask for guidance, donations info, or prayer support..."></textarea>
-    <button class="action" onclick="aiReply()">Send</button>
-    <div id="ai-output" class="box"></div>
-  </div>
-
 </div>
 
 <!-- Bottom Navigation -->
@@ -212,26 +212,12 @@ function addTask(){
 
 renderTasks();
 
-// ---------- AI Assistant ----------
-let aiLogs = [];
-function aiReply(){
-  const input = document.getElementById("ai-input").value.trim();
-  if(!input) return alert("Type your question or request");
-  let reply = "Church AI received: " + input;
-
-  // Detect prayer-related words
-  if(input.toLowerCase().includes("pray") || input.toLowerCase().includes("prayer")){
-    reply = "🙏 Your prayer request has been noted";
-  }
-  // Detect donation or guidance
-  if(input.toLowerCase().includes("donation")) reply = "💰 You can view or submit donations under Home > Donations";
-  if(input.toLowerCase().includes("counsel")) reply = "💍 You can request counseling under Home > Marriage Counseling";
-
-  aiLogs.push({ input, reply });
-  document.getElementById("ai-output").innerText = reply;
-  document.getElementById("ai-input").value = "";
+// ---------- Bible Search ----------
+function searchVerse(){
+  const input = document.getElementById("bible-search").value.trim();
+  if(!input) return alert("Enter a verse to search (e.g., John 3:16)");
+  document.getElementById("bible-result").innerText = `You searched for: ${input}\n[Verse display placeholder]`;
 }
 </script>
-
 </body>
   </html>
