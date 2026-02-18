@@ -3,102 +3,132 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>🙏 Church App</title>
+<title>🙏 Church AI Dashboard</title>
 <style>
-body {
-  font-family: Arial, sans-serif;
-  background: linear-gradient(to bottom, #f0f4f8, #d9e2ec); /* soft colored background */
-  margin: 0;
-  padding: 0;
-  font-size: 20px;
+/* ---------- Background & General Styles ---------- */
+body { 
+  font-family: Arial, sans-serif; 
+  background: #e0f7fa; /* soft teal background */
+  margin: 0; 
+  padding: 0; 
+  font-size: 20px; 
 }
-.container {
-  max-width: 900px;
-  margin: 20px auto;
-  background: #fff;
-  padding: 20px;
-  border-radius: 16px;
-  box-shadow: 0 6px 20px rgba(0,0,0,0.12);
-  padding-bottom: 160px; /* space for bottom nav */
+
+.container { 
+  max-width: 900px; 
+  margin: 20px auto; 
+  background: #ffffff; 
+  padding: 30px 20px 140px 20px; 
+  border-radius: 18px; 
+  box-shadow: 0 6px 25px rgba(0,0,0,0.15); 
 }
-h1 { color: #2c3e50; font-size: 34px; text-align:center; margin-bottom:20px; }
-h2 { font-size: 26px; margin-top: 20px; }
-.box {
-  background: #f9f9f9;
-  border: 2px solid #ddd;
-  padding: 18px;
-  border-radius: 14px;
-  margin-top: 12px;
-  font-size: 22px;
-}
-ul { list-style: none; padding: 0; margin: 0; }
-li { padding: 14px; border-bottom: 1px solid #ddd; font-size: 22px; }
-li:last-child { border-bottom: none; }
-button.action {
-  background: #1abc9c;
-  margin-top: 15px;
-  width: 100%;
-  font-size: 24px;
-  padding: 16px;
-  border-radius: 14px;
-  color: #fff;
-  border: none;
+
+/* ---------- Headings ---------- */
+h1 { 
+  color: #0d47a1; 
+  font-size: 42px; 
+  text-align:center; 
+  margin-bottom: 25px;
   font-weight: bold;
 }
-textarea {
-  width: 100%;
-  padding: 16px;
-  border-radius: 12px;
-  border: 2px solid #ccc;
-  font-size: 20px;
+h2 { 
+  font-size: 28px; 
+  margin-top: 25px; 
+  color: #1565c0;
 }
+
+/* ---------- Boxes ---------- */
+.box { 
+  background: #f9f9f9; 
+  border: 2px solid #ddd; 
+  padding: 20px; 
+  border-radius: 14px; 
+  margin-top: 15px; 
+  font-size: 22px; 
+}
+
+/* ---------- Lists ---------- */
+ul { list-style: none; padding: 0; margin: 0; }
+li { padding: 14px; border-bottom: 1px solid #ddd; font-size: 22px; cursor:pointer; }
+li:last-child { border-bottom: none; }
+
+/* ---------- Buttons ---------- */
+button.action { 
+  background: #1abc9c; 
+  margin-top: 18px; 
+  width: 100%; 
+  font-size: 24px; 
+  padding: 16px; 
+  border-radius: 14px; 
+  color: #fff; 
+  border: none; 
+  font-weight: bold;
+  cursor: pointer;
+  transition: 0.3s;
+}
+button.action:hover { background: #16a085; }
+
+/* ---------- Inputs / Textareas ---------- */
+input, textarea { 
+  width: 100%; 
+  padding: 16px; 
+  border-radius: 12px; 
+  border: 2px solid #ccc; 
+  font-size: 20px; 
+  margin-top: 12px;
+}
+textarea { resize: vertical; }
+
+/* ---------- Sections ---------- */
 .section { display: none; }
 .active-section { display: block; }
+
+/* ---------- Bottom Navigation ---------- */
 #bottom-nav {
   position: fixed;
   bottom: 0;
   left: 0;
   width: 100%;
   display: flex;
-  background: #2c3e50;
+  background: #0d47a1;
   justify-content: space-around;
-  padding: 12px 0;
-  box-shadow: 0 -3px 8px rgba(0,0,0,0.2);
+  padding: 14px 0;
+  box-shadow: 0 -4px 10px rgba(0,0,0,0.2);
 }
 #bottom-nav button {
   background: none;
   color: white;
   border: none;
-  font-size: 22px;
+  font-size: 20px;
   font-weight: bold;
   flex: 1;
 }
-#bottom-nav button.active { color: #1abc9c; }
+#bottom-nav button.active {
+  color: #1abc9c;
+}
 </style>
 </head>
+
 <body>
 
 <div class="container">
-  <h1>🙏 Church App</h1>
+  <h1>🙏 Church AI Dashboard</h1>
 
   <!-- Home / Dashboard -->
   <div id="dashboard" class="section active-section">
-    <h2>📖 King James Bible</h2>
+    <h2>🗂 Activities</h2>
     <div class="box">
-      <p><em>Placeholder for Bible reading / daily verse...</em></p>
+      <ul id="activity-task-list"></ul>
+      <input type="text" id="activity-task-input" placeholder="Add a new task...">
+      <button class="action" onclick="addActivityTask()">➕ Add Task</button>
     </div>
+    <h2>💰 Rewards</h2>
+    <div class="box" id="activity-rewards">You have earned: 0 points</div>
 
-    <h2>🙏 Prayer Requests</h2>
-    <div class="box" id="prayer-dashboard">
-      <ul id="prayer-list"></ul>
-    </div>
-    <textarea id="prayer-input" placeholder="Type your prayer request..."></textarea>
-    <button class="action" onclick="addPrayer()">Send Prayer</button>
-
-    <h2>💰 Donations</h2>
+    <h2>📅 Calendar</h2>
     <div class="box">
-      <p><em>Placeholder for donation / tithes collection.</em></p>
-      <button class="action" onclick="alert('Thank you for your donation!')">Donate Now</button>
+      Sunday Service: 10AM<br>
+      Choir Practice: Saturday 4PM
     </div>
   </div>
 
@@ -108,122 +138,107 @@ textarea {
     <div class="box">
       Name: John Doe<br>
       Role: Member<br>
-      Points: 10
+      Points: 0
     </div>
   </div>
 
-  <!-- Activities -->
-  <div id="activities" class="section">
-    <h2>🗂 Tasks / Rewards</h2>
-    <div class="box">
-      <ul id="task-list"></ul>
-      <button class="action" onclick="addTask()">➕ Add Task</button>
-    </div>
-
-    <h2>📅 Service Calendar</h2>
-    <div class="box">
-      <ul>
-        <li>Sunday Service - Feb 20, 2026 - 9AM</li>
-        <li>Wednesday Prayer Meeting - Feb 23, 2026 - 6PM</li>
-        <li>Friday Bible Study - Feb 25, 2026 - 7PM</li>
-      </ul>
-    </div>
+  <!-- Prayer Requests -->
+  <div id="prayers" class="section">
+    <h2>🙏 Prayer Requests</h2>
+    <textarea id="prayer-input" placeholder="Type your prayer request..."></textarea>
+    <button class="action" onclick="addPrayer()">Send Prayer</button>
+    <ul id="prayer-log" class="box"></ul>
   </div>
 
-  <!-- AI Secretary -->
-  <div id="ai" class="section">
-    <h2>🤖 Pastor AI Chat</h2>
-    <textarea id="ai-input" placeholder="Ask Pastor AI anything..."></textarea>
-    <button class="action" onclick="askAI()">Send</button>
-    <div class="box" id="ai-output"></div>
-    <h3>📝 AI Prayer Log</h3>
-    <ul id="ai-prayer-log" class="box"></ul>
+  <!-- Assistancy / Giving -->
+  <div id="assistancy" class="section">
+    <h2>🤝 Assistancy / Church Giving</h2>
+    <textarea id="assist-input" placeholder="Ask for help or donate..."></textarea>
+    <button class="action" onclick="assistAction()">Send</button>
+    <div id="assist-output" class="box"></div>
   </div>
-
 </div>
 
 <!-- Bottom Navigation -->
 <div id="bottom-nav">
   <button id="nav-dashboard" class="active" onclick="showSection('dashboard')">🏠 Home</button>
   <button id="nav-profile" onclick="showSection('profile')">👤 Profile</button>
-  <button id="nav-activities" onclick="showSection('activities')">🗂 Activities</button>
-  <button id="nav-ai" onclick="showSection('ai')">🤖 AI</button>
+  <button id="nav-prayers" onclick="showSection('prayers')">🙏 Prayers</button>
+  <button id="nav-assistancy" onclick="showSection('assistancy')">🤝 Assistancy</button>
 </div>
 
 <script>
-// Navigation
+// ---------- Navigation ----------
 function showSection(section){
   document.querySelectorAll('.section').forEach(s=>s.classList.remove('active-section'));
   document.getElementById(section).classList.add('active-section');
+
   document.querySelectorAll('#bottom-nav button').forEach(b=>b.classList.remove('active'));
   document.getElementById('nav-' + section).classList.add('active');
 }
 
-// Tasks
-let tasks = [
-  { name: "Task 1", status: "Pending" },
-  { name: "Task 2", status: "Completed" }
-];
-let points = 10;
+// ---------- Activities Tasks ----------
+let activityTasks = [];
+let activityPoints = 0;
 
-function renderTasks(){
-  const ul = document.getElementById("task-list");
+function renderActivityTasks(){
+  const ul = document.getElementById("activity-task-list");
   ul.innerHTML = "";
-  tasks.forEach(t=>{
+  activityTasks.forEach((task, index)=>{
     const li = document.createElement("li");
-    li.textContent = `${t.name} - ${t.status}`;
+    li.textContent = `${task.name} - ${task.status}`;
+    li.onclick = ()=> toggleActivityStatus(index);
     ul.appendChild(li);
   });
 }
 
-function addTask(){
-  const next = tasks.length + 1;
-  tasks.push({ name: "Task " + next, status: "Pending" });
-  points += 5;
-  renderTasks();
+function renderActivityRewards(){
+  document.getElementById("activity-rewards").innerText = `You have earned: ${activityPoints} points`;
 }
 
-renderTasks();
+function addActivityTask(){
+  const input = document.getElementById("activity-task-input");
+  const name = input.value.trim();
+  if(!name) return alert("Type a task name first");
+  
+  activityTasks.push({ name: name, status: "Pending" });
+  input.value = "";
+  renderActivityTasks();
+}
 
-// Prayer Requests
+function toggleActivityStatus(index){
+  const task = activityTasks[index];
+  if(task.status === "Pending"){
+    task.status = "Completed";
+    activityPoints += 5;
+  } else {
+    task.status = "Pending";
+    activityPoints -= 5;
+    if(activityPoints<0) activityPoints=0;
+  }
+  renderActivityTasks();
+  renderActivityRewards();
+}
+
+// ---------- Prayer Requests ----------
 let prayers = [];
 function addPrayer(){
   const text = document.getElementById("prayer-input").value.trim();
   if(!text) return alert("Type your prayer request");
   prayers.push(text);
-  const ul = document.getElementById("prayer-list");
+  const ul = document.getElementById("prayer-log");
   const li = document.createElement("li");
   li.textContent = text;
   ul.appendChild(li);
   document.getElementById("prayer-input").value = "";
 }
 
-// AI Secretary
-let aiLogs = [];
-function askAI(){
-  const input = document.getElementById("ai-input").value.trim();
-  if(!input) return alert("Type a question or request");
-  let response = "Pastor AI received: " + input;
-  if(input.toLowerCase().includes("pray") || input.toLowerCase().includes("prayer")){
-    aiLogs.push(input);
-    renderAILog();
-    response = "🙏 Your prayer request has been noted by Pastor AI.";
-  }
-  if(input.toLowerCase().includes("counseling")) response = "Check Activities tab for guidance!";
-  if(input.toLowerCase().includes("donation")) response = "You can donate using the Home tab.";
-  if(input.toLowerCase().includes("hello")) response = "Hello! How can I assist you today?";
-  document.getElementById("ai-output").innerText = response;
-  document.getElementById("ai-input").value = "";
-}
-
-function renderAILog(){
-  const ul = document.getElementById("ai-prayer-log");
-  ul.innerHTML = "";
-  aiLogs.forEach((p,i)=>{
-    const li = document.createElement("li");
-    li.textContent = `#${i+1} - ${p}`;
-    ul.appendChild(li);
-  });
+// ---------- Assistancy / Church Giving ----------
+function assistAction(){
+  const text = document.getElementById("assist-input").value.trim();
+  if(!text) return alert("Type a request or donation note");
+  document.getElementById("assist-output").innerText = `✅ Your assistancy message was received: ${text}`;
+  document.getElementById("assist-input").value = "";
 }
 </script>
 
