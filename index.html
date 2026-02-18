@@ -1,65 +1,70 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<title>Pastor AI Secretary MVP</title>
-<style>
-body { font-family: Arial; background:#f4f6f9; padding:20px; }
-.container { max-width:800px; margin:auto; background:white; padding:20px; border-radius:10px; box-shadow:0 0 10px rgba(0,0,0,0.1);}
-h1{color:#2c3e50;}
-.box {border:1px solid #ddd; padding:10px; margin-top:10px; border-radius:5px; white-space:pre-wrap;}
-input, button {padding:10px; width:100%; margin-top:5px;}
-button{background:#2c3e50;color:white;border:none;cursor:pointer;}
-button:hover{background:black;}
-</style>
+  <meta charset="UTF-8">
+  <title>Pastor AI Secretary MVP</title>
+  <style>
+    body { font-family: Arial; background:#f4f6f9; padding:20px; }
+    .container { max-width:800px; margin:auto; background:white; padding:20px; border-radius:10px; box-shadow:0 0 10px rgba(0,0,0,0.1);}
+    h1{color:#2c3e50;}
+    .box {border:1px solid #ddd; padding:10px; margin-top:10px; border-radius:5px; white-space:pre-wrap;}
+    input, button {padding:10px; width:100%; margin-top:5px;}
+    button{background:#2c3e50;color:white;border:none;cursor:pointer;}
+    button:hover{background:black;}
+  </style>
 </head>
 <body>
 
 <div class="container">
-<h1>🙏 Pastor AI Secretary MVP</h1>
+  <h1>🙏 Pastor AI Secretary MVP</h1>
 
-<h2>👥 Church Members Dashboard</h2>
-<div id="users" class="box">Loading church members...</div>
+  <h2>👥 Church Members Dashboard</h2>
+  <div id="users" class="box">Loading church members...</div>
 
-<h2>🤖 Ask Pastor AI</h2>
-<input id="question" placeholder="Ask your pastor anything...">
-<button onclick="askAI()">Ask AI</button>
-<div id="ai-answer" class="box"></div>
+  <h2>🤖 Ask Pastor AI</h2>
+  <input id="question" placeholder="Ask your pastor anything...">
+  <button onclick="askAI()">Ask AI</button>
+  <div id="ai-answer" class="box"></div>
 </div>
 
-<!-- Supabase + AI Scripts -->
+<!-- Supabase v2 -->
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
-// ---------------- SUPABASE ----------------
-const supabaseUrl = "https://dwxmhgrysyvaahgcarth.supabase.co";
-const supabaseKey = "sb_publishable_SrRfZegLOPLOPG8DEG6kyw_FYzuuudh";
-const supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
+  // ---------------- SUPABASE ----------------
+  const supabaseUrl = "https://dwxmhgrysyvaahgcarth.supabase.co";
+  const supabaseKey = "sb_publishable_SrRfZegLOPLOPG8DEG6kyw_FYzuuudh";
+  const supabase = supabase.createClient(supabaseUrl, supabaseKey);
 
-// Load church users
-async function loadUsers() {
-  const { data, error } = await supabase.from("users").select("*");
-  if(error){
-    document.getElementById("users").innerText = "Error: " + error.message;
-    return;
+  // Load church users
+  async function loadUsers() {
+    try {
+      const { data, error } = await supabase.from("users").select("*");
+      if(error){
+        document.getElementById("users").innerText = "Error: " + error.message;
+        return;
+      }
+      if(!data.length){
+        document.getElementById("users").innerText = "No users found";
+        return;
+      }
+      let output = "";
+      data.forEach(u=>{
+        output += `${u.name} - ${u.role}\n`;
+      });
+      document.getElementById("users").innerText = output;
+    } catch(err) {
+      document.getElementById("users").innerText = "Fetch failed: " + err.message;
+    }
   }
-  if(!data.length){
-    document.getElementById("users").innerText = "No users found";
-    return;
-  }
-  let output = "";
-  data.forEach(u=>{
-    output += `${u.name} - ${u.role}\n`;
-  });
-  document.getElementById("users").innerText = output;
-}
-loadUsers();
 
-// ---------------- AI DEMO ----------------
-function askAI(){
-  const q = document.getElementById("question").value;
-  document.getElementById("ai-answer").innerText =
-    "Pastor AI received: " + q;
-}
+  loadUsers();
+
+  // ---------------- AI DEMO ----------------
+  function askAI(){
+    const q = document.getElementById("question").value.trim();
+    if(!q) return alert("Type a question first.");
+    document.getElementById("ai-answer").innerText = "Pastor AI received: " + q;
+  }
 </script>
 
 </body>
