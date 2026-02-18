@@ -27,36 +27,35 @@
   <div id="ai-answer" class="box"></div>
 </div>
 
-<!-- Supabase + AI Scripts -->
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
   // ---------------- SUPABASE ----------------
-  const supabaseUrl = "https://dwxmhgrysyvaahgcarth.supabase.co"; // your project URL
-  const supabaseKey = "sb_publishable_SrRfZegLOPLOPG8DEG6kyw_FYzuuudh"; // your anon key
+  const supabaseUrl = "https://dwxmhgrysyvaahgcarth.supabase.co"; 
+  const supabaseKey = "sb_publishable_SrRfZegLOPLOPG8DEG6kyw_FYzuuudh"; 
   const supabase = supabase.createClient(supabaseUrl, supabaseKey);
 
-  // Load church users
   async function loadUsers() {
     const el = document.getElementById("users");
     el.innerText = "Loading church members...";
 
     try {
       const { data, error } = await supabase.from("users").select("*");
-
+      
       if (error) {
-        el.innerText = "Error fetching users: " + error.message;
+        el.innerText = "Supabase error: " + error.message;
         return;
       }
 
       if (!data || data.length === 0) {
-        el.innerText = "No users found!";
+        el.innerText = "No users found! Check your Supabase table.";
         return;
       }
 
-      // Show users in box
+      // Print all users
       el.innerText = data.map(u => `${u.name} - ${u.role}`).join("\n");
+
     } catch (err) {
-      el.innerText = "Failed to fetch users: " + err.message;
+      el.innerText = "Fetch failed: " + err.message;
     }
   }
 
@@ -65,7 +64,10 @@
   // ---------------- AI DEMO ----------------
   function askAI() {
     const q = document.getElementById("question").value.trim();
-    if (!q) return alert("Type a question first.");
+    if (!q) {
+      alert("Type a question first.");
+      return;
+    }
     document.getElementById("ai-answer").innerText = "Pastor AI received: " + q;
   }
 </script>
