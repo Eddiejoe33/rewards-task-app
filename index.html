@@ -1,10 +1,76 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<title>Pastor AI Test</title>
+<meta charset="UTF-8">
+<title>Pastor AI Secretary</title>
+<style>
+body {
+  font-family: Arial;
+  background: #f4f6f9;
+  padding: 20px;
+}
+.container {
+  max-width: 800px;
+  margin: auto;
+  background: white;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+h1 { color: #2c3e50; }
+.box {
+  border: 1px solid #ddd;
+  padding: 10px;
+  margin-top: 10px;
+  border-radius: 5px;
+  white-space: pre-wrap;
+}
+input, button {
+  padding: 10px;
+  width: 100%;
+  margin-top: 5px;
+}
+button {
+  background: #2c3e50;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+button:hover {
+  background: black;
+}
+</style>
 </head>
+
 <body>
-<h1>PASTOR AI IS LIVE 🔥</h1>
-<p>If you see this, GitHub Pages is updating correctly.</p>
+
+<div class="container">
+<h1>🙏 Pastor AI Secretary MVP</h1>
+
+<h2>👥 Church Members Dashboard</h2>
+<div id="users" class="box">Loading church members...</div>
+
+<h2>🤖 Ask Pastor AI</h2>
+<input id="question" placeholder="Ask your pastor anything...">
+<button onclick="askAI()">Ask AI</button>
+<div id="ai-answer" class="box"></div>
+</div>
+
+<script>
+// TEMP DEMO DATA (Later Supabase)
+document.getElementById("users").innerText = `
+1. John - Member
+2. Mary - Choir
+3. David - Pastor
+`;
+
+// Demo AI (No OpenAI yet)
+function askAI() {
+  const q = document.getElementById("question").value;
+  document.getElementById("ai-answer").innerText =
+    "Pastor AI: God bless you. I received your question: " + q;
+}
+</script>
+
 </body>
 </html>
