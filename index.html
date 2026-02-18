@@ -1,18 +1,17 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Pastor AI Secretary MVP</title>
-  <style>
-    body { font-family: Arial; background:#f4f6f9; padding:20px; }
-    .container { max-width:800px; margin:auto; background:white; padding:20px; border-radius:10px; box-shadow:0 0 10px rgba(0,0,0,0.1);}
-    h1{color:#2c3e50;}
-    .box {border:1px solid #ddd; padding:10px; margin-top:10px; border-radius:5px; white-space:pre-wrap;}
-    input, button {padding:10px; width:100%; margin-top:5px;}
-    button{background:#2c3e50;color:white;border:none;cursor:pointer;}
-    button:hover{background:black;}
-    .error {color:red;}
-  </style>
+<meta charset="UTF-8">
+<title>Pastor AI Secretary MVP</title>
+<style>
+  body { font-family: Arial; background:#f4f6f9; padding:20px; }
+  .container { max-width:800px; margin:auto; background:white; padding:20px; border-radius:10px; box-shadow:0 0 10px rgba(0,0,0,0.1);}
+  h1 { color:#2c3e50; }
+  .box { border:1px solid #ddd; padding:10px; margin-top:10px; border-radius:5px; white-space:pre-wrap; }
+  input, button { padding:10px; width:100%; margin-top:5px; }
+  button { background:#2c3e50; color:white; border:none; cursor:pointer; }
+  button:hover { background:black; }
+</style>
 </head>
 <body>
 
@@ -28,7 +27,7 @@
   <div id="ai-answer" class="box"></div>
 </div>
 
-<!-- Supabase v2 -->
+<!-- Supabase + AI Scripts -->
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
   // ---------------- SUPABASE ----------------
@@ -36,38 +35,38 @@
   const supabaseKey = "sb_publishable_SrRfZegLOPLOPG8DEG6kyw_FYzuuudh"; // your anon key
   const supabase = supabase.createClient(supabaseUrl, supabaseKey);
 
+  // Load church users
   async function loadUsers() {
+    const el = document.getElementById("users");
+    el.innerText = "Loading church members...";
+
     try {
       const { data, error } = await supabase.from("users").select("*");
 
-      if(error){
-        document.getElementById("users").innerHTML = `<span class="error">Error fetching users: ${error.message}</span>`;
+      if (error) {
+        el.innerText = "Error fetching users: " + error.message;
         return;
       }
 
-      if(!data || data.length === 0){
-        document.getElementById("users").innerText = "No church members found yet.";
+      if (!data || data.length === 0) {
+        el.innerText = "No users found!";
         return;
       }
 
-      let output = "";
-      data.forEach(u=>{
-        output += `👤 ${u.name} - ${u.role}\n`;
-      });
-      document.getElementById("users").innerText = output;
-
-    } catch(err){
-      document.getElementById("users").innerHTML = `<span class="error">Cannot connect to Supabase: ${err.message}</span>`;
+      // Show users in box
+      el.innerText = data.map(u => `${u.name} - ${u.role}`).join("\n");
+    } catch (err) {
+      el.innerText = "Failed to fetch users: " + err.message;
     }
   }
 
   loadUsers();
 
   // ---------------- AI DEMO ----------------
-  function askAI(){
+  function askAI() {
     const q = document.getElementById("question").value.trim();
-    if(!q) return alert("Please type a question first.");
-    document.getElementById("ai-answer").innerText = "🤖 Pastor AI received: " + q;
+    if (!q) return alert("Type a question first.");
+    document.getElementById("ai-answer").innerText = "Pastor AI received: " + q;
   }
 </script>
 
