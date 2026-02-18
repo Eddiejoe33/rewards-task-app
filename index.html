@@ -3,72 +3,76 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>🙏 Church App</title>
+<title>Church</title>
 <style>
-/* ---------- General ---------- */
-body {
-  font-family: Arial, sans-serif;
-  background: linear-gradient(135deg, #1c1c1c 0%, #4b2e83 100%); /* dark/gold gradient */
-  margin: 0;
-  padding: 0;
-  font-size: 20px;
+/* ---------- General Styles ---------- */
+body { 
+  font-family: Arial, sans-serif; 
+  background: linear-gradient(135deg, #222, #bfa94a); /* dark gold gradient */
+  margin: 0; 
+  padding: 0; 
+  font-size: 20px; 
   color: #fff;
 }
-.container {
-  max-width: 900px;
-  margin: 20px auto 140px auto;
-  background: #222; /* dark card background */
-  border-radius: 16px;
-  box-shadow: 0 6px 20px rgba(0,0,0,0.5);
-  padding: 20px;
+
+.container { 
+  max-width: 900px; 
+  margin: 20px auto; 
+  background: #1c1c1c; 
+  padding: 20px; 
+  border-radius: 16px; 
+  box-shadow: 0 6px 20px rgba(0,0,0,0.3); 
+  padding-bottom: 140px; /* for bottom nav */
   color: #fff;
 }
 
 /* ---------- Headings ---------- */
-h1 { font-size: 38px; text-align: center; color: #f9d342; margin-bottom: 20px; }
-h2 { font-size: 26px; margin-top: 20px; color: #f1c40f; }
+h1 { 
+  font-size: 36px; 
+  text-align: center; 
+  margin-bottom: 20px; 
+}
+h2 { font-size: 26px; margin-top: 20px; }
 
 /* ---------- Boxes ---------- */
-.box {
-  background: #333;
-  border: 2px solid #555;
-  border-radius: 14px;
-  padding: 18px;
-  margin-top: 12px;
-  font-size: 22px;
+.box { 
+  background: #2a2a2a; 
+  border: 2px solid #444; 
+  padding: 18px; 
+  border-radius: 14px; 
+  margin-top: 12px; 
+  font-size: 22px; 
   color: #fff;
 }
 
-/* ---------- Lists ---------- */
+/* ---------- List ---------- */
 ul { list-style: none; padding: 0; margin: 0; }
 li { padding: 14px; border-bottom: 1px solid #555; font-size: 22px; }
 li:last-child { border-bottom: none; }
 
 /* ---------- Buttons ---------- */
-button.action {
-  background: #f9d342;
-  color: #222;
-  border: none;
-  width: 100%;
-  font-size: 24px;
-  padding: 16px;
-  margin-top: 16px;
-  border-radius: 14px;
+button.action { 
+  background: #bfa94a; 
+  margin-top: 15px; 
+  width: 100%; 
+  font-size: 24px; 
+  padding: 16px; 
+  border-radius: 14px; 
+  color: #1c1c1c; 
+  border: none; 
   font-weight: bold;
   cursor: pointer;
-  transition: 0.3s;
 }
-button.action:hover { background: #f1c40f; }
+button.action:hover { background: #d4c06b; }
 
 /* ---------- Inputs ---------- */
-input, textarea {
-  width: 100%;
+input, textarea { 
+  width: 100%; 
+  padding: 16px; 
+  border-radius: 12px; 
+  border: 2px solid #555; 
   font-size: 20px;
-  padding: 16px;
-  border-radius: 12px;
-  border: 2px solid #555;
-  margin-top: 12px;
-  background: #111;
+  background: #222;
   color: #fff;
 }
 
@@ -83,87 +87,82 @@ input, textarea {
   left: 0;
   width: 100%;
   display: flex;
-  background: #2c3e50;
+  background: #1c1c1c;
   justify-content: space-around;
   padding: 12px 0;
-  box-shadow: 0 -3px 8px rgba(0,0,0,0.6);
-  z-index: 10;
+  box-shadow: 0 -3px 8px rgba(0,0,0,0.3);
+  z-index: 999;
 }
 #bottom-nav button {
   background: none;
+  color: #fff;
   border: none;
-  color: white;
   font-size: 20px;
   font-weight: bold;
   flex: 1;
+  cursor: pointer;
 }
-#bottom-nav button.active { color: #f9d342; cursor: pointer; }
+#bottom-nav button.active { color: #bfa94a; }
 </style>
 </head>
+
 <body>
 
 <div class="container">
-  <h1>🙏 Church App</h1>
+  <h1 id="page-title">Church</h1>
 
-  <!-- Home Section -->
+  <!-- Home Dashboard -->
   <div id="home" class="section active-section">
     <h2>📖 King James Bible</h2>
-    <input id="bible-search" placeholder="Enter book, chapter, verse (e.g., John 3:16)">
-    <button class="action" onclick="searchVerse()">Search Verse</button>
-    <div id="bible-result" class="box">Your verse will appear here...</div>
+    <input type="text" id="bible-search" placeholder="Search for Chapter:Verse (e.g., John 3:16)">
+    <button class="action" onclick="searchBible()">Read Verse</button>
+    <div id="bible-output" class="box"></div>
 
     <h2>🙏 Prayer Requests</h2>
-    <div class="box">Submit your prayer requests in Activities</div>
+    <textarea id="prayer-input" placeholder="Type your prayer request..."></textarea>
+    <button class="action" onclick="addPrayer()">Send Prayer</button>
+    <ul id="prayer-log" class="box"></ul>
 
     <h2>💍 Marriage Counseling</h2>
-    <div class="box">Request counseling sessions in Activities</div>
+    <div class="box">Request counseling or view tips here.</div>
 
-    <h2>💰 Donations</h2>
-    <div class="box">View or contribute to church donations</div>
+    <h2>💰 Donation</h2>
+    <div class="box">Track and make donations here.</div>
   </div>
 
-  <!-- Activities Section -->
-  <div id="activities" class="section">
-    <h2>🗂 Tasks</h2>
-    <div class="box">
-      <ul id="task-list"></ul>
-    </div>
-
-    <h2>💰 Rewards</h2>
-    <div class="box" id="rewards"></div>
-
-    <h2>📅 Calendar</h2>
-    <div class="box">
-      <ul>
-        <li>Sunday Service - 10:00 AM</li>
-        <li>Prayer Meeting - Wednesday 6:00 PM</li>
-      </ul>
-    </div>
-
-    <button class="action" onclick="addTask()">➕ Add Task</button>
-  </div>
-
-  <!-- Profile Section -->
+  <!-- Profile -->
   <div id="profile" class="section">
     <h2>👤 Profile</h2>
     <div class="box">
       Name: John Doe<br>
       Role: Member<br>
-      Points: <span id="profile-points">10</span>
+      Points: 10
     </div>
   </div>
 
-  <!-- Appointments Section -->
+  <!-- Activities -->
+  <div id="activities" class="section">
+    <h2>🗂 Activities</h2>
+    <ul id="task-list" class="box"></ul>
+    <div id="rewards" class="box"></div>
+    <button class="action" onclick="addTask()">➕ Add Task</button>
+
+    <h2>📅 Calendar</h2>
+    <div class="box">
+      Sunday Service - 9AM<br>
+      Youth Meeting - Wednesday 6PM<br>
+      Choir Practice - Friday 4PM
+    </div>
+  </div>
+
+  <!-- Appointments -->
   <div id="appointments" class="section">
     <h2>📅 Appointments</h2>
     <div class="box">
-      <ul>
-        <li>Meeting with Pastor - Tomorrow 10AM</li>
-        <li>Choir Practice - Saturday 4PM</li>
-      </ul>
+      Meeting with Pastor - Tomorrow 10AM<br>
+      Choir Practice - Saturday 4PM
     </div>
   </div>
-
 </div>
 
 <!-- Bottom Navigation -->
@@ -182,9 +181,17 @@ function showSection(section){
 
   document.querySelectorAll('#bottom-nav button').forEach(b=>b.classList.remove('active'));
   document.getElementById('nav-' + section).classList.add('active');
+
+  const titleMap = {
+    home: "Church",
+    profile: "Profile",
+    activities: "Activities",
+    appointments: "Appointments"
+  };
+  document.getElementById("page-title").innerText = titleMap[section] || "Church";
 }
 
-// ---------- Tasks & Rewards ----------
+// ---------- Tasks + Rewards ----------
 let tasks = [
   { name: "Task 1", status: "Pending" },
   { name: "Task 2", status: "Completed" }
@@ -194,13 +201,15 @@ let points = 10;
 function renderTasks(){
   const ul = document.getElementById("task-list");
   ul.innerHTML = "";
-  tasks.forEach((t,i)=>{
+  tasks.forEach(t=>{
     const li = document.createElement("li");
     li.textContent = `${t.name} - ${t.status}`;
     ul.appendChild(li);
   });
+}
+
+function renderRewards(){
   document.getElementById("rewards").innerText = `You have earned: ${points} points`;
-  document.getElementById("profile-points").innerText = points;
 }
 
 function addTask(){
@@ -208,16 +217,32 @@ function addTask(){
   tasks.push({ name: "Task " + next, status: "Pending" });
   points += 5;
   renderTasks();
+  renderRewards();
 }
 
 renderTasks();
+renderRewards();
+
+// ---------- Prayer Requests ----------
+let prayers = [];
+function addPrayer(){
+  const text = document.getElementById("prayer-input").value.trim();
+  if(!text) return alert("Type your prayer request");
+  prayers.push(text);
+  const ul = document.getElementById("prayer-log");
+  const li = document.createElement("li");
+  li.textContent = text;
+  ul.appendChild(li);
+  document.getElementById("prayer-input").value = "";
+}
 
 // ---------- Bible Search ----------
-function searchVerse(){
-  const input = document.getElementById("bible-search").value.trim();
-  if(!input) return alert("Enter a verse to search (e.g., John 3:16)");
-  document.getElementById("bible-result").innerText = `You searched for: ${input}\n[Verse display placeholder]`;
+function searchBible(){
+  const verse = document.getElementById("bible-search").value.trim();
+  if(!verse) return alert("Enter chapter:verse to read");
+  document.getElementById("bible-output").innerText = `You searched for: ${verse}\n(Verse reading placeholder)`;
 }
 </script>
+
 </body>
   </html>
