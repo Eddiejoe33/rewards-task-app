@@ -56,19 +56,39 @@ button:hover {
 <div id="ai-answer" class="box"></div>
 </div>
 
-<script>
-// TEMP DEMO DATA (Later Supabase)
-document.getElementById("users").innerText = `
-1. John - Member
-2. Mary - Choir
-3. David - Pastor
-`;
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
-// Demo AI (No OpenAI yet)
+<script>
+// 🔹 YOUR SUPABASE INFO
+const supabaseUrl = "https://dwxmhgrysyvaahgcarth.supabase.co";
+const supabaseKey = "sb_publishable_SrRfZegLOPLOPG8DEG6kyw_FYzuuudh";
+
+const supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
+
+// Load church users
+async function loadUsers() {
+  const { data, error } = await supabase.from("users").select("*");
+
+  if (error) {
+    document.getElementById("users").innerText = "Error: " + error.message;
+    return;
+  }
+
+  let output = "";
+  data.forEach(u => {
+    output += `${u.name} - ${u.role}\n`;
+  });
+
+  document.getElementById("users").innerText = output || "No users found";
+}
+
+loadUsers();
+
+// Pastor AI DEMO (no OpenAI yet)
 function askAI() {
   const q = document.getElementById("question").value;
   document.getElementById("ai-answer").innerText =
-    "Pastor AI: God bless you. I received your question: " + q;
+    "Pastor AI received: " + q;
 }
 </script>
 
