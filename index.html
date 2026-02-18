@@ -1,151 +1,203 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Church</title>
-<meta name="viewport" content="width=device-width, initial-scale=1">
 
 <style>
 body {
   margin: 0;
-  background: #0b0b0b;
-  color: #f5f5f5;
   font-family: Arial, sans-serif;
-}
-
-/* Top Header */
-header {
-  padding: 12px;
-  text-align: center;
-  font-size: 18px;
-  font-weight: bold;
-  border-bottom: 1px solid #2c2c2c;
-  background: #0b0b0b;
-}
-
-/* Main Content */
-.content {
-  padding: 15px;
-  padding-bottom: 80px;
-}
-
-/* Dashboard Buttons */
-.card {
-  padding: 15px;
-  margin: 10px 0;
-  border-radius: 12px;
-  background: #141414;
-  border: 1px solid #2c2c2c;
-  cursor: pointer;
-  font-size: 16px;
-}
-
-/* Hidden Boxes */
-.box {
-  display: none;
-  margin-top: 8px;
-}
-
-input, textarea {
-  width: 100%;
-  padding: 10px;
-  margin-top: 8px;
-  background: #0b0b0b;
-  border: 1px solid #3a3a3a;
+  background: #0f172a;
   color: white;
-  border-radius: 8px;
 }
 
-button {
-  margin-top: 8px;
-  padding: 10px;
+/* HEADER */
+header {
+  position: fixed;
+  top: 0;
   width: 100%;
-  background: #b08d2b; /* DIM GOLD */
+  background: #111827;
+  padding: 15px;
+  text-align: center;
+  font-size: 20px;
+  font-weight: bold;
+  z-index: 1000;
+}
+
+/* CONTENT */
+.content {
+  padding: 70px 15px 80px;
+}
+
+/* CARDS */
+.card {
+  background: #1f2937;
+  padding: 15px;
+  border-radius: 12px;
+  margin-bottom: 12px;
+  cursor: pointer;
+  transition: 0.2s;
+}
+.card:hover {
+  background: #374151;
+}
+
+/* INPUTS */
+input, textarea, button {
+  width: 100%;
+  padding: 10px;
+  margin-top: 8px;
+  border-radius: 6px;
   border: none;
-  border-radius: 8px;
+}
+button {
+  background: #2563eb;
+  color: white;
   font-weight: bold;
 }
 
-/* Bottom Navigation */
+/* BOTTOM NAV */
 nav {
   position: fixed;
   bottom: 0;
   width: 100%;
+  background: #111827;
   display: flex;
-  background: #0b0b0b;
-  border-top: 1px solid #2c2c2c;
+  justify-content: space-around;
+  padding: 10px 0;
+  z-index: 1000;
 }
-
-nav button {
-  flex: 1;
-  padding: 12px;
-  background: none;
-  border: none;
-  color: #888;
+nav div {
+  color: white;
   font-size: 14px;
+  cursor: pointer;
 }
-
-nav button.active {
-  color: #b08d2b;
+nav div.active {
+  color: #60a5fa;
 }
 </style>
 </head>
 
 <body>
 
-<header id="topTitle">Church</header>
+<header id="appTitle">Church</header>
 
-<div class="content" id="homePage">
+<div class="content">
 
-  <!-- Bible -->
+<!-- HOME PAGE -->
+<div id="homePage">
   <div class="card" onclick="toggleBox('bibleBox')">📖 King James Bible (AI)</div>
-  <div class="box" id="bibleBox">
-    <input placeholder="Search Chapter:Verse (e.g., John 3:16)">
-    <button>Read Verse</button>
+  <div id="bibleBox" style="display:none;">
+    <input id="verseInput" placeholder="John 3:16">
+    <button onclick="readBible()">Read Verse</button>
+    <p id="bibleOutput"></p>
   </div>
 
-  <!-- Prayer -->
   <div class="card" onclick="toggleBox('prayerBox')">🙏 Prayer Request</div>
-  <div class="box" id="prayerBox">
+  <div id="prayerBox" style="display:none;">
     <textarea placeholder="Type your prayer request..."></textarea>
     <button>Send Prayer</button>
   </div>
 
-  <!-- Counseling -->
   <div class="card" onclick="toggleBox('counselBox')">💍 Marriage Counseling</div>
-  <div class="box" id="counselBox">
+  <div id="counselBox" style="display:none;">
     <textarea placeholder="Describe your counseling need..."></textarea>
     <button>Request Counseling</button>
   </div>
 
-  <!-- Donation -->
-  <div class="card" onclick="toggleBox('donateBox')">💰 Donation</div>
-  <div class="box" id="donateBox">
-    <input placeholder="Enter amount">
+  <div class="card" onclick="toggleBox('donationBox')">💰 Donation</div>
+  <div id="donationBox" style="display:none;">
+    <input placeholder="Amount (₦)">
     <button>Donate</button>
   </div>
+</div>
+
+<!-- PROFILE PAGE -->
+<div id="profilePage" style="display:none;">
+  <div class="card">👤 User Profile</div>
+  <p>Name: Guest User</p>
+  <p>Email: example@mail.com</p>
+</div>
+
+<!-- ACTIVITIES PAGE -->
+<div id="activitiesPage" style="display:none;">
+  <div class="card">🗂 Task 1 - Pray Today</div>
+  <div class="card">🗂 Task 2 - Read Bible</div>
+  <div class="card">💰 Reward Points: 10</div>
+  <div class="card">📅 Sunday Service: 10AM</div>
+</div>
+
+<!-- APPOINTMENTS PAGE -->
+<div id="appointmentsPage" style="display:none;">
+  <div class="card">📅 Book Church Appointment</div>
+  <input placeholder="Date">
+  <input placeholder="Reason">
+  <button>Book</button>
+</div>
 
 </div>
 
-<!-- Bottom Navigation -->
+<!-- BOTTOM NAVIGATION -->
 <nav>
-  <button class="active" onclick="setPage('Home')">🏠 Home</button>
-  <button onclick="setPage('Profile')">👤 Profile</button>
-  <button onclick="setPage('Activities')">⚡ Activities</button>
-  <button onclick="setPage('Appointments')">📅 Appointments</button>
+  <div id="navHome" class="active" onclick="showPage('home')">🏠 Home</div>
+  <div id="navProfile" onclick="showPage('profile')">👤 Profile</div>
+  <div id="navActivities" onclick="showPage('activities')">⚡ Activities</div>
+  <div id="navAppointments" onclick="showPage('appointments')">📅 Appointments</div>
 </nav>
 
 <script>
 function toggleBox(id) {
   let box = document.getElementById(id);
-  box.style.display = box.style.display === "block" ? "none" : "block";
+  box.style.display = (box.style.display === "none") ? "block" : "none";
 }
 
-function setPage(name) {
-  document.getElementById("topTitle").innerText = name;
-  document.querySelectorAll("nav button").forEach(btn => btn.classList.remove("active"));
-  event.target.classList.add("active");
+// PAGE SWITCHER
+function showPage(page) {
+  // hide all pages
+  document.getElementById("homePage").style.display = "none";
+  document.getElementById("profilePage").style.display = "none";
+  document.getElementById("activitiesPage").style.display = "none";
+  document.getElementById("appointmentsPage").style.display = "none";
+
+  // remove active nav
+  document.querySelectorAll("nav div").forEach(n => n.classList.remove("active"));
+
+  // show selected page + update title
+  if (page === "home") {
+    document.getElementById("homePage").style.display = "block";
+    document.getElementById("appTitle").innerText = "Church";
+    document.getElementById("navHome").classList.add("active");
+  }
+  if (page === "profile") {
+    document.getElementById("profilePage").style.display = "block";
+    document.getElementById("appTitle").innerText = "Profile";
+    document.getElementById("navProfile").classList.add("active");
+  }
+  if (page === "activities") {
+    document.getElementById("activitiesPage").style.display = "block";
+    document.getElementById("appTitle").innerText = "Activities";
+    document.getElementById("navActivities").classList.add("active");
+  }
+  if (page === "appointments") {
+    document.getElementById("appointmentsPage").style.display = "block";
+    document.getElementById("appTitle").innerText = "Appointments";
+    document.getElementById("navAppointments").classList.add("active");
+  }
+}
+
+// SIMULATED AI BIBLE READER
+function readBible() {
+  let verse = document.getElementById("verseInput").value;
+  let text = "Reading " + verse + ": For God so loved the world that He gave His only begotten Son...";
+  document.getElementById("bibleOutput").innerText = text;
+
+  // AI Voice
+  let speech = new SpeechSynthesisUtterance(text);
+  speechSynthesis.speak(speech);
 }
 </script>
 
 </body>
-      </html>
+  </html>
