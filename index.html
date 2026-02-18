@@ -1,51 +1,59 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Reward Task + AI Secretary MVP</title>
-  <style>
-    body { font-family: Arial; background:#f4f6f9; padding:20px; }
-    .container { max-width:800px; margin:auto; background:white; padding:20px; border-radius:10px; box-shadow:0 0 10px rgba(0,0,0,0.1);}
-    h1{color:#2c3e50;}
-    .box {border:1px solid #ddd; padding:10px; margin-top:10px; border-radius:5px;}
-    button {padding:10px; margin-top:5px; background:#2c3e50;color:white;border:none;cursor:pointer;}
-    button:hover{background:black;}
-    ul {list-style:none; padding:0;}
-    li {padding:5px 0; border-bottom:1px solid #eee;}
-    .section {display:none;}
-    .active {display:block;}
-    #nav-buttons {margin-bottom:15px;}
-    #nav-buttons button {width:48%; margin-right:2%;}
-    textarea {width:100%; padding:10px; margin-top:5px;}
-  </style>
+<meta charset="UTF-8">
+<title>🙏 Church App</title>
+<style>
+  body { font-family: Arial, sans-serif; background: #f0f2f5; margin: 0; padding: 0; }
+  .container { max-width: 900px; margin: 30px auto; background: #fff; padding: 25px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
+  h1 { color: #2c3e50; margin-bottom: 20px; }
+  #nav-buttons { display: flex; margin-bottom: 20px; gap: 10px; }
+  #nav-buttons button { flex: 1; padding: 12px; font-size: 16px; border: none; border-radius: 6px; cursor: pointer; background: #2c3e50; color: #fff; transition: 0.3s; }
+  #nav-buttons button:hover { background: #1a252f; }
+  #nav-buttons .active { background: #1abc9c; color: #fff; }
+
+  .section { display: none; }
+  .active-section { display: block; }
+
+  .box { background: #f9f9f9; border: 1px solid #ddd; padding: 15px; border-radius: 8px; margin-top: 15px; }
+  ul { list-style: none; padding: 0; margin: 0; }
+  li { padding: 8px 10px; border-bottom: 1px solid #eee; }
+  li:last-child { border-bottom: none; }
+
+  button.action { background: #1abc9c; margin-top: 10px; width: 100%; }
+  button.action:hover { background: #16a085; }
+
+  input, textarea { width: 100%; padding: 12px; border-radius: 6px; border: 1px solid #ccc; margin-top: 10px; font-size: 15px; }
+  textarea { resize: vertical; }
+</style>
 </head>
 <body>
 
 <div class="container">
-  <h1>🎯 Reward Task + 🤖 AI Secretary MVP</h1>
+  <h1>🙏 Church App</h1>
 
   <!-- Navigation -->
   <div id="nav-buttons">
-    <button onclick="showSection('reward')">🏆 Reward Task</button>
-    <button onclick="showSection('ai')">🤖 AI Secretary</button>
+    <button id="btn-dashboard" class="active" onclick="showSection('dashboard')">🏆 Dashboard</button>
+    <button id="btn-ai" onclick="showSection('ai')">🤖 AI Secretary</button>
   </div>
 
-  <!-- Reward Task Section -->
-  <div id="reward" class="section active">
-    <h2>🏆 Dashboard</h2>
+  <!-- Dashboard Section -->
+  <div id="dashboard" class="section active-section">
+    <h2>🗂 Tasks</h2>
     <div id="tasks" class="box">
       <ul id="task-list"></ul>
     </div>
     <h2>💰 Rewards</h2>
     <div id="rewards" class="box"></div>
-    <button onclick="addTask()">Add Task</button>
+    <button class="action" onclick="addTask()">Add Task</button>
   </div>
 
   <!-- AI Secretary Section -->
   <div id="ai" class="section">
     <h2>🤖 Ask AI Secretary</h2>
     <textarea id="ai-input" placeholder="Ask your secretary anything or send a prayer request..."></textarea>
-    <button onclick="aiReply()">Send</button>
+    <button class="action" onclick="aiReply()">Send</button>
     <div id="ai-output" class="box"></div>
     <h3>📝 Prayer Requests Log</h3>
     <ul id="prayer-log" class="box"></ul>
@@ -54,13 +62,16 @@
 </div>
 
 <script>
-  // ---------- Section Navigation ----------
+  // ---------- Navigation ----------
   function showSection(section){
-    document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
-    document.getElementById(section).classList.add('active');
+    document.querySelectorAll('.section').forEach(s=>s.classList.remove('active-section'));
+    document.getElementById(section).classList.add('active-section');
+    document.querySelectorAll('#nav-buttons button').forEach(b=>b.classList.remove('active'));
+    if(section==='dashboard') document.getElementById('btn-dashboard').classList.add('active');
+    else document.getElementById('btn-ai').classList.add('active');
   }
 
-  // ---------- Reward Task Simulation ----------
+  // ---------- Reward Task ----------
   let tasks = [
     { name: "Task 1", status: "Pending" },
     { name: "Task 2", status: "Completed" }
@@ -70,7 +81,7 @@
   function renderTasks(){
     const ul = document.getElementById("task-list");
     ul.innerHTML = "";
-    tasks.forEach(t=>{
+    tasks.forEach((t,i)=>{
       const li = document.createElement("li");
       li.textContent = `${t.name} - ${t.status}`;
       ul.appendChild(li);
@@ -92,7 +103,7 @@
   renderTasks();
   renderRewards();
 
-  // ---------- AI Secretary Simulation ----------
+  // ---------- AI Secretary ----------
   let prayerRequests = [];
 
   function aiReply(){
@@ -101,14 +112,14 @@
 
     let answer = "Pastor AI received: " + input;
 
-    // Detect if it's a prayer request
+    // Detect prayer request
     if(input.toLowerCase().includes("pray") || input.toLowerCase().includes("prayer")){
       prayerRequests.push(input);
       renderPrayerLog();
       answer = "🙏 Your prayer request has been noted by Pastor AI.";
     }
 
-    // Detect basic commands
+    // Detect task or reward queries
     if(input.toLowerCase().includes("task")) answer = "Your next task is to complete your goal!";
     if(input.toLowerCase().includes("reward")) answer = `You currently have ${points} points. Keep going!`;
     if(input.toLowerCase().includes("hello")) answer = "Hello! How can I assist you today?";
@@ -120,7 +131,7 @@
   function renderPrayerLog(){
     const ul = document.getElementById("prayer-log");
     ul.innerHTML = "";
-    prayerRequests.forEach((p, i)=>{
+    prayerRequests.forEach((p,i)=>{
       const li = document.createElement("li");
       li.textContent = `#${i+1} - ${p}`;
       ul.appendChild(li);
@@ -129,4 +140,4 @@
 </script>
 
 </body>
-</html>
+  </html>
