@@ -1,272 +1,137 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Church</title>
+
 <style>
-/* ---------- General Styles ---------- */
 body {
-  font-family: Arial, sans-serif;
   margin: 0;
-  padding: 0;
-  background: #1e1e1e; /* dark background */
-  color: #fff;
-  font-size: 20px;
+  font-family: Arial, sans-serif;
+  background: #000;
+  color: gold;
 }
 
-.container {
-  max-width: 500px;
-  margin: 20px auto;
-  padding-bottom: 140px; /* space for bottom nav */
-}
-
-/* ---------- Headings ---------- */
-h1 {
+/* HEADER */
+header {
+  background: black;
+  padding: 12px;
   text-align: center;
-  font-size: 36px;
-  margin-bottom: 20px;
-  font-weight: bold;
-}
-
-/* ---------- Home Feature Boxes ---------- */
-.home-feature {
-  background: #2c2c2c;
-  padding: 18px;
-  border-radius: 12px;
-  margin-bottom: 20px;
-}
-
-.home-feature h2 {
-  font-size: 22px;
-  margin-bottom: 12px;
-}
-
-/* ---------- Inputs ---------- */
-.home-feature input {
-  width: 100%;
-  padding: 12px;
-  border-radius: 8px;
-  border: 1px solid #555;
-  margin-bottom: 10px;
-  font-size: 18px;
-  background: #1e1e1e;
-  color: #fff;
-}
-
-/* ---------- Buttons ---------- */
-.home-feature button {
-  width: 100%;
-  padding: 12px;
   font-size: 20px;
-  border-radius: 8px;
-  background: #1abc9c;
-  border: none;
-  color: white;
-  cursor: pointer;
   font-weight: bold;
+  border-bottom: 1px solid gold;
 }
 
-.home-feature button:hover {
-  background: #16a085;
+/* MAIN CONTENT */
+.container {
+  padding: 15px;
+  padding-bottom: 80px;
 }
 
-/* ---------- Output Box ---------- */
-.output-box {
-  background: #1e1e1e;
-  border: 1px solid #555;
+.section {
+  margin-bottom: 20px;
+}
+
+input, textarea, button {
+  width: 100%;
+  padding: 10px;
+  margin-top: 5px;
   border-radius: 8px;
-  padding: 12px;
-  margin-top: 10px;
-  min-height: 40px;
-  font-size: 18px;
+  border: none;
+  font-size: 16px;
 }
 
-/* ---------- Sections ---------- */
-.section { display: none; }
-.active-section { display: block; }
+input, textarea {
+  background: #111;
+  color: gold;
+  border: 1px solid gold;
+}
 
-/* ---------- Bottom Navigation ---------- */
-#bottom-nav {
+button {
+  background: gold;
+  color: black;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+/* BOTTOM NAV */
+nav {
   position: fixed;
   bottom: 0;
-  left: 0;
   width: 100%;
+  background: black;
   display: flex;
-  background: #2c2c2c;
   justify-content: space-around;
-  padding: 12px 0;
-  box-shadow: 0 -3px 8px rgba(0,0,0,0.3);
+  padding: 10px 0;
+  border-top: 1px solid gold;
 }
 
-#bottom-nav button {
+nav button {
   background: none;
   border: none;
-  color: white;
-  font-size: 18px;
-  font-weight: bold;
-  flex: 1;
-}
-
-#bottom-nav button.active {
-  color: #1abc9c;
+  color: gold;
+  font-size: 16px;
 }
 </style>
 </head>
+
 <body>
 
-<div class="container">
-  <h1 id="page-title">Church</h1>
+<header id="topTitle">Church</header>
 
-  <!-- Home Section -->
-  <div id="home" class="section active-section">
+<div class="container" id="content">
 
-    <!-- King James Bible -->
-    <div class="home-feature">
-      <h2>📖 King James Bible (AI)</h2>
-      <input type="text" id="bible-search" placeholder="Search Chapter:Verse (e.g., John 3:16)">
-      <button onclick="readBible()">Read Verse</button>
-      <div id="bible-output" class="output-box"></div>
-    </div>
-
-    <!-- Prayer Requests -->
-    <div class="home-feature">
-      <h2>🙏 Prayer Requests</h2>
-      <input type="text" id="prayer-input" placeholder="Type your prayer request...">
-      <button onclick="addPrayer()">Send Prayer</button>
-      <div id="prayer-output" class="output-box"></div>
-    </div>
-
-    <!-- Marriage Counseling -->
-    <div class="home-feature">
-      <h2>💍 Marriage Counseling</h2>
-      <input type="text" id="counseling-input" placeholder="Request counseling or view tips...">
-      <button onclick="requestCounseling()">Submit</button>
-      <div id="counseling-output" class="output-box"></div>
-    </div>
-
-    <!-- Donation -->
-    <div class="home-feature">
-      <h2>💰 Donation</h2>
-      <input type="number" id="donation-input" placeholder="Enter amount">
-      <button onclick="makeDonation()">Donate</button>
-      <div id="donation-output" class="output-box"></div>
-    </div>
-
+  <!-- Bible AI -->
+  <div class="section">
+    <h3>📖 King James Bible (AI)</h3>
+    <input id="bibleInput" placeholder="Search Chapter:Verse (e.g., John 3:16)">
+    <button onclick="readVerse()">Read Verse</button>
+    <p id="bibleResult"></p>
   </div>
 
-  <!-- Profile Section -->
-  <div id="profile" class="section">
-    <h2>👤 Profile</h2>
-    <div class="home-feature">
-      Name: John Doe<br>
-      Role: Member<br>
-      Points: 10
-    </div>
+  <!-- Prayer -->
+  <div class="section">
+    <h3>🙏 Prayer Request</h3>
+    <textarea placeholder="Type your prayer request..."></textarea>
+    <button>Send Prayer</button>
   </div>
 
-  <!-- Activities Section -->
-  <div id="activities" class="section">
-    <h2>⚡ Activities</h2>
-    <div class="home-feature">
-      <ul id="task-list">
-        <li>Task 1 - Pending</li>
-        <li>Task 2 - Completed</li>
-      </ul>
-      <button onclick="addTask()">➕ Add Task</button>
-    </div>
+  <!-- Counseling -->
+  <div class="section">
+    <h3>💍 Marriage Counseling</h3>
+    <textarea placeholder="Describe your counseling request..."></textarea>
+    <button>Request Counseling</button>
   </div>
 
-  <!-- Appointments Section -->
-  <div id="appointments" class="section">
-    <h2>📅 Appointments</h2>
-    <div class="home-feature">
-      <ul>
-        <li>Sunday Service - 10:00 AM</li>
-        <li>Choir Practice - Saturday 4:00 PM</li>
-      </ul>
-    </div>
+  <!-- Donation -->
+  <div class="section">
+    <h3>💰 Donation</h3>
+    <input placeholder="Enter donation amount">
+    <button>Donate</button>
   </div>
 
 </div>
 
 <!-- Bottom Navigation -->
-<div id="bottom-nav">
-  <button id="nav-home" class="active" onclick="showSection('home')">🏠 Home</button>
-  <button id="nav-profile" onclick="showSection('profile')">👤 Profile</button>
-  <button id="nav-activities" onclick="showSection('activities')">⚡ Activities</button>
-  <button id="nav-appointments" onclick="showSection('appointments')">📅 Appointments</button>
-</div>
+<nav>
+  <button onclick="showPage('Home')">🏠 Home</button>
+  <button onclick="showPage('Profile')">👤 Profile</button>
+  <button onclick="showPage('Activities')">⚡ Activities</button>
+  <button onclick="showPage('Appointments')">📅 Appointments</button>
+</nav>
 
 <script>
-/* ---------- Navigation ---------- */
-function showSection(section){
-  document.querySelectorAll('.section').forEach(s=>s.classList.remove('active-section'));
-  document.getElementById(section).classList.add('active-section');
-
-  // Highlight active bottom button
-  document.querySelectorAll('#bottom-nav button').forEach(b=>b.classList.remove('active'));
-  document.getElementById('nav-' + section).classList.add('active');
-
-  // Change page title to the active section
-  const titles = { home: "Church", profile: "Profile", activities: "Activities", appointments: "Appointments" };
-  document.getElementById('page-title').innerText = titles[section] || "Church";
+// Change Top Title when clicking bottom buttons
+function showPage(name) {
+  document.getElementById("topTitle").innerText = name;
 }
 
-/* ---------- Tasks ---------- */
-let tasks = [
-  { name: "Task 1", status: "Pending" },
-  { name: "Task 2", status: "Completed" }
-];
-
-function renderTasks(){
-  const ul = document.getElementById("task-list");
-  ul.innerHTML = "";
-  tasks.forEach(t=>{
-    const li = document.createElement("li");
-    li.textContent = `${t.name} - ${t.status}`;
-    ul.appendChild(li);
-  });
-}
-
-function addTask(){
-  const next = tasks.length + 1;
-  tasks.push({ name: "Task " + next, status: "Pending" });
-  renderTasks();
-}
-
-renderTasks();
-
-/* ---------- Prayer ---------- */
-function addPrayer(){
-  const input = document.getElementById("prayer-input").value.trim();
-  if(!input) return alert("Type your prayer request");
-  document.getElementById("prayer-output").innerText = "🙏 Prayer sent: " + input;
-  document.getElementById("prayer-input").value = "";
-}
-
-/* ---------- Counseling ---------- */
-function requestCounseling(){
-  const input = document.getElementById("counseling-input").value.trim();
-  if(!input) return alert("Type your counseling request");
-  document.getElementById("counseling-output").innerText = "💍 Counseling submitted: " + input;
-  document.getElementById("counseling-input").value = "";
-}
-
-/* ---------- Donation ---------- */
-function makeDonation(){
-  const amount = document.getElementById("donation-input").value.trim();
-  if(!amount || amount <= 0) return alert("Enter a valid amount");
-  document.getElementById("donation-output").innerText = "💰 Donation made: $" + amount;
-  document.getElementById("donation-input").value = "";
-}
-
-/* ---------- Bible AI (Simulated) ---------- */
-function readBible(){
-  const input = document.getElementById("bible-search").value.trim();
-  if(!input) return alert("Enter Chapter:Verse (e.g., John 3:16)");
-  // Simulated AI read
-  document.getElementById("bible-output").innerText = `📖 AI Reading of ${input}:\n"In the beginning God created the heaven and the earth..." (simulated voice)`;
+// AI Bible Reader (Simple Simulation)
+function readVerse() {
+  let verse = document.getElementById("bibleInput").value;
+  document.getElementById("bibleResult").innerText =
+    "📖 AI Reading of " + verse + ": (AI will speak this verse here)";
 }
 </script>
 
