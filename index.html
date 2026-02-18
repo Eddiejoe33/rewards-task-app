@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Reward Task MVP</title>
+  <title>Reward Task + AI Secretary MVP</title>
   <style>
     body { font-family: Arial; background:#f4f6f9; padding:20px; }
     .container { max-width:800px; margin:auto; background:white; padding:20px; border-radius:10px; box-shadow:0 0 10px rgba(0,0,0,0.1);}
@@ -12,40 +12,120 @@
     button:hover{background:black;}
     ul {list-style:none; padding:0;}
     li {padding:5px 0; border-bottom:1px solid #eee;}
+    .section {display:none;}
+    .active {display:block;}
+    #nav-buttons {margin-bottom:15px;}
+    #nav-buttons button {width:48%; margin-right:2%;}
+    textarea {width:100%; padding:10px; margin-top:5px;}
   </style>
 </head>
 <body>
 
 <div class="container">
-  <h1>🎯 Reward Task MVP</h1>
+  <h1>🎯 Reward Task + 🤖 AI Secretary MVP</h1>
 
-  <h2>🏆 Dashboard</h2>
-  <div id="tasks" class="box">
-    <ul>
-      <li>Task 1 - Pending</li>
-      <li>Task 2 - Completed</li>
-      <li>Task 3 - Pending</li>
-    </ul>
+  <!-- Navigation -->
+  <div id="nav-buttons">
+    <button onclick="showSection('reward')">🏆 Reward Task</button>
+    <button onclick="showSection('ai')">🤖 AI Secretary</button>
   </div>
 
-  <h2>💰 Rewards</h2>
-  <div id="rewards" class="box">
-    <p>You have earned: 10 points</p>
+  <!-- Reward Task Section -->
+  <div id="reward" class="section active">
+    <h2>🏆 Dashboard</h2>
+    <div id="tasks" class="box">
+      <ul id="task-list"></ul>
+    </div>
+    <h2>💰 Rewards</h2>
+    <div id="rewards" class="box"></div>
+    <button onclick="addTask()">Add Task</button>
   </div>
 
-  <button onclick="addTask()">Add Task</button>
+  <!-- AI Secretary Section -->
+  <div id="ai" class="section">
+    <h2>🤖 Ask AI Secretary</h2>
+    <textarea id="ai-input" placeholder="Ask your secretary anything or send a prayer request..."></textarea>
+    <button onclick="aiReply()">Send</button>
+    <div id="ai-output" class="box"></div>
+    <h3>📝 Prayer Requests Log</h3>
+    <ul id="prayer-log" class="box"></ul>
+  </div>
+
 </div>
 
 <script>
-let taskCount = 3;
+  // ---------- Section Navigation ----------
+  function showSection(section){
+    document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
+    document.getElementById(section).classList.add('active');
+  }
 
-function addTask(){
-  taskCount++;
-  const ul = document.querySelector("#tasks ul");
-  const li = document.createElement("li");
-  li.textContent = "Task " + taskCount + " - Pending";
-  ul.appendChild(li);
-}
+  // ---------- Reward Task Simulation ----------
+  let tasks = [
+    { name: "Task 1", status: "Pending" },
+    { name: "Task 2", status: "Completed" }
+  ];
+  let points = 10;
+
+  function renderTasks(){
+    const ul = document.getElementById("task-list");
+    ul.innerHTML = "";
+    tasks.forEach(t=>{
+      const li = document.createElement("li");
+      li.textContent = `${t.name} - ${t.status}`;
+      ul.appendChild(li);
+    });
+  }
+
+  function renderRewards(){
+    document.getElementById("rewards").innerText = `You have earned: ${points} points`;
+  }
+
+  function addTask(){
+    const nextNum = tasks.length + 1;
+    tasks.push({ name: `Task ${nextNum}`, status: "Pending" });
+    points += 5;
+    renderTasks();
+    renderRewards();
+  }
+
+  renderTasks();
+  renderRewards();
+
+  // ---------- AI Secretary Simulation ----------
+  let prayerRequests = [];
+
+  function aiReply(){
+    const input = document.getElementById("ai-input").value.trim();
+    if(!input) return alert("Type a question or prayer request first");
+
+    let answer = "Pastor AI received: " + input;
+
+    // Detect if it's a prayer request
+    if(input.toLowerCase().includes("pray") || input.toLowerCase().includes("prayer")){
+      prayerRequests.push(input);
+      renderPrayerLog();
+      answer = "🙏 Your prayer request has been noted by Pastor AI.";
+    }
+
+    // Detect basic commands
+    if(input.toLowerCase().includes("task")) answer = "Your next task is to complete your goal!";
+    if(input.toLowerCase().includes("reward")) answer = `You currently have ${points} points. Keep going!`;
+    if(input.toLowerCase().includes("hello")) answer = "Hello! How can I assist you today?";
+
+    document.getElementById("ai-output").innerText = answer;
+    document.getElementById("ai-input").value = "";
+  }
+
+  function renderPrayerLog(){
+    const ul = document.getElementById("prayer-log");
+    ul.innerHTML = "";
+    prayerRequests.forEach((p, i)=>{
+      const li = document.createElement("li");
+      li.textContent = `#${i+1} - ${p}`;
+      ul.appendChild(li);
+    });
+  }
 </script>
 
 </body>
