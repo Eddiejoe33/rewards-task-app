@@ -1,4 +1,4 @@
-<!DOCTYPE html><!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -6,6 +6,8 @@
 <title>Church</title>
 
 <style>
+
+/* GLOBAL STYLE */
 body {
   margin: 0;
   font-family: Arial, sans-serif;
@@ -13,8 +15,12 @@ body {
   color: white;
 }
 
-#app { padding: 20px; padding-bottom: 140px; }
+#app {
+  padding: 20px;
+  padding-bottom: 140px;
+}
 
+/* TITLE */
 #app-title {
   font-size: 32px;
   font-weight: bold;
@@ -22,9 +28,11 @@ body {
   margin-bottom: 15px;
 }
 
+/* SECTIONS */
 .section { display: none; }
 .section.active { display: block; }
 
+/* GLASS CARDS */
 .card {
   background: rgba(255,255,255,0.08);
   border: 1px solid rgba(255,255,255,0.15);
@@ -36,8 +44,12 @@ body {
   cursor: pointer;
 }
 
-.card-content { display: none; margin-top: 10px; }
+.card-content {
+  display: none;
+  margin-top: 10px;
+}
 
+/* INPUTS */
 input, textarea {
   width: 100%;
   padding: 12px;
@@ -47,6 +59,7 @@ input, textarea {
   margin-top: 8px;
 }
 
+/* BUTTONS */
 button {
   width: 100%;
   padding: 12px;
@@ -57,8 +70,10 @@ button {
   margin-top: 10px;
   background: #2563eb;
   color: white;
+  cursor: pointer;
 }
 
+/* iPHONE GLASS BOTTOM NAV */
 .bottom-nav {
   position: fixed;
   bottom: 12px;
@@ -71,6 +86,7 @@ button {
   display: flex;
   justify-content: space-around;
   padding: 14px 10px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.5);
   border: 1px solid rgba(255,255,255,0.15);
   z-index: 9999;
 }
@@ -92,170 +108,156 @@ button {
   color: #60a5fa;
   transform: scale(1.15);
 }
+
 </style>
 </head>
 
 <body>
 
 <div id="app">
-<div id="app-title">Church</div>
+  <div id="app-title">Church</div>
 
-<!-- HOME -->
-<div id="home" class="section active">
+  <!-- HOME -->
+  <div id="home" class="section active">
 
-<div class="card" onclick="toggleCard('bibleBox')">
-📖 King James Bible (AI)
-<div id="bibleBox" class="card-content">
-<input id="verseInput" placeholder="John 3:16">
-<button onclick="readVerse()">Read Verse</button>
-<div id="verseOutput"></div>
-</div>
+    <!-- BIBLE -->
+    <div class="card" onclick="toggleCard('bibleBox')">
+      📖 King James Bible (AI)
+      <div id="bibleBox" class="card-content">
+        <input id="verseInput" placeholder="John 3:16">
+        <button onclick="event.stopPropagation(); readVerse()">Read Verse</button>
+        <div id="verseOutput"></div>
+      </div>
+    </div>
+
+    <!-- PRAYER -->
+    <div class="card" onclick="toggleCard('prayerBox')">
+      🙏 Prayer Request
+      <div id="prayerBox" class="card-content">
+        <textarea id="prayerText" placeholder="Type prayer request..."></textarea>
+        <button onclick="event.stopPropagation(); sendPrayer()">Send Prayer</button>
+        <div id="prayerList"></div>
+      </div>
+    </div>
+
+    <!-- COUNSELING -->
+    <div class="card" onclick="toggleCard('counselBox')">
+      💍 Marriage Counseling
+      <div id="counselBox" class="card-content">
+        <textarea id="counselText" placeholder="Describe counseling need..."></textarea>
+        <button onclick="event.stopPropagation(); sendCounsel()">Request Counseling</button>
+        <div id="counselList"></div>
+      </div>
+    </div>
+
+    <!-- DONATION -->
+    <div class="card" onclick="toggleCard('donateBox')">
+      💰 Donation
+      <div id="donateBox" class="card-content">
+        <input id="donateAmount" placeholder="Enter amount (₦)">
+        <button onclick="event.stopPropagation(); donate()">Donate</button>
+        <div id="donateList"></div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- PROFILE -->
+  <div id="profile" class="section">
+    <h2>Profile</h2>
+    <div class="card">User: Demo Member<br>Role: Member</div>
+  </div>
+
+  <!-- ACTIVITIES -->
+  <div id="activities" class="section">
+    <h2>Activities</h2>
+    <div class="card">✅ Task: Read Bible Today</div>
+    <div class="card">📅 Sunday Service: 10 AM</div>
+    <div class="card">⭐ Rewards: 10 Points</div>
+  </div>
+
+  <!-- APPOINTMENTS -->
+  <div id="appointments" class="section">
+    <h2>Appointments</h2>
+    <div class="card">Meeting with Pastor - Tomorrow 10AM</div>
+  </div>
+
 </div>
 
-<div class="card" onclick="toggleCard('prayerBox')">
-🙏 Prayer Request
-<div id="prayerBox" class="card-content">
-<textarea id="prayerText" placeholder="Type prayer request..."></textarea>
-<button onclick="sendPrayer()">Send Prayer</button>
-<div id="prayerList"></div>
-</div>
-</div>
-
-<div class="card" onclick="toggleCard('counselBox')">
-💍 Marriage Counseling
-<div id="counselBox" class="card-content">
-<textarea id="counselText" placeholder="Describe counseling need..."></textarea>
-<button onclick="sendCounsel()">Request Counseling</button>
-<div id="counselList"></div>
-</div>
-</div>
-
-<div class="card" onclick="toggleCard('donateBox')">
-💰 Donation
-<div id="donateBox" class="card-content">
-<input id="donateAmount" placeholder="Enter amount">
-<button onclick="donate()">Donate</button>
-<div id="donationTotal"></div>
-</div>
-</div>
-
-</div>
-
-<!-- PROFILE -->
-<div id="profile" class="section">
-<h2>Profile</h2>
-<div class="card">User: Demo Member<br>Role: Member</div>
-</div>
-
-<!-- ACTIVITIES -->
-<div id="activities" class="section">
-<h2>Activities</h2>
-<div class="card">📅 Sunday Service: 10 AM</div>
-<div class="card">⭐ Rewards: 10 Points</div>
-</div>
-
-<!-- APPOINTMENTS -->
-<div id="appointments" class="section">
-<h2>Appointments</h2>
-<div class="card">Meeting with Pastor - Tomorrow 10AM</div>
-</div>
-
-</div>
-
-<!-- NAV -->
+<!-- BOTTOM NAV -->
 <div class="bottom-nav">
-<button class="active" onclick="showSection('home',this)"><span>🏠</span>Home</button>
-<button onclick="showSection('profile',this)"><span>👤</span>Profile</button>
-<button onclick="showSection('activities',this)"><span>⚡</span>Activities</button>
-<button onclick="showSection('appointments',this)"><span>📅</span>Appointments</button>
+  <button class="active" onclick="showSection('home', this)"><span>🏠</span>Home</button>
+  <button onclick="showSection('profile', this)"><span>👤</span>Profile</button>
+  <button onclick="showSection('activities', this)"><span>⚡</span>Activities</button>
+  <button onclick="showSection('appointments', this)"><span>📅</span>Appointments</button>
 </div>
 
 <script>
 
-/* SECTION SWITCH */
-function showSection(id, btn){
-document.querySelectorAll(".section").forEach(s=>s.classList.remove("active"));
-document.getElementById(id).classList.add("active");
-document.querySelectorAll(".bottom-nav button").forEach(b=>b.classList.remove("active"));
-btn.classList.add("active");
-document.getElementById("app-title").innerText = id.charAt(0).toUpperCase()+id.slice(1);
+/* CHANGE SECTIONS + TITLE */
+function showSection(id, btn) {
+  document.querySelectorAll(".section").forEach(s => s.classList.remove("active"));
+  document.getElementById(id).classList.add("active");
+
+  document.querySelectorAll(".bottom-nav button").forEach(b => b.classList.remove("active"));
+  btn.classList.add("active");
+
+  document.getElementById("app-title").innerText = id.toUpperCase();
 }
 
-/* CARD TOGGLE */
-function toggleCard(id){
-let el=document.getElementById(id);
-el.style.display = el.style.display==="block"?"none":"block";
+/* TOGGLE CARD CONTENT */
+function toggleCard(id) {
+  let el = document.getElementById(id);
+  el.style.display = (el.style.display === "block") ? "none" : "block";
 }
 
-/* ===== OFFLINE BIBLE DEMO DATA ===== */
+/* DEMO BIBLE DATABASE */
 const bible = {
-"john 3:16":"For God so loved the world, that he gave his only begotten Son...",
-"psalm 23:1":"The Lord is my shepherd; I shall not want.",
-"genesis 1:1":"In the beginning God created the heaven and the earth."
+  "John 3:16": "For God so loved the world, that he gave his only begotten Son...",
+  "Genesis 1:1": "In the beginning God created the heaven and the earth.",
+  "Psalm 23:1": "The Lord is my shepherd; I shall not want."
 };
 
-function readVerse(){
-let v=document.getElementById("verseInput").value.toLowerCase();
-document.getElementById("verseOutput").innerText =
-bible[v] ? "📖 "+bible[v] : "Verse not found (demo only)";
+/* READ BIBLE */
+function readVerse() {
+  let v = document.getElementById("verseInput").value.trim();
+  let verse = bible[v] || "Verse not found (demo Bible only)";
+  document.getElementById("verseOutput").innerText = "📖 " + v + " → " + verse;
 }
 
-/* ===== PRAYER STORAGE ===== */
-let prayers = JSON.parse(localStorage.getItem("prayers")||"[]");
-
-function sendPrayer(){
-let t=document.getElementById("prayerText").value;
-if(!t) return alert("Type prayer");
-prayers.push(t);
-localStorage.setItem("prayers",JSON.stringify(prayers));
-renderPrayers();
-document.getElementById("prayerText").value="";
+/* PRAYER STORAGE */
+let prayers = [];
+function sendPrayer() {
+  let text = document.getElementById("prayerText").value.trim();
+  if (!text) return alert("Type prayer request");
+  prayers.push(text);
+  document.getElementById("prayerList").innerHTML = prayers.map(p=>"<div>🙏 "+p+"</div>").join("");
+  document.getElementById("prayerText").value="";
 }
 
-function renderPrayers(){
-document.getElementById("prayerList").innerHTML =
-prayers.map(p=>"<div class='card'>🙏 "+p+"</div>").join("");
-}
-renderPrayers();
-
-/* ===== COUNSEL STORAGE ===== */
-let counsels = JSON.parse(localStorage.getItem("counsels")||"[]");
-
-function sendCounsel(){
-let t=document.getElementById("counselText").value;
-if(!t) return alert("Describe counseling need");
-counsels.push(t);
-localStorage.setItem("counsels",JSON.stringify(counsels));
-renderCounsel();
-document.getElementById("counselText").value="";
+/* COUNSEL STORAGE */
+let counsels = [];
+function sendCounsel() {
+  let text = document.getElementById("counselText").value.trim();
+  if (!text) return alert("Describe counseling");
+  counsels.push(text);
+  document.getElementById("counselList").innerHTML = counsels.map(c=>"<div>💍 "+c+"</div>").join("");
+  document.getElementById("counselText").value="";
 }
 
-function renderCounsel(){
-document.getElementById("counselList").innerHTML =
-counsels.map(c=>"<div class='card'>💍 "+c+"</div>").join("");
-}
-renderCounsel();
-
-/* ===== DONATION STORAGE ===== */
-let donations = JSON.parse(localStorage.getItem("donations")||"[]");
-
-function donate(){
-let amt = Number(document.getElementById("donateAmount").value);
-if(!amt) return alert("Enter amount");
-donations.push(amt);
-localStorage.setItem("donations",JSON.stringify(donations));
-renderDonation();
-document.getElementById("donateAmount").value="";
+/* DONATION STORAGE */
+let donations = [];
+function donate() {
+  let amt = document.getElementById("donateAmount").value.trim();
+  if (!amt) return alert("Enter amount");
+  donations.push("₦" + amt);
+  document.getElementById("donateList").innerHTML = donations.map(d=>"<div>💰 "+d+"</div>").join("");
+  document.getElementById("donateAmount").value="";
 }
 
-function renderDonation(){
-let total = donations.reduce((a,b)=>a+b,0);
-document.getElementById("donationTotal").innerText =
-"Total Donations: ₦"+total;
-}
-renderDonation();
+console.log("Church App Loaded");
 
 </script>
 
 </body>
-  </html>
+</html>
