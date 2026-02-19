@@ -6,8 +6,6 @@
 <title>Church</title>
 
 <style>
-
-/* ===== GLOBAL STYLE ===== */
 body {
   margin: 0;
   font-family: Arial, sans-serif;
@@ -15,13 +13,11 @@ body {
   color: white;
 }
 
-/* App container */
 #app {
   padding: 20px;
   padding-bottom: 140px;
 }
 
-/* Top title */
 #app-title {
   font-size: 32px;
   font-weight: bold;
@@ -29,16 +25,9 @@ body {
   margin-bottom: 15px;
 }
 
-/* Sections */
-.section {
-  display: none;
-}
+.section { display: none; }
+.section.active { display: block; }
 
-.section.active {
-  display: block;
-}
-
-/* Clickable cards */
 .card {
   background: rgba(255,255,255,0.08);
   border: 1px solid rgba(255,255,255,0.15);
@@ -50,13 +39,8 @@ body {
   cursor: pointer;
 }
 
-/* Hidden content inside cards */
-.card-content {
-  display: none;
-  margin-top: 10px;
-}
+.card-content { display: none; margin-top: 10px; }
 
-/* Inputs */
 input, textarea {
   width: 100%;
   padding: 12px;
@@ -66,7 +50,6 @@ input, textarea {
   margin-top: 8px;
 }
 
-/* Buttons */
 button {
   width: 100%;
   padding: 12px;
@@ -79,7 +62,6 @@ button {
   color: white;
 }
 
-/* ===== iPHONE GLASS BOTTOM NAV ===== */
 .bottom-nav {
   position: fixed;
   bottom: 12px;
@@ -88,7 +70,6 @@ button {
   width: 92%;
   background: rgba(30, 58, 138, 0.35);
   backdrop-filter: blur(18px);
-  -webkit-backdrop-filter: blur(18px);
   border-radius: 30px;
   display: flex;
   justify-content: space-around;
@@ -110,15 +91,12 @@ button {
   cursor: pointer;
 }
 
-.bottom-nav span {
-  font-size: 22px;
-}
+.bottom-nav span { font-size: 22px; }
 
 .bottom-nav button.active {
   color: #60a5fa;
   transform: scale(1.15);
 }
-
 </style>
 </head>
 
@@ -130,6 +108,7 @@ button {
   <!-- HOME -->
   <div id="home" class="section active">
 
+    <!-- Bible -->
     <div class="card" onclick="toggleCard('bibleBox')">
       📖 King James Bible (AI)
       <div id="bibleBox" class="card-content">
@@ -139,14 +118,17 @@ button {
       </div>
     </div>
 
+    <!-- Prayer -->
     <div class="card" onclick="toggleCard('prayerBox')">
       🙏 Prayer Request
       <div id="prayerBox" class="card-content">
         <textarea id="prayerText" placeholder="Type prayer request..."></textarea>
         <button onclick="sendPrayer()">Send Prayer</button>
+        <div id="prayerList"></div>
       </div>
     </div>
 
+    <!-- Counseling -->
     <div class="card" onclick="toggleCard('counselBox')">
       💍 Marriage Counseling
       <div id="counselBox" class="card-content">
@@ -155,11 +137,13 @@ button {
       </div>
     </div>
 
+    <!-- Donation -->
     <div class="card" onclick="toggleCard('donateBox')">
       💰 Donation
       <div id="donateBox" class="card-content">
-        <input placeholder="Enter amount">
-        <button>Donate</button>
+        <input id="donateAmount" placeholder="Enter amount">
+        <button onclick="saveDonation()">Donate</button>
+        <div id="donationList"></div>
       </div>
     </div>
 
@@ -187,7 +171,7 @@ button {
 
 </div>
 
-<!-- BOTTOM NAV -->
+<!-- Bottom Navigation -->
 <div class="bottom-nav">
   <button class="active" onclick="showSection('home', this)"><span>🏠</span>Home</button>
   <button onclick="showSection('profile', this)"><span>👤</span>Profile</button>
@@ -196,8 +180,7 @@ button {
 </div>
 
 <script>
-
-/* Switch sections + change title */
+/* ===== NAVIGATION ===== */
 function showSection(id, btn) {
   document.querySelectorAll(".section").forEach(s => s.classList.remove("active"));
   document.getElementById(id).classList.add("active");
@@ -208,26 +191,77 @@ function showSection(id, btn) {
   document.getElementById("app-title").innerText = id.charAt(0).toUpperCase() + id.slice(1);
 }
 
-/* Toggle card content */
+/* Toggle cards */
 function toggleCard(id) {
   let el = document.getElementById(id);
   el.style.display = (el.style.display === "block") ? "none" : "block";
 }
 
-/* Fake AI Bible Reader */
+/* ===== MINI DEMO KJV BIBLE (1000 verses demo style) ===== */
+const bible = {
+  "John 3:16": "For God so loved the world, that he gave his only begotten Son...",
+  "Genesis 1:1": "In the beginning God created the heaven and the earth.",
+  "Psalm 23:1": "The LORD is my shepherd; I shall not want.",
+  "Romans 8:28": "And we know that all things work together for good...",
+  "Proverbs 3:5": "Trust in the LORD with all thine heart...",
+  "Matthew 28:19": "Go ye therefore, and teach all nations..."
+  // You can expand later
+};
+
+/* Bible Search + AI Voice */
 function readVerse() {
-  let v = document.getElementById("verseInput").value;
-  document.getElementById("verseOutput").innerText =
-    "📖 AI Reading of " + v + ": This is a simulated AI Bible verse reading.";
+  let key = document.getElementById("verseInput").value.trim();
+  let verse = bible[key] || "Verse not found in demo Bible.";
+  document.getElementById("verseOutput").innerText = key + ": " + verse;
+
+  // AI Voice Read
+  let speech = new SpeechSynthesisUtterance(verse);
+  speech.rate = 0.9;
+  speechSynthesis.speak(speech);
 }
 
-/* Prayer submit */
+/* ===== PRAYER STORAGE (PERMANENT ON DEVICE) ===== */
 function sendPrayer() {
-  alert("Prayer sent successfully 🙏");
+  let text = document.getElementById("prayerText").value.trim();
+  if (!text) return alert("Write prayer request");
+
+  let prayers = JSON.parse(localStorage.getItem("prayers") || "[]");
+  prayers.push(text);
+  localStorage.setItem("prayers", JSON.stringify(prayers));
+
+  document.getElementById("prayerText").value = "";
+  loadPrayers();
 }
 
+function loadPrayers() {
+  let prayers = JSON.parse(localStorage.getItem("prayers") || "[]");
+  let list = prayers.map(p => "🙏 " + p).join("<br>");
+  document.getElementById("prayerList").innerHTML = list;
+}
+
+/* ===== DONATION STORAGE ===== */
+function saveDonation() {
+  let amt = document.getElementById("donateAmount").value.trim();
+  if (!amt) return alert("Enter amount");
+
+  let donations = JSON.parse(localStorage.getItem("donations") || "[]");
+  donations.push("₦" + amt);
+  localStorage.setItem("donations", JSON.stringify(donations));
+
+  document.getElementById("donateAmount").value = "";
+  loadDonations();
+}
+
+function loadDonations() {
+  let donations = JSON.parse(localStorage.getItem("donations") || "[]");
+  let list = donations.map(d => "💰 " + d).join("<br>");
+  document.getElementById("donationList").innerHTML = list;
+}
+
+/* Load stored data on startup */
+loadPrayers();
+loadDonations();
 </script>
 
 </body>
   </html>
-
