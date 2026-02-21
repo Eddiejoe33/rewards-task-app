@@ -151,23 +151,38 @@ h2{text-align:center;margin-top:10px;}
   const auth = firebase.auth();
 
   // LOGIN FUNCTION
-  function loginUser(){
-    const email = document.getElementById("emailInput").value;
-    const password = document.getElementById("passwordInput").value;
-    if(!email||!password){alert("Enter email and password");return;}
+<script>
+function loginUser(){
+  const email = document.getElementById("emailInput").value.trim();
+  const password = document.getElementById("passwordInput").value.trim();
 
-    auth.signInWithEmailAndPassword(email,password)
-    .then(userCredential=>{
-      const user = userCredential.user;
-      alert("Login successful! Welcome " + user.email);
-      document.getElementById("profileUser").innerText = user.email.split("@")[0];
-      document.getElementById("profileEmail").innerText = user.email;
-      openPage("home");
-    })
-    .catch(error=>{
-      alert("Login failed: "+error.message);
-    });
+  // Demo mode: allow ANY login
+  if(email && password){
+    alert("Demo Login Successful: " + email);
+
+    // Save user locally
+    localStorage.setItem("demoUserEmail", email);
+
+    // Show user in profile
+    document.getElementById("profileUser").innerText = email.split("@")[0];
+    document.getElementById("profileEmail").innerText = email;
+
+    openPage("home");
+  } else {
+    alert("Enter email and password");
   }
+}
+
+// Auto-load user if already logged in
+window.onload = function(){
+  const user = localStorage.getItem("demoUserEmail");
+  if(user){
+    document.getElementById("profileUser").innerText = user.split("@")[0];
+    document.getElementById("profileEmail").innerText = user;
+    openPage("home");
+  }
+};
+</script>
 
   // PAGE NAVIGATION
   let historyStack=["loginPage"];
