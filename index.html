@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>FChain Wallet</title>
+<title>FChain Wallet Demo</title>
 
 <style>
 body{
@@ -11,10 +11,15 @@ body{
   font-family:Arial, sans-serif;
   background:#0f172a;
   color:white;
+  transition: background 0.5s;
 }
+
+/* PAGE SYSTEM */
 .page{display:none;padding:15px;}
 .active{display:block;}
 h2{text-align:center;margin-top:10px;}
+
+/* BUTTONS */
 .btn{
   width:100%;
   padding:14px;
@@ -27,16 +32,40 @@ h2{text-align:center;margin-top:10px;}
   cursor:pointer;
 }
 .btn:hover{background:#1e40af;}
+
+/* CARDS */
 .card{
   background:#111827;
-  padding:12px;
-  border-radius:12px;
+  padding:16px;
+  border-radius:16px;
   margin-top:10px;
   display:flex;
   justify-content:space-between;
   align-items:center;
   cursor:pointer;
+  transition: transform 0.3s, box-shadow 0.3s;
 }
+.card:hover{
+  transform: translateY(-3px);
+  box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+}
+
+/* TOP WALLET CARD WITH ANIMATION */
+.wallet-card{
+  background:#111827;
+  border-radius:20px;
+  padding:20px;
+  margin-top:10px;
+  text-align:center;
+  animation: glow 2s infinite alternate;
+}
+@keyframes glow{
+  0%{box-shadow:0 0 10px #2563eb;}
+  50%{box-shadow:0 0 25px #22c55e;}
+  100%{box-shadow:0 0 10px #2563eb;}
+}
+
+/* BOTTOM NAVIGATION */
 .bottom-nav{
   position:fixed;
   bottom:0;width:100%;
@@ -52,6 +81,8 @@ h2{text-align:center;margin-top:10px;}
   cursor:pointer;
 }
 .nav-btn:hover{color:white;}
+
+/* NETWORK BAR */
 .netbar{
   width:100%;
   height:6px;
@@ -66,6 +97,8 @@ h2{text-align:center;margin-top:10px;}
   width:0%;
   transition: width 1s;
 }
+
+/* QR BOX */
 .qr-box{
   width:180px;height:180px;
   background:#111;
@@ -73,8 +106,16 @@ h2{text-align:center;margin-top:10px;}
   margin:20px auto;
   display:flex;justify-content:center;align-items:center;
   border-radius:12px;
+  font-size:14px;
+  color:#94a3b8;
 }
 .address{text-align:center;font-size:13px;color:#94a3b8;}
+input{
+  width:100%;padding:12px;border-radius:8px;
+  border:none;background:#111827;color:white;font-size:16px;
+}
+
+/* LOADER */
 .loader{
   width:40px;height:40px;
   border:4px solid #2563eb;
@@ -100,14 +141,19 @@ h2{text-align:center;margin-top:10px;}
 <div id="home" class="page">
 <h2>FChain Wallet</h2>
 
+<!-- Futros Wallet Card -->
+<div class="wallet-card">
+  <p>Total Balance</p>
+  <h1 id="totalBalance">$0.00</h1>
+  <p id="walletName">FChain Wallet</p>
+</div>
+
 <!-- Top Action Buttons -->
 <div style="display:flex;justify-content:space-between;margin-top:10px;">
 <button class="btn" style="flex:1;margin-right:5px;" onclick="openPage('buy')">Buy</button>
 <button class="btn" style="flex:1;margin-right:5px;" onclick="openPage('sell')">Sell</button>
 <button class="btn" style="flex:1;" onclick="openPage('receive')">Receive</button>
 </div>
-
-<h1 id="totalBalance">$0.00</h1>
 
 <div class="card">BTC: <span id="btcBal">0.000000</span></div>
 <div class="card">ETH: <span id="ethBal">0.000000</span></div>
@@ -143,7 +189,7 @@ h2{text-align:center;margin-top:10px;}
 <div id="receiveBTC" class="page">
 <button class="btn" onclick="goBack()">⬅ Back</button>
 <h2>Your BTC Address</h2>
-<div class="qr-box">QR CODE</div>
+<div class="qr-box">BTC QR CODE</div>
 <p class="address">0xE6A4BA46ae547A2C9b42012E5437A29D4E94a189</p>
 <button class="btn" onclick="alert('Copied BTC address')">Copy Address</button>
 </div>
@@ -151,7 +197,7 @@ h2{text-align:center;margin-top:10px;}
 <div id="receiveETH" class="page">
 <button class="btn" onclick="goBack()">⬅ Back</button>
 <h2>Your ETH Address</h2>
-<div class="qr-box">QR CODE</div>
+<div class="qr-box">ETH QR CODE</div>
 <p class="address">0xE6A4BA46ae547A2C9b42012E5437A29D4E94a189</p>
 <button class="btn" onclick="alert('Copied ETH address')">Copy Address</button>
 </div>
@@ -194,7 +240,7 @@ h2{text-align:center;margin-top:10px;}
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js";
 import { getAuth, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-auth.js";
 
-// 🔹 Replace with your Firebase config
+// 🔹 Your Firebase configuration
 const firebaseConfig = {
   apiKey: "AIzaSyCuOFlFxVJHWPSGrmwU_eatxgQvblzxmOQ",
   authDomain: "fchainwallet-d1141.firebaseapp.com",
@@ -211,7 +257,6 @@ const auth = getAuth(app);
 window.loginUser = async function(){
   const email = document.getElementById("emailInput").value;
   const password = document.getElementById("passwordInput").value;
-
   try{
     const userCredential = await signInWithEmailAndPassword(auth,email,password);
     const user = userCredential.user;
@@ -220,7 +265,7 @@ window.loginUser = async function(){
     document.getElementById("profileEmail").innerText = user.email;
     openPage("home");
   }catch(error){
-    alert("Wrong login: " + error.message);
+    alert("Authentication error: " + error.message);
   }
 };
 
@@ -239,13 +284,13 @@ function goBack(){
 }
 function openHome(){historyStack=["home"]; openPage("home");}
 
-// FAKE NETWORK PROGRESS
+// SIMULATE NETWORK BAR
 setInterval(()=>{
   document.getElementById("netFill").style.width = Math.floor(Math.random()*100)+"%";
   if(document.getElementById("netFillExplorer"))
     document.getElementById("netFillExplorer").style.width = Math.floor(Math.random()*100)+"%";
 },3000);
-</script>
 
+</script>
 </body>
-                      </html>
+  </html>
