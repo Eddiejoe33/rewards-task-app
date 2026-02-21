@@ -3,208 +3,124 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>FChain Wallet</title>
+<title>FChain Demo Wallet</title>
 <style>
-body{
-  margin:0;font-family:Arial,sans-serif;background:#0f172a;color:white;
-}
+body{margin:0;font-family:Arial;background:#0f172a;color:white;}
 .page{display:none;padding:15px;}
 .active{display:block;}
-h2{text-align:center;margin-top:10px;}
-.btn{
-  width:100%;padding:14px;background:#2563eb;border:none;border-radius:10px;color:white;font-size:16px;margin-top:10px;cursor:pointer;
-}
+h2{text-align:center;}
+input{width:100%;padding:12px;margin:6px 0;border-radius:8px;border:none;}
+.btn{width:100%;padding:14px;background:#2563eb;border:none;border-radius:10px;color:white;font-size:16px;margin-top:10px;}
 .btn:hover{background:#1e40af;}
-.card{
-  background:#111827;padding:12px;border-radius:12px;margin-top:10px;display:flex;justify-content:space-between;align-items:center;cursor:pointer;
-}
-.bottom-nav{
-  position:fixed;bottom:0;width:100%;display:flex;background:#020617;border-top:1px solid #1e293b;
-}
-.nav-btn{flex:1;text-align:center;padding:10px;color:#94a3b8;font-size:14px;cursor:pointer;}
+.card{background:#111827;padding:12px;border-radius:12px;margin-top:10px;}
+.bottom-nav{position:fixed;bottom:0;width:100%;display:flex;background:#020617;border-top:1px solid #1e293b;}
+.nav-btn{flex:1;text-align:center;padding:10px;color:#94a3b8;font-size:14px;}
 .nav-btn:hover{color:white;}
-.netbar{width:100%;height:6px;background:#111827;border-radius:10px;overflow:hidden;margin:5px 0;}
-.netfill{height:100%;background:#22c55e;width:0%;transition:width 1s;}
-.qr-box{width:180px;height:180px;background:#111;border:2px solid #333;margin:20px auto;display:flex;justify-content:center;align-items:center;border-radius:12px;}
-.address{text-align:center;font-size:13px;color:#94a3b8;}
-.loader{width:40px;height:40px;border:4px solid #2563eb;border-top:4px solid transparent;border-radius:50%;animation:spin 1s linear infinite;margin:20px auto;}
-@keyframes spin{100%{transform:rotate(360deg);}}
+.qr-box{width:180px;height:180px;background:#111;border:2px solid #333;margin:20px auto;border-radius:12px;display:flex;align-items:center;justify-content:center;}
 </style>
 </head>
 <body>
 
 <!-- LOGIN PAGE -->
 <div id="loginPage" class="page active">
-<h2>FChain Wallet Login</h2>
+<h2>FChain Demo Wallet Login</h2>
 <input id="emailInput" placeholder="Email">
 <input id="passwordInput" type="password" placeholder="Password">
 <button class="btn" onclick="loginUser()">Login</button>
+<p style="text-align:center;font-size:12px;color:#94a3b8;">Demo mode: Any email works</p>
 </div>
 
 <!-- HOME PAGE -->
 <div id="home" class="page">
 <h2>FChain Wallet</h2>
-<!-- Top Action Buttons -->
-<div style="display:flex;justify-content:space-between;margin-top:10px;">
-<button class="btn" style="flex:1;margin-right:5px;" onclick="openPage('buy')">Buy</button>
-<button class="btn" style="flex:1;margin-right:5px;" onclick="openPage('sell')">Sell</button>
-<button class="btn" style="flex:1;" onclick="openPage('receive')">Receive</button>
-</div>
-
 <h1 id="totalBalance">$0.00</h1>
-<div class="card">BTC: <span id="btcBal">0.000000</span></div>
-<div class="card">ETH: <span id="ethBal">0.000000</span></div>
-<div class="card">FCH: <span id="fchBal">0</span></div>
-<div class="netbar"><div id="netFill" class="netfill"></div></div>
-</div>
 
-<!-- BUY PAGE -->
-<div id="buy" class="page">
-<button class="btn" onclick="goBack()">⬅ Back</button>
-<h2>Buy Crypto</h2>
-<div class="card" onclick="alert('Buy BTC - demo')">Bitcoin (BTC)</div>
-<div class="card" onclick="alert('Buy ETH - demo')">Ethereum (ETH)</div>
-</div>
+<div class="card">BTC Balance: <span id="btcBal">0.000000</span></div>
+<div class="card">ETH Balance: <span id="ethBal">0.000000</span></div>
+<div class="card">FCH Token: <span id="fchBal">0</span></div>
 
-<!-- SELL PAGE -->
-<div id="sell" class="page">
-<button class="btn" onclick="goBack()">⬅ Back</button>
-<h2>Sell Crypto</h2>
-<div class="card" onclick="alert('Sell BTC - demo')">Bitcoin (BTC)</div>
-<div class="card" onclick="alert('Sell ETH - demo')">Ethereum (ETH)</div>
+<button class="btn" onclick="openPage('receive')">Receive</button>
+<button class="btn" onclick="openPage('profile')">Profile</button>
+<button class="btn" onclick="resetDemo()">Reset Demo Login</button>
 </div>
 
 <!-- RECEIVE PAGE -->
 <div id="receive" class="page">
-<button class="btn" onclick="goBack()">⬅ Back</button>
-<h2>Receive Crypto</h2>
-<div class="card" onclick="openPage('receiveBTC')">Bitcoin (BTC)</div>
-<div class="card" onclick="openPage('receiveETH')">Ethereum (ETH)</div>
-</div>
-
-<div id="receiveBTC" class="page">
-<button class="btn" onclick="goBack()">⬅ Back</button>
-<h2>Your BTC Address</h2>
-<div class="qr-box">QR CODE</div>
-<p class="address">0xYourRealBTCWalletHere</p>
-<button class="btn" onclick="alert('Copied BTC address')">Copy Address</button>
-</div>
-
-<div id="receiveETH" class="page">
-<button class="btn" onclick="goBack()">⬅ Back</button>
-<h2>Your ETH Address</h2>
-<div class="qr-box">QR CODE</div>
-<p class="address">0xYourRealETHWalletHere</p>
-<button class="btn" onclick="alert('Copied ETH address')">Copy Address</button>
+<button class="btn" onclick="openPage('home')">⬅ Back</button>
+<h2>Your Wallet Addresses</h2>
+<div class="card">BTC Address: <br> <small>bc1qexamplebtcaddress12345</small></div>
+<div class="card">ETH Address: <br> <small>0xExampleETHAddress123456789</small></div>
+<div class="qr-box">QR Placeholder</div>
 </div>
 
 <!-- PROFILE PAGE -->
 <div id="profile" class="page">
-<button class="btn" onclick="goBack()">⬅ Back</button>
-<h2>Profile</h2>
+<button class="btn" onclick="openPage('home')">⬅ Back</button>
+<h2>User Profile</h2>
 <div class="card">Username: <span id="profileUser"></span></div>
 <div class="card">Email: <span id="profileEmail"></span></div>
-<div class="card">Wallet Info</div>
-</div>
-
-<!-- EXPLORER PAGE -->
-<div id="explorer" class="page">
-<button class="btn" onclick="goBack()">⬅ Back</button>
-<h2>Network Explorer</h2>
-<p>Placeholder for blockchain network info</p>
-<div class="netbar"><div id="netFillExplorer" class="netfill"></div></div>
-</div>
-
-<!-- SETTINGS PAGE -->
-<div id="settings" class="page">
-<button class="btn" onclick="goBack()">⬅ Back</button>
-<h2>Settings</h2>
-<div class="card">Network</div>
-<div class="card">Currency</div>
 </div>
 
 <!-- BOTTOM NAV -->
 <div class="bottom-nav">
   <div class="nav-btn" onclick="openPage('home')">Home</div>
+  <div class="nav-btn" onclick="openPage('receive')">Receive</div>
   <div class="nav-btn" onclick="openPage('profile')">Profile</div>
-  <div class="nav-btn" onclick="openPage('explorer')">Explorer</div>
-  <div class="nav-btn" onclick="openPage('settings')">Settings</div>
 </div>
 
-<!-- Firebase SDK (compat version) -->
-<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
-
 <script>
-  // 🔹 Replace with your Firebase config
-  const firebaseConfig = {
-    apiKey: "YOUR_API_KEY",
-    authDomain: "YOUR_PROJECT.firebaseapp.com",
-    projectId: "YOUR_PROJECT_ID",
-    storageBucket: "YOUR_PROJECT.appspot.com",
-    messagingSenderId: "YOUR_SENDER_ID",
-    appId: "YOUR_APP_ID"
-  };
-
-  // Initialize Firebase
-  firebase.initializeApp(firebaseConfig);
-  const auth = firebase.auth();
-
-  // LOGIN FUNCTION
-<script>
-function loginUser(){
-  const email = document.getElementById("emailInput").value.trim();
-  const password = document.getElementById("passwordInput").value.trim();
-
-  // Demo mode: allow ANY login
-  if(email && password){
-    alert("Demo Login Successful: " + email);
-
-    // Save user locally
-    localStorage.setItem("demoUserEmail", email);
-
-    // Show user in profile
-    document.getElementById("profileUser").innerText = email.split("@")[0];
-    document.getElementById("profileEmail").innerText = email;
-
-    openPage("home");
-  } else {
-    alert("Enter email and password");
-  }
+// -------- PAGE NAVIGATION --------
+function openPage(id){
+  document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));
+  document.getElementById(id).classList.add("active");
 }
 
-// Auto-load user if already logged in
+// -------- DEMO LOGIN SYSTEM --------
+function loginUser(){
+  const email = emailInput.value.trim();
+  const password = passwordInput.value.trim();
+
+  if(!email || !password){
+    alert("Enter email and password");
+    return;
+  }
+
+  // Save user locally (demo mode)
+  localStorage.setItem("demoEmail", email);
+  localStorage.setItem("demoPassword", password);
+
+  loadUser(email);
+  openPage("home");
+}
+
+// Auto login if saved
 window.onload = function(){
-  const user = localStorage.getItem("demoUserEmail");
-  if(user){
-    document.getElementById("profileUser").innerText = user.split("@")[0];
-    document.getElementById("profileEmail").innerText = user;
+  const email = localStorage.getItem("demoEmail");
+  if(email){
+    loadUser(email);
     openPage("home");
   }
 };
-</script>
 
-  // PAGE NAVIGATION
-  let historyStack=["loginPage"];
-  function openPage(id){
-    document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));
-    document.getElementById(id).classList.add("active");
-    historyStack.push(id);
-  }
-  function goBack(){
-    historyStack.pop();
-    let last = historyStack[historyStack.length-1] || "home";
-    document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));
-    document.getElementById(last).classList.add("active");
-  }
-  function openHome(){historyStack=["home"]; openPage("home");}
+// Load profile
+function loadUser(email){
+  profileUser.innerText = email.split("@")[0];
+  profileEmail.innerText = email;
 
-  // FAKE NETWORK PROGRESS
-  setInterval(()=>{
-    document.getElementById("netFill").style.width = Math.floor(Math.random()*100)+"%";
-    if(document.getElementById("netFillExplorer"))
-      document.getElementById("netFillExplorer").style.width = Math.floor(Math.random()*100)+"%";
-  },3000);
+  // Fake balances for demo
+  btcBal.innerText = (Math.random()*0.5).toFixed(6);
+  ethBal.innerText = (Math.random()*2).toFixed(6);
+  fchBal.innerText = Math.floor(Math.random()*10000);
+
+  totalBalance.innerText = "$" + (Math.random()*10000).toFixed(2);
+}
+
+// Reset demo login
+function resetDemo(){
+  localStorage.clear();
+  alert("Demo reset. Reloading...");
+  location.reload();
+}
 </script>
 
 </body>
