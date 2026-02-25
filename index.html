@@ -1,7 +1,55 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<meta http-equiv="refresh" content="0; url=ai-secretary.html">
+  <meta charset="UTF-8">
+  <title>AI Secretary</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <style>
+    body {
+      font-family: Arial;
+      background:#0f172a;
+      color:white;
+      padding:20px;
+      text-align:center;
+    }
+    textarea {
+      width:100%;
+      padding:10px;
+      margin-top:10px;
+      border-radius:8px;
+      border:none;
+    }
+    button {
+      padding:10px;
+      margin-top:10px;
+      background:#22c55e;
+      border:none;
+      border-radius:8px;
+      font-size:16px;
+      cursor:pointer;
+    }
+    #output {
+      margin-top:10px;
+      background:#111827;
+      padding:10px;
+      border-radius:8px;
+      min-height:50px;
+    }
+  </style>
 </head>
-<body></body>
+
+<body>
+
+<h1>🤖 AI Secretary MVP</h1>
+<p>Ask your secretary anything...</p>
+
+<textarea id="ai-input"></textarea>
+<button onclick="aiReply()">Ask AI</button>
+
+<div id="output"></div>
+
+<script src="script.js"></script>
+
+</body>
 </html>
